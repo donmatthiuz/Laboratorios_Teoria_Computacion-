@@ -6,9 +6,14 @@ def parsechain(cadena):
         cd = cadena[i]
         
         if cd == '(' or cd == '[' or cd == '{':
-            cadena_restante, indice = parsechain(cadena[i + 1:])
-            cadena_return.append(cadena_restante)
-            i += indice + 1
+            parseada = parsechain(cadena[i + 1:])
+            if isinstance(parseada, tuple):
+                cadena_restante, indice = parseada
+                cadena_return.append(cadena_restante)
+                i += indice + 1
+            else:
+               i = len(cadena)
+               return (cadena_return, 0)
         elif cd == ')' or cd == ']' or cd == '}':
             return cadena_return, i
         else:
@@ -20,6 +25,6 @@ def determinate_balance(parse_chain):
   #si esta balanceada no devolvera el indice donde se quedo , ya que este se devuelve si esta completamente cerrada.
   # lo que hace que sea una lista si esta balanceada y una tupla si no. 
   if isinstance(parse_chain, list):
-    print("La expresion regular esta balanceada")
+    return True
   elif isinstance(parse_chain, tuple):
-    print("La expresion regular no esta balanceada")
+    return False
