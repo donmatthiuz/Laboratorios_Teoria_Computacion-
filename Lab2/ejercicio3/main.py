@@ -5,3 +5,5 @@ regex = "a(b|c)+d"
 postfix = infixToPostfix(regex)
 print(f"Infix: {regex}")
 print(f"Postfix: {postfix}")
+
+
