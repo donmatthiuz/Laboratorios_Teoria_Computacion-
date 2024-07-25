@@ -3,7 +3,7 @@ def getPrecedence (c):
   precedencias = {
     '(': 1,
     '|': 2,
-    '.': 3,
+    ' ': 3,
     '?': 4,
     '*': 4,
     '+': 4,
@@ -21,9 +21,9 @@ def formatRegEx(regex):
       c2 = regex[i+1]
       res += c1
       if (c1 != '(' and c2 != ')' and (c2 not in allOperators) and (c1 not in binaryOperators)):
-        res += '.'
+        res += ' '
   res += regex[-1]
-  return res.strip()
+  return res
 
 def infixToPostfix(regex):
   postfix = ""
@@ -35,6 +35,7 @@ def infixToPostfix(regex):
     elif (c == ')'):
       while (stack.peek() != '('):
         postfix += stack.pop()
+      stack.pop()
     else:
       while (stack.size() > 0):
         peekedChar = stack.peek()

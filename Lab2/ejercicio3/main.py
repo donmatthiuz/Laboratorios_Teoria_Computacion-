@@ -1,7 +1,7 @@
 from shuntingYard import *
 
-regex = "a(b|c)*d"
-infixtopost = infixToPostfix(regex)
-print(infixtopost)
-
-print(formatRegEx(regex))
+# Ejemplo de uso:
+regex = "a(b|c)+d"
+postfix = infixToPostfix(regex)
+print(f"Infix: {regex}")
+print(f"Postfix: {postfix}")
