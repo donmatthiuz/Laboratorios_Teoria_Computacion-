@@ -14,7 +14,7 @@ def getPrecedence (c):
 def formatRegEx(regex):
   res = ""
   allOperators = ['|', '?', '+', '*', '^']
-  binaryOperators = ['^', '|']
+  binaryOperators = ['^', '|', '+']
   for i in range (len(regex)):
     c1 = regex[i]
     if ((i+1)<len(regex)):
@@ -26,27 +26,60 @@ def formatRegEx(regex):
   return res
 
 def infixToPostfix(regex):
-  postfix = ""
-  stack = Stack()
-  formattedRegEx = formatRegEx(regex)
-  for c in formattedRegEx:
-    if (c == '('):
-      stack.push(c)
-    elif (c == ')'):
-      while (stack.peek() != '('):
-        postfix += stack.pop()
-      stack.pop()
-    else:
-      while (stack.size() > 0):
-        peekedChar = stack.peek()
-        peekedCharPrecedence = getPrecedence(peekedChar)
-        currentCharPrecedence = getPrecedence(c)
-        if (peekedCharPrecedence >= currentCharPrecedence):
-           postfix += stack.pop()
+    postfix = ""
+    steps = []
+    stack = Stack()
+    formattedRegEx = formatRegEx(regex)
+    escape_next = False
+    inside_brackets = False
+    bracket_content = ""
+    
+    for c in formattedRegEx:
+        if escape_next:
+            postfix += c
+            steps.append(f"Agregar caracter escapador: {c}")
+            escape_next = False
+        elif c == '\\':
+            escape_next = True
+        elif c == '[':
+            inside_brackets = True
+            bracket_content += c
+        elif c == ']' and inside_brackets:
+            bracket_content += c
+            postfix += bracket_content
+            steps.append(f"Agregar contenido de los []: {bracket_content}")
+            bracket_content = ""
+            inside_brackets = False
+        elif inside_brackets:
+            bracket_content += c
+            bracket_content = bracket_content.replace(" ", "")
+        elif c.isalnum():
+            postfix += c
+            steps.append(f"Agregar caracter alfanumerico: {c}")
+        elif c == '(':
+            stack.push(c)
+            steps.append(f"Pushear '(': {stack}")
+        elif c == ')':
+            while stack.peek() != '(':
+                top = stack.pop()
+                postfix += top
+                steps.append(f"Pop y agregar: {top}")
+            stack.pop()  # Pop the '('
+            steps.append("Pop '('")
         else:
-          break
-      stack.push(c)
-  while (stack.size() > 0):
-    postfix += stack.pop()
-  return postfix
+            while stack.size() > 0 and getPrecedence(stack.peek()) >= getPrecedence(c):
+                top = stack.pop()
+                postfix += top
+                steps.append(f"Pop y agregar: {top}")
+            stack.push(c)
+            steps.append(f"Pushear operador: {c} | Stack: {stack}")
+    
+    while stack.size() > 0:
+        top = stack.pop()
+        postfix += top
+        steps.append(f"Pop y agregar restante: {top}")
+    
+    return postfix, steps
 
+
+  
