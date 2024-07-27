@@ -11,56 +11,40 @@ def getPrecedence (c):
   }
   return precedencias.get(c, 6)
 
-def formattoBasedExpresion (regex):
-   res = ""
-   stack = []
-   for i in range (len(regex)):
-      character = regex[i]
-      if (character == "?"):
-        last_char = stack[-1] 
-        if (last_char == ")"):
-            st = stack
-            stack = []
-            formated = ""
-            for c in st:
-                formated += c
-            stack.append("(")
-            stack.append(formated)
-            stack.append("|")
-            stack.append("e")
-            stack.append(")")
+def format_to_based_expression(regex):
+    res = ""
+    stack = []
+    i = 0
+
+    while i < len(regex):
+        character = regex[i]
+
+        if character == "[":
+            # Manejar los corchetes como un bloque
+            block = ""
+            while i < len(regex) and regex[i] != "]":
+                block += regex[i]
+                i += 1
+            block += "]"  # Añadir el cierre del bloque
+            stack.append(block)
+        
+        elif character == "+":
+            if stack:
+                last = stack.pop()
+                stack.append(f"({last}{last}*)")
+        
+        elif character == "?":
+            if stack:
+                last = stack.pop()
+                stack.append(f"({last}|ε)")
+        
         else:
-           last = stack.pop()
-           stack.append("(")
-           stack.append(last)
-           stack.append("|")
-           stack.append("e")
-           stack.append(")")
-      elif (character == "+"):
-        last_char = stack[-1] 
-        if (last_char == ")"):
-            st = stack
-            stack = []
-            formated = ""
-            for c in st:
-                formated += c
-            stack.append("(")
-            stack.append(formated)
-            stack.append(formated)
-            stack.append("*")
-            stack.append(")")
-        else:
-           last = stack.pop()
-           stack.append("(")
-           stack.append(last)
-           stack.append(last)
-           stack.append("*")
-           stack.append(")")
-      else:
-         stack.append(character)
-   for char in stack:
-      res += char
-   return res
+            stack.append(character)
+        
+        i += 1
+    
+    res = "".join(stack)
+    return res
 
 def formatRegEx(regex):
   res = ""
@@ -76,15 +60,21 @@ def formatRegEx(regex):
   res += regex[-1]
   return res
 
+def contains_backslash(s):
+    return '\\' in s
+
 def infixToPostfix(regex):
+    if (contains_backslash(regex)):
+        regex = r"{}".format(regex)
     postfix = ""
     steps = []
     stack = Stack()
+    regex = format_to_based_expression(regex)
     formattedRegEx = formatRegEx(regex)
     escape_next = False
     inside_brackets = False
     bracket_content = ""
-    
+
     for c in formattedRegEx:
         if escape_next:
             postfix += c
@@ -115,7 +105,7 @@ def infixToPostfix(regex):
                 top = stack.pop()
                 postfix += top
                 steps.append(f"Pop y agregar: {top}")
-            stack.pop()  # Pop the '('
+            stack.pop() 
             steps.append("Pop '('")
         else:
             while stack.size() > 0 and getPrecedence(stack.peek()) >= getPrecedence(c):

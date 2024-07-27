@@ -8,7 +8,7 @@ def getExpresions_file_Postfix (filename):
   steps = []
   expresion = []
   postfixes = []
-  with open(filename, "r") as file:
+  with open(filename, "r", encoding='utf-8') as file:
     lines = file.read().splitlines()
     for line in lines:
       postfix, step = infixToPostfix(line)
