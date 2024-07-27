@@ -1,4 +1,4 @@
 from shuntingYard import formattoBasedExpresion
 
-expres = "(ab)?"
+expres = "(ab)+"
 print(formattoBasedExpresion(expres))

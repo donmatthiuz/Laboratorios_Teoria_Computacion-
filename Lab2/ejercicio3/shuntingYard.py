@@ -37,16 +37,25 @@ def formattoBasedExpresion (regex):
            stack.append("e")
            stack.append(")")
       elif (character == "+"):
-        st = stack
-        stack = []
-        formated = ""
-        for c in st:
-           formated += c
-        stack.append("(")
-        stack.append(formated)
-        stack.append(formated)
-        stack.append("*")
-        stack.append(")")
+        last_char = stack[-1] 
+        if (last_char == ")"):
+            st = stack
+            stack = []
+            formated = ""
+            for c in st:
+                formated += c
+            stack.append("(")
+            stack.append(formated)
+            stack.append(formated)
+            stack.append("*")
+            stack.append(")")
+        else:
+           last = stack.pop()
+           stack.append("(")
+           stack.append(last)
+           stack.append(last)
+           stack.append("*")
+           stack.append(")")
       else:
          stack.append(character)
    for char in stack:
