@@ -1,3 +1,9 @@
+import matplotlib.pyplot as plt
+import networkx as nx
+
+#Clase Node cita: 
+#tutorialspoint . (2024). tutorialspoint. 
+# Obtenido de Python - Binary Tree: https://www.tutorialspoint.com/python_data_structure/python_binary_tree.htm
 class Node:
     def __init__(self, data):
         self.left = None
@@ -11,7 +17,7 @@ class Node:
                     self.left = Node(data)
                 else:
                     self.left.insert(data)
-            elif data > self.data:  
+            elif data > self.data:
                 if self.right is None:
                     self.right = Node(data)
                 else:
@@ -19,14 +25,12 @@ class Node:
         else:
             self.data = data
 
-
     def PrintTree(self):
         if self.left:
             self.left.PrintTree()
-        print(self.data, end=' ')  
+        print(self.data, end=' ')
         if self.right:
             self.right.PrintTree()
-
 
     def PostorderTraversal(self, root):
         res = []
@@ -35,6 +39,3 @@ class Node:
             res = res + self.PostorderTraversal(root.right)
             res.append(root.data)
         return res
-
-
-
