@@ -27,7 +27,14 @@ def format_to_based_expression(regex):
                 i += 1
             block += "]"  # Añadir el cierre del bloque
             stack.append(block)
-        
+        elif character == "(":
+            # Manejar los corchetes como un bloque
+            block = ""
+            while i < len(regex) and regex[i] != ")":
+                block += regex[i]
+                i += 1
+            block += ")"  # Añadir el cierre del bloque
+            stack.append(block)
         elif character == "+":
             if stack:
                 last = stack.pop()
