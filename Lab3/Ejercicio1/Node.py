@@ -10,32 +10,48 @@ class Node:
         self.right = None
         self.data = data
 
-    def insert(self, data):
-        if self.data:
-            if data < self.data:
-                if self.left is None:
-                    self.left = Node(data)
-                else:
-                    self.left.insert(data)
-            elif data > self.data:
-                if self.right is None:
-                    self.right = Node(data)
-                else:
-                    self.right.insert(data)
-        else:
-            self.data = data
+def build_tree(postfix):
+    stack = []
+    for char in postfix:
+        if char.isalnum() or char == 'ε':  # operand (ε for epsilon, a, b)
+            node = Node(char)
+            stack.append(node)
+        elif char in ['*', '|', ' ']:  # operator
+            if char == '*':
+                node = Node(char)
+                node.left = stack.pop()
+            elif char == '|':
+                node = Node(char)
+                node.right = stack.pop()
+                node.left = stack.pop()
+            stack.append(node)
+    return stack[0]
 
-    def PrintTree(self):
-        if self.left:
-            self.left.PrintTree()
-        print(self.data, end=' ')
-        if self.right:
-            self.right.PrintTree()
+def add_edges(graph, tree, pos, x=0, y=0, layer=1):
+    if tree is not None:
+        graph.add_node(tree.data, pos=(x, y))
+        if tree.left:
+            graph.add_edge(tree.data, tree.left.data)
+            l = x - 1 / layer
+            add_edges(graph, tree.left, pos, x=l, y=y-1, layer=layer+1)
+        if tree.right:
+            graph.add_edge(tree.data, tree.right.data)
+            r = x + 1 / layer
+            add_edges(graph, tree.right, pos, x=r, y=y-1, layer=layer+1)
 
-    def PostorderTraversal(self, root):
-        res = []
-        if root:
-            res = self.PostorderTraversal(root.left)
-            res = res + self.PostorderTraversal(root.right)
-            res.append(root.data)
-        return res
+def draw_tree(tree):
+    graph = nx.DiGraph()
+    pos = {}
+    add_edges(graph, tree, pos)
+    pos = nx.get_node_attributes(graph, 'pos')
+    nx.draw(graph, pos, with_labels=True, arrows=False)
+    plt.show()
+
+# Expresión postfix
+postfix = 'ab|*'
+
+# Construir el árbol de la expresión postfix
+root = build_tree(postfix)
+
+# Dibujar el árbol
+draw_tree(root)

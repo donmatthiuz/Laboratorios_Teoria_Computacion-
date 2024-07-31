@@ -1,4 +1,4 @@
 from shuntingYard import *
-expresion = '((ε|a)|b*)*'
+expresion = '(a|b)*abb'
 valor, pasos = infixToPostfix(expresion)
 print(valor)
