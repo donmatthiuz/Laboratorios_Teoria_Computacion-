@@ -23,12 +23,12 @@ def build_tree(postfix):
             stack.append(node)
         elif char in ['*', '|', ' ']:  
             if char == '*':
-                node = Node(char, id_counter)#si tenemos un * se aplica directamnete al nodo de la izquierda
+                node = Node(char, id_counter)
                 node.left = stack.pop()
                 id_counter += 1
             elif char in ['|', ' ']:
                 node = Node(char, id_counter)
-                node.right = stack.pop() #si es or o concatenacion se agregan ambos el right y el left
+                node.right = stack.pop() 
                 node.left = stack.pop()
                 id_counter += 1
             stack.append(node)
@@ -59,7 +59,7 @@ def draw_tree(tree):
     plt.show()
 
 
-postfix = 'ab|*a b b '
+postfix = '0ε|1ε|ε| 0* '
 
 root = build_tree(postfix)
 

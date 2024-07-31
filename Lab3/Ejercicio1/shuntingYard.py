@@ -27,14 +27,22 @@ def format_to_based_expression(regex):
                 i += 1
             block += "]"  # Añadir el cierre del bloque
             stack.append(block)
+        
         elif character == "(":
-            # Manejar los corchetes como un bloque
+            # Manejar los paréntesis como un bloque
             block = ""
-            while i < len(regex) and regex[i] != ")":
+            i += 1  
+            balance = 1  
+            while i < len(regex) and balance > 0:
+                if regex[i] == '(':
+                    balance += 1
+                elif regex[i] == ')':
+                    balance -= 1
                 block += regex[i]
                 i += 1
-            block += ")"  # Añadir el cierre del bloque
-            stack.append(block)
+            stack.append(f"({format_to_based_expression(block[:-1])})")
+            continue
+        
         elif character == "+":
             if stack:
                 last = stack.pop()
@@ -52,6 +60,7 @@ def format_to_based_expression(regex):
     
     res = "".join(stack)
     return res
+
 
 def formatRegEx(regex):
   res = ""
