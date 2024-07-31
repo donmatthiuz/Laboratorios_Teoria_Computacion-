@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 
+#Clase Node cita: 
+#tutorialspoint . (2024). tutorialspoint. 
+# Obtenido de Python - Binary Tree: https://www.tutorialspoint.com/python_data_structure/python_binary_tree.htm
 class Node:
     def __init__(self, data, id):
         self.left = None
