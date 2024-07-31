@@ -57,10 +57,3 @@ def draw_tree(tree):
     labels = nx.get_node_attributes(graph, 'label')
     nx.draw(graph, pos, labels=labels, with_labels=True, arrows=False)
     plt.show()
-
-
-postfix = '0ε|1ε|ε| 0* '
-
-root = build_tree(postfix)
-
-draw_tree(root)
