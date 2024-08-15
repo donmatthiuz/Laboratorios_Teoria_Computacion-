@@ -21,11 +21,13 @@ class AFN:
         f.attr('node', shape='doublecircle')
         f.node(str(self.F.numero))
         f.attr('node', shape='circle')
-        for estado in self.S:
-            f.edge(str(estado.q0.numero), 
-                   str(estado.qf.numero), 
-                       label=str(estado.valor))
-        #f.edge('LR_0', 'LR_2', label='SS(B)') ejemplo de uso
+        for transicion in self.S:
+            if transicion.q0.numero == self.q0.numero:
+                f.node('', style='invis')
+                f.edge('', str(transicion.q0.numero))
+            f.edge(str(transicion.q0.numero), 
+                   str(transicion.qf.numero), 
+                       label=str(transicion.valor))
         f.view()
 
 class Transicion:
@@ -104,9 +106,9 @@ def buildAFN(tree):
 
 
 
-regex = "a|b"
-postfix, _ = infixToPostfix(regex)
-root = build_tree(postfix)
-afn = buildAFN(root)
-print(afn)
-afn.graphicAFN()
+# regex = "0?(1?)?0*"
+# postfix, _ = infixToPostfix(regex)
+# root = build_tree(postfix)
+# afn = buildAFN(root)
+# print(afn)
+# afn.graphicAFN()
