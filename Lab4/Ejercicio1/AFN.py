@@ -57,6 +57,8 @@ def orOperator(statecounter, Nt, Nf):
         Transicion(Nt.F, qf, 'ε'),
         Transicion(Nf.F, qf, 'ε')
     ]
+    transiciones.extend(Nt.S)
+    transiciones.extend(Nf.S)
     return AFN(set([q0, qf]).union(Nt.Q).union(Nf.Q), set(['ε']).union(Nt.Alfabeto).union(Nf.Alfabeto), q0, qf, transiciones), statecounter + 2
 
 def Concatenate(Nt, Nf, statecounter):
@@ -134,7 +136,7 @@ def plotAFN(afn):
     plt.show()
 
 
-regex = "abaabab"
+regex = "(aa)|b"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
