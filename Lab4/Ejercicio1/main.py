@@ -58,7 +58,7 @@ def draw_tree(tree):
 
 
 
-regex = "(a*|b*)+"
+regex = "aa"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 
