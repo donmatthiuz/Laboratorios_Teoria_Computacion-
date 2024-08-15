@@ -1,5 +1,4 @@
-import matplotlib.pyplot as plt
-import networkx as nx
+import graphviz
 from Node import *
 from shuntingYard import *
 
@@ -16,6 +15,18 @@ class AFN:
 
     def set_qf(self, qf):
         self.F = {qf}
+    def graphicAFN(self):
+        f = graphviz.Digraph('finite_state_machine', filename='automata.gv')
+        f.attr(rankdir='LR', size='8,5')
+        f.attr('node', shape='doublecircle')
+        f.node(str(self.F.numero))
+        f.attr('node', shape='circle')
+        for estado in self.S:
+            f.edge(str(estado.q0.numero), 
+                   str(estado.qf.numero), 
+                       label=str(estado.valor))
+        #f.edge('LR_0', 'LR_2', label='SS(B)') ejemplo de uso
+        f.view()
 
 class Transicion:
     def __init__(self, initialstate, finalstate, valor):
@@ -91,53 +102,11 @@ def buildAFN(tree):
     afn, _ = createTransitions(statecounter, tree)
     return afn
 
-def plotAFN(afn):
-    G = nx.DiGraph()
-    
-    # Filtrar estados sin transiciones
-    nodes_with_edges = set()
-    for trans in afn.S:
-        nodes_with_edges.add(trans.q0.numero)
-        nodes_with_edges.add(trans.qf.numero)
-    
-    # Add nodes
-    for estado in afn.Q:
-        if estado.numero in nodes_with_edges or estado.numero == afn.q0.numero:
-            shape = 'o'  
-            color = 'lightblue'
-            if estado == afn.q0:
-                shape = 'o'  
-                color = 'red'
-            
-            G.add_node(estado.numero, shape=shape, color=color)
-    
-    for trans in afn.S:
-        if trans.q0.numero in G.nodes and trans.qf.numero in G.nodes:
-            G.add_edge(trans.q0.numero, trans.qf.numero, label=trans.valor)
-    
-    pos = nx.spring_layout(G)
-
-    node_shapes = set(nx.get_node_attributes(G, 'shape').values())
-    for shape in node_shapes:
-        nx.draw_networkx_nodes(
-            G, pos, 
-            nodelist=[n for n in G.nodes if G.nodes[n]['shape'] == shape], 
-            node_size=100, 
-            node_color=[G.nodes[n].get('color', 'lightblue') for n in G.nodes if G.nodes[n]['shape'] == shape], 
-            node_shape=shape
-        )
-    
-    nx.draw_networkx_edges(G, pos, arrowstyle='->', arrowsize=10)
-    nx.draw_networkx_labels(G, pos, font_size=10, font_color='black', font_weight='bold')
-    edge_labels = nx.get_edge_attributes(G, 'label')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
-    
-    plt.axis('off')  # Turn off the axis
-    plt.show()
 
 
-regex = "a*"
+regex = "a|b"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
-plotAFN(afn)
+print(afn)
+afn.graphicAFN()
