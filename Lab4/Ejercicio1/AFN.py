@@ -40,12 +40,13 @@ def normalTransition(statecounter, label):
 def CleanOperator(statecounter, Nt):
     q0 = Estado(statecounter+1)
     qf = Estado(statecounter+2)
-    transiciones = []
-    transiciones.append(Transicion(q0, qf, 'ε'))
-    transiciones.append(Transicion(q0, Nt.q0, 'ε'))
-    for final_state in Nt.F:
-        transiciones.append(Transicion(final_state, Nt.q0, 'ε'))
-        transiciones.append(Transicion(final_state, qf, 'ε'))
+    transiciones = [
+        Transicion(q0, Nt.q0, 'ε'),
+        Transicion(Nt.F, Nt.q0, 'ε'),
+        Transicion(Nt.F, qf, 'ε'),
+        Transicion(q0, qf, 'ε')
+    ]
+    transiciones.extend(Nt.S)
     return AFN(set([q0, qf]).union(Nt.Q), set(['ε']).union(Nt.Alfabeto), q0, qf, transiciones), statecounter + 2
 
 def orOperator(statecounter, Nt, Nf):
@@ -114,7 +115,6 @@ def plotAFN(afn):
         if trans.q0.numero in G.nodes and trans.qf.numero in G.nodes:
             G.add_edge(trans.q0.numero, trans.qf.numero, label=trans.valor)
     
-    # Layout sin especificar la posición horizontal
     pos = nx.spring_layout(G)
 
     node_shapes = set(nx.get_node_attributes(G, 'shape').values())
@@ -122,12 +122,12 @@ def plotAFN(afn):
         nx.draw_networkx_nodes(
             G, pos, 
             nodelist=[n for n in G.nodes if G.nodes[n]['shape'] == shape], 
-            node_size=500, 
+            node_size=100, 
             node_color=[G.nodes[n].get('color', 'lightblue') for n in G.nodes if G.nodes[n]['shape'] == shape], 
             node_shape=shape
         )
     
-    nx.draw_networkx_edges(G, pos, arrowstyle='->', arrowsize=5)
+    nx.draw_networkx_edges(G, pos, arrowstyle='->', arrowsize=10)
     nx.draw_networkx_labels(G, pos, font_size=10, font_color='black', font_weight='bold')
     edge_labels = nx.get_edge_attributes(G, 'label')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
@@ -136,7 +136,7 @@ def plotAFN(afn):
     plt.show()
 
 
-regex = "(aa)|b"
+regex = "a*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
