@@ -12,7 +12,7 @@ class Node:
         self.id = id  #se crea un id porque si agregamos el mismo nombre al nodo se une a varios lados del arbol
         #cada valor es unico en la cadena
 
-#algoritmo de creacion 
+#algoritmo de agregacion al arbol
 def build_tree(postfix):
     stack = []
     id_counter = 0 
