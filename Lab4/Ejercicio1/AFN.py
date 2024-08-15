@@ -59,12 +59,12 @@ def orOperator(statecounter, Nt, Nf):
     ]
     return AFN(set([q0, qf]).union(Nt.Q).union(Nf.Q), set(['ε']).union(Nt.Alfabeto).union(Nf.Alfabeto), q0, qf, transiciones), statecounter + 2
 
-def Concatenate(Nt, Nf):
+def Concatenate(Nt, Nf, statecounter):
     for trans in Nt.S:
         if trans.qf == Nt.F:
             trans.qf = Nf.q0
     Nt.F = Nf.F
-    return AFN(Nt.Q.union(Nf.Q), Nt.Alfabeto.union(Nf.Alfabeto), Nt.q0, Nf.F, Nt.S + Nf.S), None
+    return AFN(Nt.Q.union(Nf.Q), Nt.Alfabeto.union(Nf.Alfabeto), Nt.q0, Nf.F, Nt.S + Nf.S), statecounter
 
 def createTransitions(statecounter, tree):
     if tree is not None:
@@ -80,7 +80,7 @@ def createTransitions(statecounter, tree):
         elif tree.data == ' ':
             Nt, statecounter = createTransitions(statecounter, tree.left)
             Nf, statecounter = createTransitions(statecounter, tree.right)
-            return Concatenate(Nt, Nf)
+            return Concatenate(Nt, Nf, statecounter)
     return None, statecounter
 
 def buildAFN(tree):
@@ -125,7 +125,7 @@ def plotAFN(afn):
             node_shape=shape
         )
     
-    nx.draw_networkx_edges(G, pos, arrowstyle='->', arrowsize=20)
+    nx.draw_networkx_edges(G, pos, arrowstyle='->', arrowsize=5)
     nx.draw_networkx_labels(G, pos, font_size=10, font_color='black', font_weight='bold')
     edge_labels = nx.get_edge_attributes(G, 'label')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
@@ -134,7 +134,7 @@ def plotAFN(afn):
     plt.show()
 
 
-regex = "a*"
+regex = "abaabab"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
