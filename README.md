@@ -1,5 +1,6 @@
-# Laboratorio 4
+# LABORATORIO 4
 
+# Ejercicio 1
 ## Videos
 [Link al video ejercicio 1](https://youtu.be/8x8N_xR1Fl4)
 
@@ -14,3 +15,6 @@ El codigo generado para el ejercicio 1 funciona con python.
 ```
   python main.py
 ```
+# Automatas Generados
+### (a*|b*)+
+<img src="Lab4\Ejercicio1\automatas\automata1.png"  style="object-fit: contain; width: 912px; height: 512px;"/>
