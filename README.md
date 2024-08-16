@@ -16,5 +16,15 @@ El codigo generado para el ejercicio 1 funciona con python.
   python main.py
 ```
 # Automatas Generados
+
 ### (a*|b*)+
-<img src="Lab4\Ejercicio1\automatas\automata1.png"  style="object-fit: contain; width: 912px; height: 512px;"/>
+<img src="Lab4\Ejercicio1\automatas\automata1.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
+
+### ((ε|a)|b*)*
+<img src="Lab4\Ejercicio1\automatas\automata2.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
+
+### (a|b)*abb(a|b)*
+<img src="Lab4\Ejercicio1\automatas\automata3.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
+
+### 0?(1?)?0*
+<img src="Lab4\Ejercicio1\automatas\automata4.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
