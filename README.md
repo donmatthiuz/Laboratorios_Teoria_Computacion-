@@ -20,10 +20,10 @@ El codigo generado para el ejercicio 1 funciona con python.
 ### (a*|b*)+
 <img src="Lab4\Ejercicio1\automatas\automata1.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
 
-### ((ε|a)|b*)*
+### ((ε|a)|b * ) *
 <img src="Lab4\Ejercicio1\automatas\automata2.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
 
-### (a|b)*abb(a|b)*
+### (a|b)* abb(a|b) *
 <img src="Lab4\Ejercicio1\automatas\automata3.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
 
 ### 0?(1?)?0*
