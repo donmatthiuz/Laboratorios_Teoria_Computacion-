@@ -15,6 +15,7 @@ class AFN:
 
     def set_qf(self, qf):
         self.F = {qf}
+
     def graphicAFN(self):
         f = graphviz.Digraph('finite_state_machine', filename='automata.gv')
         f.attr(rankdir='LR', size='8,5')
@@ -29,6 +30,28 @@ class AFN:
                    str(transicion.qf.numero), 
                        label=str(transicion.valor))
         f.view()
+    
+    def acept_Chain(self, w, estado_actual):
+        if not w: 
+            return estado_actual == self.F 
+
+        simbolo = w[0] 
+        siguiente_cadena = w[1:]  
+
+        for transicion in self.S:
+            if transicion.q0 == estado_actual and transicion.valor == simbolo:
+               
+                if self.acept_Chain(siguiente_cadena, transicion.qf):
+                    return True
+                
+            elif transicion.q0 == estado_actual and transicion.valor == 'ε':
+                if self.acept_Chain(w, transicion.qf):
+                    return True
+
+        return False  
+
+     
+
 
 class Transicion:
     def __init__(self, initialstate, finalstate, valor):
@@ -106,9 +129,11 @@ def buildAFN(tree):
 
 
 
-# regex = "0?(1?)?0*"
-# postfix, _ = infixToPostfix(regex)
-# root = build_tree(postfix)
-# afn = buildAFN(root)
+regex = "a|b"
+postfix, _ = infixToPostfix(regex)
+root = build_tree(postfix)
+afn = buildAFN(root)
 # print(afn)
-# afn.graphicAFN()
+afn.graphicAFN()
+
+print(afn.acept_Chain('b', afn.q0))
