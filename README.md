@@ -1,7 +1,7 @@
 # Laboratorio 4
 
 ## Videos
-[Link al video ejercicio 1](https://youtu.be/6OrW75U0Yuc)
+[Link al video ejercicio 1](https://youtu.be/8x8N_xR1Fl4)
 
 ## Instrucciones
 El codigo generado para el ejercicio 1 funciona con python. 
