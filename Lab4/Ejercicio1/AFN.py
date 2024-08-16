@@ -17,7 +17,7 @@ class AFN:
         self.F = {qf}
 
     def graphicAFN(self):
-        f = graphviz.Digraph('finite_state_machine', filename='automata.gv')
+        f = graphviz.Digraph('finite_state_machine', filename='automata.gv', format='png')
         f.attr(rankdir='LR', size='8,5')
         f.attr('node', shape='doublecircle')
         f.node(str(self.F.numero))
@@ -58,7 +58,7 @@ class AFN:
         for symbol in w:
             current_states = self.epsilon_closure(self.move(current_states, symbol))
 
-        return "sí" if any(state == self.F for state in current_states) else "no"
+        return "sí pertenece a L(r)" if any(state == self.F for state in current_states) else "no pertenece a L(r)"
 
 
      
