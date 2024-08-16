@@ -31,24 +31,35 @@ class AFN:
                        label=str(transicion.valor))
         f.view()
     
-    def acept_Chain(self, w, estado_actual):
-        if not w: 
-            return estado_actual == self.F 
+    def epsilon_closure(self, states):
+        stack = list(states)
+        closure = set(states)
+        while stack:
+            state = stack.pop()
+            for transicion in self.S:
+                if transicion.q0 == state and transicion.valor == 'ε':
+                    next_state = transicion.qf
+                    if next_state not in closure:
+                        closure.add(next_state)
+                        stack.append(next_state)
+        return closure
 
-        simbolo = w[0] 
-        siguiente_cadena = w[1:]  
+    def move(self, states, symbol):
+        next_states = set()
+        for state in states:
+            for transicion in self.S:
+                if transicion.q0 == state and transicion.valor == symbol:
+                    next_states.add(transicion.qf)
+        return next_states
 
-        for transicion in self.S:
-            if transicion.q0 == estado_actual and transicion.valor == simbolo:
-               
-                if self.acept_Chain(siguiente_cadena, transicion.qf):
-                    return True
-                
-            elif transicion.q0 == estado_actual and transicion.valor == 'ε':
-                if self.acept_Chain(w, transicion.qf):
-                    return True
+    def acept_Chain(self, w):
+        current_states = self.epsilon_closure({self.q0})
 
-        return False  
+        for symbol in w:
+            current_states = self.epsilon_closure(self.move(current_states, symbol))
+
+        return "sí" if any(state == self.F for state in current_states) else "no"
+
 
      
 
@@ -129,11 +140,11 @@ def buildAFN(tree):
 
 
 
-regex = "a|b"
+regex = "a*b*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
 # print(afn)
-afn.graphicAFN()
-
-print(afn.acept_Chain('b', afn.q0))
+#afn.graphicAFN()
+estado_actual = afn.q0
+print(afn.acept_Chain('aab'))
