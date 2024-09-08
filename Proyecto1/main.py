@@ -62,10 +62,10 @@ while salir:
     menu_afn(expresion[2], afn)
     
   elif(valor == 'd'):
-    postfix = postfixes[3]
+    postfix = postfixes[4]
     root = build_tree(postfix)
     afn = buildAFN(root)
-    menu_afn(expresion[3], afn)
+    menu_afn(expresion[4], afn)
     
   else:
     salir = False
