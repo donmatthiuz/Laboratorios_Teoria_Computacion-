@@ -29,7 +29,7 @@ def getExpresions_file_Postfix (filename):
       expresion.append(line)
       postfixes.append(postfix)
 
-getExpresions_file_Postfix("/Laboratorios_Teoria_Computacion-/Lab4/Ejercicio1/file_read.txt")
+getExpresions_file_Postfix("/Laboratorios_Teoria_Computacion-/Proyecto1/file_read.txt")
 
 
 
