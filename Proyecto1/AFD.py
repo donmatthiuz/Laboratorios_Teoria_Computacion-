@@ -70,7 +70,7 @@ def subset_Algoritm(AFN):
   return afd
 
 
-regex = "0?(1?)?0*"
+regex = "(a|b)*abb"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
