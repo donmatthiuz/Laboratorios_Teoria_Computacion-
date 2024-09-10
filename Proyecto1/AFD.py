@@ -51,8 +51,8 @@ class Estado_AFD:
 def subset_Algoritm(AFN):
   afd = AFD(AFN)
    #algoritmo creacion de subconjuntos
-  for s in afd.Alfabeto_  :
-    for T in afd.Q_:
+  for T in afd.Q_  :
+    for s in afd.Alfabeto_:
        R = AFN.epsilon_closure(AFN.move(T.estados_AFN, s))
        estados_existentes = [i.estados_AFN for i in afd.Q_]
        if R not in estados_existentes:
@@ -70,7 +70,7 @@ def subset_Algoritm(AFN):
   return afd
 
 
-regex = "(a|b)*"
+regex = "0?(1?)?0*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
