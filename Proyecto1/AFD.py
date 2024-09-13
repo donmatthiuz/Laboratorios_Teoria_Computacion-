@@ -63,13 +63,42 @@ class AFD:
      return to_return
         
   def minimizumAFD(self):
-     P = self.separate_states()
-     W = self.separate_states()
-     #estados no aceptados
-     while len(W) != 0:
-        A = W.pop()
+    P = self.separate_states() 
+    W = self.separate_states()
+    
+    while len(W) != 0:
+        A = W.pop() 
         for s in self.Alfabeto_:
-           pass
+            X = set() 
+            for q in self.Q_:
+                if self.move_AFD([q], s) & set(A):
+                    X.add(q)
+            
+            for Y in P.copy():  
+                Y_set = set(Y)  
+                Y1 = Y_set & X
+                Y2 = Y_set - X
+                
+                if Y1 and Y2: 
+                    Y1_list = list(Y1)
+                    Y2_list = list(Y2)
+                    for p in P:
+                        if set(p) == Y_set:
+                            P.remove(p)
+                            break
+                    
+                    P.append(Y1_list)
+                    P.append(Y2_list)
+                    
+                    if Y in W: 
+                        W.remove(Y)
+                        W.append(Y1_list)
+                        W.append(Y2_list)
+                    else:
+                        W.append(min(Y1_list, Y2_list, key=len))
+    return P
+
+
         
    
 class Estado_AFD:
@@ -108,4 +137,5 @@ afn = buildAFN(root)
 #afn.graphicAFN()
 afd = subset_Algoritm(afn)
 #afd.graphicAFD()
-afd.minimizumAFD()
+P = afd.minimizumAFD()
+print(P)
