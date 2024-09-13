@@ -25,6 +25,14 @@ class AFD:
   def set_qf(self, qf):
     self.F_ = {qf}
   
+  def move_AFD(self, states, symbol):
+        next_states = set()
+        for state in states:
+            for transicion in self.S_:
+                if transicion.q0 == state and transicion.valor == symbol:
+                    next_states.add(transicion.qf)
+        return next_states
+  
   def graphicAFD(self):
     f = graphviz.Digraph('finite_state_machine', filename='automataD.gv', format='png')
     f.attr(rankdir='LR', size='8,5')
@@ -40,8 +48,30 @@ class AFD:
                 str(transicion.qf.numero), 
                     label=str(transicion.valor))
     f.view()
-
-
+    
+  def separate_states(self):
+     acept = []
+     not_acept = []
+     to_return = []
+     for q in self.Q_:
+        if q in self.F_:
+           acept.append(q)
+        else:
+           not_acept.append(q)
+     to_return.append(not_acept)
+     to_return.append(acept)
+     return to_return
+        
+  def minimizumAFD(self):
+     P = self.separate_states()
+     W = self.separate_states()
+     #estados no aceptados
+     while len(W) != 0:
+        A = W.pop()
+        for s in self.Alfabeto_:
+           pass
+        
+   
 class Estado_AFD:
     def __init__(self, numero, estados_AFN = []):
         self.numero = numero
@@ -75,8 +105,7 @@ postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
 # print(afn)
-afn.graphicAFN()
+#afn.graphicAFN()
 afd = subset_Algoritm(afn)
-afd.graphicAFD()
-print(afd)
-   
+#afd.graphicAFD()
+afd.minimizumAFD()
