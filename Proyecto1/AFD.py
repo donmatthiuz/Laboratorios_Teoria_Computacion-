@@ -165,7 +165,7 @@ def subset_Algoritm(AFN):
   return afd
 
 
-regex = "a*b*"
+regex = "0?(1?)?0*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
@@ -175,4 +175,4 @@ afd = subset_Algoritm(afn)
 #afd.graphicAFD()
 afd.minimizumAFD()
 #afd.graphicAFD()
-print(afd.acept_Chain('aaa'))
+print(afd.acept_Chain('0'))
