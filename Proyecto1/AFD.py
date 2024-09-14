@@ -58,7 +58,8 @@ class AFD:
            acept.append(q)
         else:
            not_acept.append(q)
-     to_return.append(not_acept)
+     if len(not_acept) > 0:
+        to_return.append(not_acept)
      to_return.append(acept)
      return to_return
         
@@ -161,13 +162,13 @@ def subset_Algoritm(AFN):
   return afd
 
 
-regex = "0?(1?)?0*"
+regex = "a*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
 # print(afn)
-#afn.graphicAFN()
+afn.graphicAFN()
 afd = subset_Algoritm(afn)
 #afd.graphicAFD()
-#afd.minimizumAFD()
-#afd.graphicAFD()
+afd.minimizumAFD()
+afd.graphicAFD()
