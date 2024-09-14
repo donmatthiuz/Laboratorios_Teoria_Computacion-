@@ -29,9 +29,16 @@ class AFD:
         next_states = set()
         for state in states:
             for transicion in self.S_:
-                if transicion.q0 == state and transicion.valor == symbol:
+                if transicion.q0.numero == state.numero and transicion.valor == symbol:
                     next_states.add(transicion.qf)
         return next_states
+  
+  def acept_Chain(self, w):
+     current_states = [self.q0]
+     for symbol in w:
+        current_states = list(self.move_AFD(current_states, symbol))
+     numeros = [x.numero for x in self.F_]
+     return True if any(state.numero in numeros for state in current_states) else False
   
   def graphicAFD(self):
     f = graphviz.Digraph('finite_state_machine', filename='automataD.gv', format='png')
@@ -129,11 +136,7 @@ class AFD:
      self.F_ = final_states
      self.Q_ = states
      self.S_ = transicions
-        
-
-
-        
-   
+          
 class Estado_AFD:
     def __init__(self, numero, estados_AFN = []):
         self.numero = numero
@@ -162,13 +165,14 @@ def subset_Algoritm(AFN):
   return afd
 
 
-regex = "a*"
+regex = "a*b*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
 # print(afn)
-afn.graphicAFN()
+#afn.graphicAFN()
 afd = subset_Algoritm(afn)
 #afd.graphicAFD()
 afd.minimizumAFD()
-afd.graphicAFD()
+#afd.graphicAFD()
+print(afd.acept_Chain('aaa'))

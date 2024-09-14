@@ -58,7 +58,7 @@ class AFN:
         for symbol in w:
             current_states = self.epsilon_closure(self.move(current_states, symbol))
 
-        return "sí pertenece a L(r)" if any(state == self.F for state in current_states) else "no pertenece a L(r)"
+        return True if any(state == self.F for state in current_states) else False
 
 
      
