@@ -7,7 +7,7 @@ class AFD:
   def __init__(self, AFN):
     
     self.Alfabeto_ = [simbolo for simbolo in AFN.Alfabeto if simbolo != 'ε']
-    self.q0 = Estado_AFD(0, estados_AFN=AFN.epsilon_closure({AFN.q0}))
+    self.q0 = Estado_AFD("0", estados_AFN=AFN.epsilon_closure({AFN.q0}))
     self.S_ = []
     self.F_ = []
     self.Q_=  []
@@ -96,7 +96,39 @@ class AFD:
                         W.append(Y2_list)
                     else:
                         W.append(min(Y1_list, Y2_list, key=len))
-    return P
+    self.rebuildAFN(P)
+  
+  def rebuildAFN(self, P):
+     states = []
+     final_states = []
+     transicions = []
+     state_initial = []
+     for p in P:
+        state = p[0]
+        if state in self.F_:
+           final_states.append(Estado_AFD(numero=f"{[int(i.numero) for i in p]}"))
+        if state == self.q0:
+           state_initial.append(Estado_AFD(numero=f"{[int(i.numero) for i in p]}"))
+        states.append(Estado_AFD(numero=f"{[int(i.numero) for i in p]}"))
+
+     for p in P:  
+      for s in self.Alfabeto_:
+         next_States = self.move_AFD(p, s)
+         lista_nex_states = list(next_States)
+         state_actual = str([int(i.numero) for i in p])
+         q0 = [i for i in states if state_actual == i.numero][0]
+         qf = [i for i in states if lista_nex_states[0].numero in i.numero][0]
+         transicions.append(Transicion(q0, qf, s))
+     self.F_ = []
+     self.Q_ = []
+     self.S_ = []
+
+     #Rebuild del AFD
+     self.q0 = state_initial.pop()
+     self.F_ = final_states
+     self.Q_ = states
+     self.S_ = transicions
+        
 
 
         
@@ -116,7 +148,7 @@ def subset_Algoritm(AFN):
        estados_existentes = [i.estados_AFN for i in afd.Q_]
        if R not in estados_existentes:
           afd.state_count += 1
-          new_state = Estado_AFD(afd.state_count, estados_AFN=R)
+          new_state = Estado_AFD(str(afd.state_count), estados_AFN=R)
           # si existe un estado que es de aceptacion entonces lo hacemos de aceptacion
           for estado_afn in R:
              if estado_afn == AFN.F:
@@ -129,13 +161,13 @@ def subset_Algoritm(AFN):
   return afd
 
 
-regex = "(a|b)*abb"
+regex = "0?(1?)?0*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
 # print(afn)
 #afn.graphicAFN()
 afd = subset_Algoritm(afn)
-afd.graphicAFD()
-P = afd.minimizumAFD()
-print(P)
+#afd.graphicAFD()
+#afd.minimizumAFD()
+#afd.graphicAFD()
