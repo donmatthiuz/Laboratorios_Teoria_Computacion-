@@ -30,8 +30,8 @@ El codigo generado para el ejercicio 1 funciona con python.
 
 - Si quieres ver los diagramas de la expresion regular debes de seleccionar o llenar el campo y luego dar click en GENERAR AFN, AFD:
 
-<img src="Instructions\generar AFD AFN.png"  style="object-fit: contain; width: 600px; height: 600px;"/>
+<img src="Instructions\generar AFD AFN.png"  style="object-fit: contain; width: 600px; height: 400px;"/>
 
 - Si quieres solo ver si una cadena pertenece o no al AFD y al AFN, entonces ingresa tu cadena en el input de ingresar cadena y dar click a "Evaluar cadena en AFD y AFN":
 
-<img src="Instructions\evaluar.png"  style="object-fit: contain; width: 600px; height: 600px;"/>
+<img src="Instructions\evaluar.png"  style="object-fit: contain; width: 600px; height: 400px;"/>
