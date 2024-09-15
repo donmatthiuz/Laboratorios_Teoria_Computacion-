@@ -56,6 +56,22 @@ class AFD:
                     label=str(transicion.valor))
     f.view()
     
+  def graphicminimizumAFD(self):
+   f = graphviz.Digraph('finite_state_machine', filename='AFD_automata_minimizum', format='png')
+   f.attr(rankdir='LR', size='8,5')
+   f.attr('node', shape='doublecircle')
+   for l in self.F_:
+      f.node(str(l.numero))
+   f.attr('node', shape='circle')   
+   for transicion in self.S_:
+      if transicion.q0.numero == self.q0.numero:
+            f.node('', style='invis')
+            f.edge('', str(transicion.q0.numero))
+      f.edge(str(transicion.q0.numero), 
+               str(transicion.qf.numero), 
+                  label=str(transicion.valor))
+   f.view()
+    
   def separate_states(self):
      acept = []
      not_acept = []
@@ -165,7 +181,7 @@ def subset_Algoritm(AFN):
   return afd
 
 
-regex = "0?(1?)?0*"
+regex = "0*1(0+1)*"
 postfix, _ = infixToPostfix(regex)
 root = build_tree(postfix)
 afn = buildAFN(root)
