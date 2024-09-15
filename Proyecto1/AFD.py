@@ -129,11 +129,12 @@ class AFD:
      state_initial = []
      for p in P:
         state = p[0]
-        if state in self.F_:
-           final_states.append(Estado_AFD(numero=f"{[int(i.numero) for i in p]}"))
-        if state == self.q0:
-           state_initial.append(Estado_AFD(numero=f"{[int(i.numero) for i in p]}"))
-        states.append(Estado_AFD(numero=f"{[int(i.numero) for i in p]}"))
+        estado = Estado_AFD(numero=f"{[int(i.numero) for i in p]}")
+        if state.numero in [x.numero for x in self.F_]:
+           final_states.append(estado)
+        if self.q0.numero in estado.numero :
+           state_initial.append(estado)
+        states.append(estado)
 
      for p in P:  
       for s in self.Alfabeto_:
@@ -188,7 +189,7 @@ afn = buildAFN(root)
 # print(afn)
 #afn.graphicAFN()
 afd = subset_Algoritm(afn)
+afd.graphicAFD()
+#afd.minimizumAFD()
 #afd.graphicAFD()
-afd.minimizumAFD()
-#afd.graphicAFD()
-print(afd.acept_Chain('0'))
+print(afd.acept_Chain('1'))
