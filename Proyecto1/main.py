@@ -37,7 +37,7 @@ st.session_state.chain_w = st.text_input('Ingresa la cadena w para evaluar', st.
 
 
 # Evaluar cadena
-if st.button('Evaluar'):
+if st.button('Evaluar cadena en AFD Y AFN'):
     if expression and st.session_state.chain_w:
         regex = expression
         postfix, _ = infixToPostfix(regex)
@@ -64,6 +64,9 @@ if st.button('Generar AFD, AFN'):
         regex = expression
         postfix, _ = infixToPostfix(regex)
         root = build_tree(postfix)
+        draw_tree_graphviz(root)
+        st.text('Arbol sintactico generado')
+        st.image("\Laboratorios_Teoria_Computacion-\Proyecto1\\binary_tree_image.png", width=300)
         afn = buildAFN(root)
         afn.graphicAFN()
         st.text('AFN de la expresión')

@@ -1,4 +1,5 @@
-
+import graphviz
+from shuntingYard import *
 #Clase Node cita: 
 #tutorialspoint . (2024). tutorialspoint. 
 # Obtenido de Python - Binary Tree: https://www.tutorialspoint.com/python_data_structure/python_binary_tree.htm
@@ -32,3 +33,24 @@ def build_tree(postfix):
             stack.append(node)
             #se hace esto porque * es de mayor presedencia que or. Y se aplicadirectamente a un valor unico
     return stack[0]
+
+
+def draw_tree_graphviz(tree):
+    dot = graphviz.Digraph(format='png')
+    def add_edges_graphviz(tree):
+        if tree is not None:
+            dot.node(str(tree.id), tree.data)  
+            if tree.left:
+                dot.edge(str(tree.id), str(tree.left.id)) 
+                add_edges_graphviz(tree.left) 
+            if tree.right:
+                dot.edge(str(tree.id), str(tree.right.id)) 
+                add_edges_graphviz(tree.right)  
+    add_edges_graphviz(tree) 
+    dot.render('binary_tree_image', view=False)  
+
+
+regex = "(a|b)*abb"
+postfix, _ = infixToPostfix(regex)
+root = build_tree(postfix)
+draw_tree_graphviz(root)
