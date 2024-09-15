@@ -41,7 +41,7 @@ class AFD:
      return True if any(state.numero in numeros for state in current_states) else False
   
   def graphicAFD(self):
-    f = graphviz.Digraph('finite_state_machine', filename='automataD.gv', format='png')
+    f = graphviz.Digraph('finite_state_machine', filename='AFD_automata', format='png')
     f.attr(rankdir='LR', size='8,5')
     f.attr('node', shape='doublecircle')
     for l in self.F_:

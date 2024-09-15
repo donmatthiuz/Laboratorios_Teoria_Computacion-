@@ -17,7 +17,7 @@ class AFN:
         self.F = {qf}
 
     def graphicAFN(self):
-        f = graphviz.Digraph('finite_state_machine', filename='automata.gv', format='png')
+        f = graphviz.Digraph('finite_state_machine', filename='AFN_automata', format='png')
         f.attr(rankdir='LR', size='8,5')
         f.attr('node', shape='doublecircle')
         f.node(str(self.F.numero))
@@ -137,14 +137,3 @@ def buildAFN(tree):
     statecounter = 0
     afn, _ = createTransitions(statecounter, tree)
     return afn
-
-
-
-regex = "a*b*"
-postfix, _ = infixToPostfix(regex)
-root = build_tree(postfix)
-afn = buildAFN(root)
-# print(afn)
-#afn.graphicAFN()
-estado_actual = afn.q0
-print(afn.acept_Chain('aab'))
