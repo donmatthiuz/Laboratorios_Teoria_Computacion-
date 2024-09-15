@@ -14,7 +14,7 @@ El codigo generado para el ejercicio 1 funciona con python.
 
 - Ejecuta el main.py de la siguiente manera ojo tiene que ser este comando
 ```
-  streamlit run  /Proyecto1/main.py
+  streamlit run main.py
 ```
 
 - Esto abrira una pestaña del navegador. Abrela en la direccion siguiente:
