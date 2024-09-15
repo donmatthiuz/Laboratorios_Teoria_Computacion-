@@ -7,9 +7,14 @@ El codigo generado para el ejercicio 1 funciona con python.
 ```
   pip install -r /LABORATORIOS_TEORIA_COMPUTACION-/Proyecto1/requirements.txt
 ```
+- Entre a la carpeta raiz del proyecto con el comando en la terminal
+```
+  cd Proyecto1
+```
+
 - Ejecuta el main.py de la siguiente manera ojo tiene que ser este comando
 ```
-  streamlit run  /LABORATORIOS_TEORIA_COMPUTACION-/Proyecto1/main.py
+  streamlit run  /Proyecto1/main.py
 ```
 
 - Esto abrira una pestaña del navegador. Abrela en la direccion siguiente:
