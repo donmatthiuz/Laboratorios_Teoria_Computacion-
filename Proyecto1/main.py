@@ -4,6 +4,7 @@ from shuntingYard import *
 from Node import *
 from AFN import *
 from AFD import *
+from cast_errors import *
 
 st.set_page_config(page_title="Proyecto 1", page_icon="🧠")
 st.title('Proyecto 1 Analizador Lexico')
@@ -38,31 +39,42 @@ st.session_state.chain_w = st.text_input('Ingresa la cadena w para evaluar', st.
 
 # Evaluar cadena
 if st.button('Evaluar cadena en AFD Y AFN'):
-    expression = expression or ''
-    regex = expression
-    postfix, _ = infixToPostfix(regex)
-    root = build_tree(postfix)
-    afn = buildAFN(root)
-    afd = subset_Algoritm(afn)
-    afd.minimizumAFD()
-    AFN_value = afn.acept_Chain(st.session_state.chain_w)
-    AFD_value = afd.acept_Chain(st.session_state.chain_w)
+    try:
+        if expression == '':
+            raise ValueError("Ingrese una expresion")
+        st.session_state.chain_w = st.session_state.chain_w or ''
+        regex = expression
+        is_balanced(regex)
+        is_valid_operator_usage(regex)
+        postfix, _ = infixToPostfix(regex)
+        root = build_tree(postfix)
+        afn = buildAFN(root)
+        afd = subset_Algoritm(afn)
+        afd.minimizumAFD()
+        AFN_value = afn.acept_Chain(st.session_state.chain_w)
+        AFD_value = afd.acept_Chain(st.session_state.chain_w)
 
-    if AFN_value:
-        st.success("La cadena w es aceptada por el autómata AFN")
-    else:
-        st.error("La cadena w no es aceptada por el autómata AFN")
+        if AFN_value:
+            st.success("La cadena w es aceptada por el autómata AFN")
+        else:
+            st.error("La cadena w no es aceptada por el autómata AFN")
 
-    if AFD_value:
-        st.success("La cadena w es aceptada por el autómata AFD")
-    else:
-        st.error("La cadena w no es aceptada por el autómata AFD")
+        if AFD_value:
+            st.success("La cadena w es aceptada por el autómata AFD")
+        else:
+            st.error("La cadena w no es aceptada por el autómata AFD")
+    except ValueError as e:
+        st.error(f"Se produjo un error :  {e}")
 
 # Generar AFD, AFN
 if st.button('Generar AFD, AFN'):
-    expression = expression or ''
     try:
+        if expression == '':
+            raise ValueError("Ingrese una expresion")
         regex = expression
+        ##verificamos que sea valida
+        is_balanced(regex)
+        is_valid_operator_usage(regex)
         postfix, _ = infixToPostfix(regex)
         root = build_tree(postfix)
         draw_tree_graphviz(root)
@@ -82,5 +94,5 @@ if st.button('Generar AFD, AFN'):
         st.image('\Laboratorios_Teoria_Computacion-\Proyecto1\AFD_automata.png')
         st.text('AFD minimizado de la expresión')
         st.image('\Laboratorios_Teoria_Computacion-\Proyecto1\AFD_automata_minimizum.png')
-    except:
-        st.error("No se pudo generar los automatas , verifique que su expresion sea correcta")
+    except ValueError as e:
+        st.error(f"Se produjo un error :  {e}")

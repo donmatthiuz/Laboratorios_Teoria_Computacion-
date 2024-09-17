@@ -49,8 +49,3 @@ def draw_tree_graphviz(tree):
     add_edges_graphviz(tree) 
     dot.render('binary_tree_image', view=False)  
 
-
-regex = "(a|b)*abb"
-postfix, _ = infixToPostfix(regex)
-root = build_tree(postfix)
-draw_tree_graphviz(root)

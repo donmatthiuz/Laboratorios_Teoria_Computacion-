@@ -180,16 +180,3 @@ def subset_Algoritm(AFN):
           estado_existente = [i for i in afd.Q_ if i.estados_AFN == R][0]
           afd.S_.append(Transicion(T, estado_existente, s))
   return afd
-
-
-regex = "0*1(0+1)*"
-postfix, _ = infixToPostfix(regex)
-root = build_tree(postfix)
-afn = buildAFN(root)
-# print(afn)
-#afn.graphicAFN()
-afd = subset_Algoritm(afn)
-afd.graphicAFD()
-#afd.minimizumAFD()
-#afd.graphicAFD()
-print(afd.acept_Chain('1'))
