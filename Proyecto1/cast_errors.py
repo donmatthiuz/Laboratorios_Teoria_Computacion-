@@ -1,26 +1,32 @@
 def is_valid_operator_usage(regex):
     operand_stack = []
-    allOperators = ['|', '?', '+', '*', '^']
-    binaryOperators = ['^', '|', '+']    
+    binaryOperators = ['^', '|', '+']
+
     for i, char in enumerate(regex):
-        if char.isalnum() or char == 'ε' or char == ')':
+        if char.isalnum() or char == 'ε': 
+            if operand_stack and operand_stack[-1] == 'RESULT':
+                operand_stack.pop() 
+                operand_stack.append('RESULT')
             operand_stack.append(char)
+
         elif char in binaryOperators:
             if len(operand_stack) < 2:
                 raise ValueError(f"Error en el operador binario '{char}' en la posición {i}: no hay suficientes operandos.")
             operand_stack.pop()
             operand_stack.pop()
             operand_stack.append('RESULT')
+
         elif char in ['?', '*']:
             if not operand_stack:
-                raise ValueError(f"Error en el operador binario '{char}' en la posición {i}: no hay operandos disponibles.")
+                raise ValueError(f"Error en el operador unario '{char}' en la posición {i}: no hay operandos disponibles.")
             operand_stack.pop()
             operand_stack.append('RESULT')
-    if len(operand_stack) != 1:
+    print(len(operand_stack))
+    if len(operand_stack) < 1:
         raise ValueError("Error: la expresión tiene operandos no utilizados o incompletos.")
+
+
     
-
-
 def is_balanced(regex):
     stack = []
     for i, char in enumerate(regex):

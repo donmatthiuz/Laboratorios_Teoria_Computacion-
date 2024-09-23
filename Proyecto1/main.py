@@ -45,8 +45,9 @@ if st.button('Evaluar cadena en AFD Y AFN'):
         st.session_state.chain_w = st.session_state.chain_w or ''
         regex = expression
         is_balanced(regex)
-        is_valid_operator_usage(regex)
         postfix, _ = infixToPostfix(regex)
+        print(postfix)
+        is_valid_operator_usage(postfix)
         root = build_tree(postfix)
         afn = buildAFN(root)
         afd = subset_Algoritm(afn)
@@ -74,8 +75,9 @@ if st.button('Generar AFD, AFN'):
         regex = expression
         ##verificamos que sea valida
         is_balanced(regex)
-        is_valid_operator_usage(regex)
         postfix, _ = infixToPostfix(regex)
+        print(postfix)
+        is_valid_operator_usage(postfix)
         root = build_tree(postfix)
         draw_tree_graphviz(root)
         st.text('Arbol sintactico generado')
