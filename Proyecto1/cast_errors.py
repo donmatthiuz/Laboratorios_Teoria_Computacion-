@@ -21,7 +21,6 @@ def is_valid_operator_usage(regex):
                 raise ValueError(f"Error en el operador unario '{char}' en la posición {i}: no hay operandos disponibles.")
             operand_stack.pop()
             operand_stack.append('RESULT')
-    print(len(operand_stack))
     if len(operand_stack) < 1:
         raise ValueError("Error: la expresión tiene operandos no utilizados o incompletos.")
 

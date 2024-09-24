@@ -46,7 +46,6 @@ if st.button('Evaluar cadena en AFD Y AFN'):
         regex = expression
         is_balanced(regex)
         postfix, _ = infixToPostfix(regex)
-        print(postfix)
         is_valid_operator_usage(postfix)
         root = build_tree(postfix)
         afn = buildAFN(root)
@@ -76,7 +75,6 @@ if st.button('Generar AFD, AFN'):
         ##verificamos que sea valida
         is_balanced(regex)
         postfix, _ = infixToPostfix(regex)
-        print(postfix)
         is_valid_operator_usage(postfix)
         root = build_tree(postfix)
         draw_tree_graphviz(root)
