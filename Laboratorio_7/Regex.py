@@ -8,9 +8,12 @@ class Regex(object):
     for line in lines:
       splitline = line.split()
       self.lines.append(splitline)
-        
+
   def load_by_text(self, text):
-    self.lines = text.splitlines()
+    lines = text.splitlines()
+    for line in lines:
+      splitline = line.split()
+      self.lines.append(splitline)
 
 
 regx = Regex()
