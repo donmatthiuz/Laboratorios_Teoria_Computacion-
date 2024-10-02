@@ -11,13 +11,21 @@ class CFG(object):
 
   def build_CFG(self):
     for produccions in self.regex:
+      simbolonoTerminal = produccions[0]
       for production in produccions:
+        if production != simbolonoTerminal and production not in productionOperator and production not in operadores:
+          p = Production(nonterminal=simbolonoTerminal, terminal=production)
+          self.P.append(p)
         for simbol in production:
           if validateNonTerminal(simbol) and simbol not in self.V:
             self.V.append(simbol)
           elif validateTerminal(simbol) and simbol not in self.T:
             self.T.append(simbol)
-          
+
+class Production(object):
+  def __init__(self, nonterminal, terminal):
+    self.v_ = nonterminal
+    self.t_ = terminal
 
 try:
   regx = Regex()
