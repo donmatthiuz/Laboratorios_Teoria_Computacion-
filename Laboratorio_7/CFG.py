@@ -1,6 +1,7 @@
 from Validators import *
 import copy
 from Regex import Regex
+from Reader import *
 class CFG(object):
   def __init__(self, regx):
     self.regex = regx.gramatica
@@ -68,7 +69,7 @@ class CFG(object):
     # Aqui ya tenemos las producciones sin epsilon ahora las igualamos
     self.P =[]
     self.P = copy_productions
-    
+
 class Production(object):
   def __init__(self, nonterminal, terminal):
     self.v_ = nonterminal
@@ -80,5 +81,8 @@ try:
   regx.validateChains()
   cfg = CFG(regx)
   cfg.quit_epsilon()
+  rede = Reader(cfg=cfg)
+  rede.show_CFG_productions()
+  print(rede.string_P)
 except ValueError as e:
   print(f"Se produjo un error :  {e}")
