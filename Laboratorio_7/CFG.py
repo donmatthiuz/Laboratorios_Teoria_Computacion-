@@ -44,8 +44,8 @@ class CFG(object):
     anulables = set()
     #verificamos los que tienen epsilon
     for produccion in self.P:
-      if produccion.v_ in self.V and produccion.t_ == 'ε':
-        anulables.add(produccion.v_)
+      if produccion.t_ == 'ε':
+            anulables.add(produccion.v_)
     #ahora verificamos aquellas que nos llevan a las anulables
     cambios = True
     while cambios:
@@ -54,16 +54,16 @@ class CFG(object):
           if all(simbolo in anulables for simbolo in produccion.t_) and produccion.v_ not in anulables:
               anulables.add(produccion.v_)
               cambios = True
+
     #ahora lo que vamos a Eliminar las producciones epsilonn anulables
-    anulables = list(anulables)
-    for i, prod in enumerate(self.P):
-      if prod.v_ in anulables and prod.t_ == 'ε':
-        copy_productions.pop(i)
+    copy_productions = [prod for prod in self.P if prod.t_ != 'ε']
+
+    for prod in self.P:
       #ahora si alguna produccion tiene simbolos anulables entonces vamos a generar las nuevas producciones 
-      elif any(simbolo in prod.t_ for simbolo in anulables):
+      if any(simbolo in prod.t_ for simbolo in anulables):
         lista = self.generar_combinaciones(produccion=prod.t_, anulables=anulables)
         for comb in lista:
-          if (comb != '') and (not self.buscar_produccion(nonterminal=prod.v_ , terminal=comb)):
+          if comb and not self.buscar_produccion(nonterminal=prod.v_, terminal=comb):
             produccion_combinacion = Production(nonterminal=prod.v_, terminal=comb)
             copy_productions.append(produccion_combinacion)
     # Aqui ya tenemos las producciones sin epsilon ahora las igualamos
