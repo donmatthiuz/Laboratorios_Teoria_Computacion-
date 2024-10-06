@@ -12,6 +12,15 @@ class Regex(object):
     for line in lines:
       splitline = line.split()
       self.lines.append(splitline)
+  
+  def show_Gramatica(self):
+    gram = ""
+    for l in self.gramatica:
+      for carac in l:
+        gram += f"{carac} "
+      gram+= "\n"
+    return gram
+        
 
   def load_by_text(self, text):
     lines = text.splitlines()
@@ -65,13 +74,3 @@ class Regex(object):
           raise ValueError(f"En la fila {index+1} no tiene una flecha → que indica la produccion")  
       else:
         raise ValueError(f"En la fila {index+1} no inicia la produccion con un no terminal")
-
-
-try:
-  regx = Regex()
-  regx.load_filename('Laboratorio_7\\file.txt')
-  regx.validateChains()
-  
-
-except ValueError as e:
-  print(f"Se produjo un error :  {e}")

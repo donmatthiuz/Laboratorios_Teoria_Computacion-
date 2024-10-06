@@ -75,14 +75,3 @@ class Production(object):
     self.v_ = nonterminal
     self.t_ = terminal
 
-try:
-  regx = Regex()
-  regx.load_filename('Laboratorio_7\\file.txt')
-  regx.validateChains()
-  cfg = CFG(regx)
-  cfg.quit_epsilon()
-  rede = Reader(cfg=cfg)
-  rede.show_CFG_productions()
-  print(rede.string_P)
-except ValueError as e:
-  print(f"Se produjo un error :  {e}")
