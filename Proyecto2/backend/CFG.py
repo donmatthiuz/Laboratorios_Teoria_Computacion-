@@ -69,9 +69,40 @@ class CFG(object):
     # Aqui ya tenemos las producciones sin epsilon ahora las igualamos
     self.P =[]
     self.P = copy_productions
+  
+  def eliminate_unari_productions(self):
+    pares = []
+    for produccion in self.P:
+        if len(produccion.t_) == 1 and validateNonTerminal(produccion.t_):
+            pares.append([produccion.v_, produccion.t_])
+    nuevos_pares = []
+    for par in pares:
+        v1, v2 = par
+        for produccion in pares:
+            if produccion[0] == v2:
+                v3 = produccion[1]
+                if [v1, v3] not in pares and [v1, v3] not in nuevos_pares:
+                    nuevos_pares.append([v1, v3])  
+    final  = pares + nuevos_pares
+    
+    for par in final:
+       for p in self.P:
+          if p.v_ == par[1] and not (validateNonTerminal(p.t_) and len(p.t_) == 1):
+               nueva_produccion = Production(nonterminal=par[0], terminal=p.t_)
+               self.P.append(nueva_produccion)
+          elif self.buscar_produccion(par[0], par[1]):
+             pass
+    return pares + nuevos_pares
+
 
 class Production(object):
   def __init__(self, nonterminal, terminal):
     self.v_ = nonterminal
     self.t_ = terminal
 
+regx = Regex()
+regx.load_filename('.\\file.txt')
+regx.validateChains()
+cfg = CFG(regx)
+cfg.quit_epsilon()
+print(cfg.eliminate_unari_productions())
