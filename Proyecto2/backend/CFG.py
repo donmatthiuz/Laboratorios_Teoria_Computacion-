@@ -37,6 +37,16 @@ class CFG(object):
             nueva_produccion = produccion.replace(simbolo, '', 1)
             combinaciones.add(nueva_produccion)
     return list(combinaciones)
+  
+  def get_productions(self, nonterminal):
+    productions = []
+    for production in self.P:
+        if production.v_ == nonterminal:
+            productions.append(production)
+    return productions
+  
+  def remove_production(self, nonterminal, terminal):
+    self.P = [prod for prod in self.P if not (prod.v_ == nonterminal and prod.t_ == terminal)]
 
   def quit_epsilon(self):
     copy_productions = copy.deepcopy(self.P)
@@ -83,16 +93,19 @@ class CFG(object):
                 v3 = produccion[1]
                 if [v1, v3] not in pares and [v1, v3] not in nuevos_pares:
                     nuevos_pares.append([v1, v3])  
-    final  = pares + nuevos_pares
+    pares_unarios  = pares + nuevos_pares
     
-    for par in final:
-       for p in self.P:
-          if p.v_ == par[1] and not (validateNonTerminal(p.t_) and len(p.t_) == 1):
-               nueva_produccion = Production(nonterminal=par[0], terminal=p.t_)
-               self.P.append(nueva_produccion)
-          elif self.buscar_produccion(par[0], par[1]):
-             pass
-    return pares + nuevos_pares
+    # encontrar producciones de los pares
+    print(f"Pares unarios: {pares_unarios}")
+    for par in pares_unarios:
+      producciones_t = self.get_productions(par[1])
+      producciones_t = producciones_t
+      for produc in producciones_t:
+          if len(produc.t_) > 1 and not self.buscar_produccion(nonterminal=par[0] , terminal=produc.t_):
+            generar_nueva_produccion = Production(nonterminal=par[0], terminal=produc.t_)
+            self.P.append(generar_nueva_produccion)
+      self.remove_production(nonterminal=par[0], terminal=par[1])
+    
 
 
 class Production(object):
@@ -105,4 +118,8 @@ regx.load_filename('.\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.quit_epsilon()
-print(cfg.eliminate_unari_productions())
+cfg.eliminate_unari_productions()
+rede = Reader(cfg=cfg)
+rede.show_CFG_productions()
+print("Gramatica Resultante:")
+print(rede.string_P)
