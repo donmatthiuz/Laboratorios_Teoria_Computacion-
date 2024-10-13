@@ -128,6 +128,23 @@ class CFG(object):
   
     self.V = [v for v in self.V if v in productive_symbols]
 
+  def quit_unreachable_nonterminals(self):
+    reachable_symbols = set([self.S])
+    changed = True
+    while changed:
+        changed = False
+        for production in self.P:
+            if production.v_ in reachable_symbols:
+                for symbol in production.t_:
+                    if symbol in self.V and symbol not in reachable_symbols:
+                        reachable_symbols.add(symbol)
+                        changed = True
+    self.P = [prod for prod in self.P if prod.v_ in reachable_symbols]
+    self.V = [v for v in self.V if v in reachable_symbols]
+
+  def delete_unseless_symbols(self):
+    self.quit_noproductions_symbols()
+    self.quit_unreachable_nonterminals()
                  
 
 
@@ -142,7 +159,7 @@ regx.validateChains()
 cfg = CFG(regx)
 cfg.quit_epsilon()
 cfg.eliminate_unari_productions()
-cfg.quit_noproductions_symbols()
+cfg.delete_unseless_symbols()
 rede = Reader(cfg=cfg)
 rede.show_CFG_productions()
 print("Gramatica Resultante:")
