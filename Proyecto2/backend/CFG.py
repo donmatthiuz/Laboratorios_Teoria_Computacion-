@@ -96,7 +96,6 @@ class CFG(object):
     pares_unarios  = pares + nuevos_pares
     
     # encontrar producciones de los pares
-    print(f"Pares unarios: {pares_unarios}")
     for par in pares_unarios:
       producciones_t = self.get_productions(par[1])
       producciones_t = producciones_t
@@ -105,7 +104,31 @@ class CFG(object):
             generar_nueva_produccion = Production(nonterminal=par[0], terminal=produc.t_)
             self.P.append(generar_nueva_produccion)
       self.remove_production(nonterminal=par[0], terminal=par[1])
-    
+  
+  def remove_all_production(self, nonterminal):
+    for product in self.P:
+        if product.v_ == nonterminal:
+          self.remove_production(nonterminal=nonterminal, terminal=product.t_)
+
+  def quit_noproductions_symbols(self):
+    # Inicialmente, encuentra los símbolos productivos: aquellos que producen directamente terminales.
+    productive_symbols = set()
+    changed = True
+
+    while changed:
+        changed = False
+        for production in self.P:
+            if production.v_ in productive_symbols:
+                continue
+            if all(symbol in self.T or symbol in productive_symbols for symbol in production.t_):
+                productive_symbols.add(production.v_)
+                changed = True
+
+    self.P = [prod for prod in self.P if prod.v_ in productive_symbols]
+  
+    self.V = [v for v in self.V if v in productive_symbols]
+
+                 
 
 
 class Production(object):
@@ -119,6 +142,7 @@ regx.validateChains()
 cfg = CFG(regx)
 cfg.quit_epsilon()
 cfg.eliminate_unari_productions()
+cfg.quit_noproductions_symbols()
 rede = Reader(cfg=cfg)
 rede.show_CFG_productions()
 print("Gramatica Resultante:")

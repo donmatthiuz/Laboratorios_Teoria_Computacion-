@@ -1,4 +1,4 @@
-S → 0A0|1B1|BB
+S → 0A0|1B1|BB|DD
 A → C
 B → S | A
 C → S | ε
