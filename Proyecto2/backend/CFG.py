@@ -2,6 +2,7 @@ from Validators import *
 import copy
 from Regex import Regex
 from Reader import *
+from Production import *
 class CFG(object):
   def __init__(self, regx):
     self.regex = regx.gramatica
@@ -163,28 +164,45 @@ class CFG(object):
           nuevas_producciones[t] = nonterminal_new
           nuevos_simbolos.append(nonterminal_new)
      for p in self.P:
-        for terminal in p.t_:
-           if terminal in self.T and p.v_ not in nuevos_simbolos:
-              p.t_ = p.t_.replace(terminal, nuevas_producciones[terminal])
+        separados = self.separar_por_V(p.t_)
+        if any(elemento in self.V for elemento in separados) or len(separados) >1:
+          for terminal in separados:
+            if terminal in self.T and p.v_ not in nuevos_simbolos:
+                p.t_ = p.t_.replace(terminal, nuevas_producciones[terminal])
 
+  def separate_terminals(self):
+    pass
+  
+  def separar_por_V(self, cadena):
+    partes = []
+    i = 0
+    while i < len(cadena):
+        for v in self.V:
+            if cadena[i:i+len(v)] == v:
+                partes.append(v)
+                i += len(v)
+                break
+        else:
+            partes.append(cadena[i])
+            i += 1
+    return partes
   def convert_to_Chumsky(self):
     self.quit_epsilon()
     self.eliminate_unari_productions()
     self.delete_unseless_symbols()
+    self.convert_terminals()
+    for p in self.P:
+       separados = self.separar_por_V(cadena=p.t_)
+       for t in separados:
+          print(f"{t}:{t in self.V}")
+             
                  
-
-
-class Production(object):
-  def __init__(self, nonterminal, terminal):
-    self.v_ = nonterminal
-    self.t_ = terminal
 
 regx = Regex()
 regx.load_filename('.\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-cfg.convert_terminals()
 rede = Reader(cfg=cfg)
 rede.show_CFG_productions()
 print("Gramatica Resultante:")
