@@ -10,6 +10,8 @@ class CFG(object):
     self.P =[]
     self.S = regx.gramatica[0][0]
     self.build_CFG()
+  
+  
 
   def build_CFG(self):
     for produccions in self.regex:
@@ -145,6 +147,30 @@ class CFG(object):
   def delete_unseless_symbols(self):
     self.quit_noproductions_symbols()
     self.quit_unreachable_nonterminals()
+  
+  def convert_terminals(self):
+     nuevas_producciones =  {}
+     nuevos_simbolos = []
+     i =0
+     for t in self.T:
+        if t != 'ε':
+          nonterminal_new = 'X'
+          i+=1 
+          nonterminal_new += str(i)
+          production = Production(nonterminal=nonterminal_new, terminal=t)
+          self.P.append(production)
+          self.V.append(nonterminal_new)
+          nuevas_producciones[t] = nonterminal_new
+          nuevos_simbolos.append(nonterminal_new)
+     for p in self.P:
+        for terminal in p.t_:
+           if terminal in self.T and p.v_ not in nuevos_simbolos:
+              p.t_ = p.t_.replace(terminal, nuevas_producciones[terminal])
+
+  def convert_to_Chumsky(self):
+    self.quit_epsilon()
+    self.eliminate_unari_productions()
+    self.delete_unseless_symbols()
                  
 
 
@@ -157,9 +183,8 @@ regx = Regex()
 regx.load_filename('.\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
-cfg.quit_epsilon()
-cfg.eliminate_unari_productions()
-cfg.delete_unseless_symbols()
+cfg.convert_to_Chumsky()
+cfg.convert_terminals()
 rede = Reader(cfg=cfg)
 rede.show_CFG_productions()
 print("Gramatica Resultante:")
