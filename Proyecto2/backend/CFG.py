@@ -3,6 +3,7 @@ import copy
 from Regex import Regex
 from Reader import *
 from Production import *
+from CYK import *
 class CFG(object):
   def __init__(self, regx):
     self.regex = regx.gramatica
@@ -233,7 +234,10 @@ regx.load_filename('.\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-rede = Reader(cfg=cfg)
-rede.show_CFG_productions()
-print("Gramatica Resultante:")
-print(rede.string_P)
+cyk = CYK(cfg=cfg, w='aabaa')
+print(cyk.table)
+
+#rede = Reader(cfg=cfg)
+#rede.show_CFG_productions()
+#print("Gramatica Resultante:")
+#print(rede.string_P)
