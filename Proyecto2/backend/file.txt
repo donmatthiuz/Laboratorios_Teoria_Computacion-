@@ -1,4 +1,4 @@
-E → E+T|T*F|(E)|a|b|Ia|Ib|I0|I1
-T → T*F|(E)|a|b|Ia|Ib|I0|I1
-F → (E)|a|b|Ia|Ib|I0|I1
-I → a|b|Ia|Ib|I0|I1
+S → AB|BC
+A → BA|a
+B → CC|b
+C → AB|a

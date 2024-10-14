@@ -230,14 +230,15 @@ class CFG(object):
                  
 
 regx = Regex()
-regx.load_filename('.\\file.txt')
+regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-cyk = CYK(cfg=cfg, w='aabaa')
+cyk = CYK(cfg=cfg, w='baaba')
+print(cyk.algoritm())
 print(cyk.table)
 
-#rede = Reader(cfg=cfg)
-#rede.show_CFG_productions()
-#print("Gramatica Resultante:")
-#print(rede.string_P)
+rede = Reader(cfg=cfg)
+rede.show_CFG_productions()
+print("Gramatica Resultante:")
+print(rede.string_P)
