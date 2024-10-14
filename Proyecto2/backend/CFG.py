@@ -4,11 +4,12 @@ from Regex import Regex
 from Reader import *
 from Production import *
 from CYK import *
+from Validators import *
 class CFG(object):
   def __init__(self, regx):
     self.regex = regx.gramatica
     self.T = []
-    self.V = []
+    self.V = copy.deepcopy(non_terminal)
     self.P =[]
     self.S = regx.gramatica[0][0]
     self.build_CFG()
@@ -23,9 +24,7 @@ class CFG(object):
           p = Production(nonterminal=simbolonoTerminal, terminal=production)
           self.P.append(p)
         for simbol in production:
-          if validateNonTerminal(simbol) and simbol not in self.V:
-            self.V.append(simbol)
-          elif validateTerminal(simbol) and simbol not in self.T:
+          if validateTerminal(simbol) and simbol not in self.T:
             self.T.append(simbol)
   
   def buscar_produccion(self, nonterminal, terminal):
@@ -94,7 +93,7 @@ class CFG(object):
   def eliminate_unari_productions(self):
     pares = []
     for produccion in self.P:
-        if len(produccion.t_) == 1 and validateNonTerminal(produccion.t_):
+        if  validateNonTerminal(produccion.t_):
             pares.append([produccion.v_, produccion.t_])
     nuevos_pares = []
     for par in pares:
@@ -111,7 +110,8 @@ class CFG(object):
       producciones_t = self.get_productions(par[1])
       producciones_t = producciones_t
       for produc in producciones_t:
-          if len(produc.t_) > 1 and not self.buscar_produccion(nonterminal=par[0] , terminal=produc.t_):
+          separados_por_V = self.separar_por_V(produc.t_)
+          if len(separados_por_V) > 1 and not self.buscar_produccion(nonterminal=par[0] , terminal=produc.t_):
             generar_nueva_produccion = Production(nonterminal=par[0], terminal=produc.t_)
             self.P.append(generar_nueva_produccion)
       self.remove_production(nonterminal=par[0], terminal=par[1])
@@ -234,7 +234,7 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-cyk = CYK(cfg=cfg, w='baaba')
+cyk = CYK(cfg=cfg, w='01')
 print(cyk.algoritm())
 print(cyk.table)
 
