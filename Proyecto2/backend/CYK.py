@@ -26,7 +26,7 @@ class CYK(object):
                             A_productions = self.cfg.get_productions_terminal(conjuncion)
                         
                             self.table[j-1][i].extend(A_productions)
-        if 'S' in self.table[n-1][0]:
+        if self.cfg.S in self.table[n-1][0]:
             return True
         else:
             return False
