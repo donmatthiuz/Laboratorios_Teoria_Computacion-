@@ -48,6 +48,13 @@ class CFG(object):
             productions.append(production)
     return productions
   
+  def get_productions_terminal(self, terminal):
+    productions = []
+    for production in self.P:
+        if terminal in production.t_:
+            productions.append(production.v_)
+    return productions
+  
   def remove_production(self, nonterminal, terminal):
     self.P = [prod for prod in self.P if not (prod.v_ == nonterminal and prod.t_ == terminal)]
 
@@ -171,7 +178,32 @@ class CFG(object):
                 p.t_ = p.t_.replace(terminal, nuevas_producciones[terminal])
 
   def separate_terminals(self):
-    pass
+    i = 0
+    nuevos_simbolos = []
+    nuevas_producciones =  {}
+    for p in self.P:
+        separados = self.separar_por_V(cadena=p.t_) 
+        while len(separados) > 2: 
+          separar = [separados.pop(), separados.pop()]
+          separar.reverse()
+          resultado = ''.join(separar)
+          nuevo = 'Y' + str(i)
+          i += 1
+          producciones_donde_esta = self.get_productions_terminal(resultado)
+          booleano =any(elemento in nuevos_simbolos for elemento in producciones_donde_esta)
+          if not booleano:
+            self.P.append(Production(nonterminal=nuevo, terminal=resultado))
+            self.V.append(nuevo)
+            nuevos_simbolos.append(nuevo)          
+            separados.append(nuevo)
+            nuevas_producciones[resultado] = nuevo
+            p.t_ = ''.join(separados)
+          else:
+            
+            separados.append(nuevas_producciones[resultado])
+            p.t_ = ''.join(separados)
+
+
   
   def separar_por_V(self, cadena):
     partes = []
@@ -186,15 +218,13 @@ class CFG(object):
             partes.append(cadena[i])
             i += 1
     return partes
+  
   def convert_to_Chumsky(self):
     self.quit_epsilon()
     self.eliminate_unari_productions()
     self.delete_unseless_symbols()
     self.convert_terminals()
-    for p in self.P:
-       separados = self.separar_por_V(cadena=p.t_)
-       for t in separados:
-          print(f"{t}:{t in self.V}")
+    self.separate_terminals()
              
                  
 
