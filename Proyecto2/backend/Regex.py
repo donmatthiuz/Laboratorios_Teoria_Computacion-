@@ -1,4 +1,4 @@
-from Validators import *
+from Validators import validateNonTerminal, validateTerminal, set_nonterminal
 import copy
 
 class Regex(object):  
@@ -47,10 +47,20 @@ class Regex(object):
             else:
                 i += 1
 
+  def get_nonTerminals(self):
+    all_nonterminals = set()
+    for productions in self.lines:
+      all_nonterminals.add(productions[0])
+    all_nonterminals = list(all_nonterminals)
+    set_nonterminal(all_nonterminals)
+    
+
   def validateChains(self):
     #separar por ors
     #validar si inicia con un
     #print(self.lines)
+    #aqui seteamos los nonterminales
+    self.get_nonTerminals()
     self.dividebyOr()
     self.gramatica = copy.deepcopy(self.lines)
     for index, productions in enumerate(self.lines):
