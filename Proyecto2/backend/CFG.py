@@ -214,7 +214,6 @@ class CFG(object):
           nuevos_simbolos.append(nonterminal_new)
      for p in self.P:
         separados = self.separar_por_V(p.t_)
-        print(f"{p.v_}: {separados}")
         if any(elemento in self.V for elemento in separados) or len(separados) >1:
           for terminal in separados:
             if terminal in self.T and p.v_ not in nuevos_simbolos:
@@ -263,12 +262,11 @@ class CFG(object):
     return partes
   
   def convert_to_Chumsky(self):
-    pass
-    #self.delete_recursividad()
-    #self.quit_epsilon()
-    #self.eliminate_unari_productions()
+    self.delete_recursividad()
+    self.quit_epsilon()
+    self.eliminate_unari_productions()
     self.delete_unseless_symbols()
-    # self.convert_terminals()
+    self.convert_terminals()
     # self.separate_terminals()
              
                  
@@ -278,7 +276,6 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-print(cfg.get_productions_terminal('B'))
 # cyk = CYK(cfg=cfg, w='as b')
 # print(cyk.algoritm())
 # print(cyk.table)
