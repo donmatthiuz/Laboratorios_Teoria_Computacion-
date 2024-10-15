@@ -51,7 +51,9 @@ class CFG(object):
           #lo agregamos a los self.V
           self.V.append(new_simbolo)
      
-  
+  def remove_production_por_terminal(self, terminal):
+    self.P = [prod for prod in self.P if terminal not in prod.t_]
+
   def buscar_produccion(self, nonterminal, terminal):
         for produccion in self.P:
             if produccion.v_ == nonterminal and produccion.t_ == terminal:
@@ -156,22 +158,27 @@ class CFG(object):
           self.remove_production(nonterminal=nonterminal, terminal=product.t_)
 
   def quit_noproductions_symbols(self):
-    # Inicialmente, encuentra los símbolos productivos: aquellos que producen directamente terminales.
-    productive_symbols = set()
+    productive_symbols = set(self.T)
     changed = True
 
     while changed:
         changed = False
-        for production in self.P:
-            if production.v_ in productive_symbols:
-                continue
-            if all(symbol in self.T or symbol in productive_symbols for symbol in production.t_):
-                productive_symbols.add(production.v_)
-                changed = True
+        for v_ in self.V:
+            productions = self.get_productions(v_)
+            for prod in productions:
+                if any(symbol in productive_symbols or symbol in self.T for symbol in prod.t_):
+                    if v_ not in productive_symbols:
+                        productive_symbols.add(v_)
+                        changed = True
+    #si encuentra una que no produce la elimina
+    for non_ter in self.V:
+       if non_ter not in productive_symbols:
+          self.V.remove(non_ter)
+          self.remove_all_production(nonterminal=non_ter)
+          self.remove_production_por_terminal(terminal=non_ter)
 
-    self.P = [prod for prod in self.P if prod.v_ in productive_symbols]
-  
-    self.V = [v for v in self.V if v in productive_symbols]
+
+       
 
   def quit_unreachable_nonterminals(self):
     reachable_symbols = set([self.S])
@@ -189,7 +196,7 @@ class CFG(object):
 
   def delete_unseless_symbols(self):
     self.quit_noproductions_symbols()
-    self.quit_unreachable_nonterminals()
+    #self.quit_unreachable_nonterminals()
   
   def convert_terminals(self):
      nuevas_producciones =  {}
@@ -258,8 +265,8 @@ class CFG(object):
   def convert_to_Chumsky(self):
     self.delete_recursividad()
     self.quit_epsilon()
-    # self.eliminate_unari_productions()
-    # self.delete_unseless_symbols()
+    self.eliminate_unari_productions()
+    self.delete_unseless_symbols()
     # self.convert_terminals()
     # self.separate_terminals()
              
@@ -273,6 +280,7 @@ cfg.convert_to_Chumsky()
 # cyk = CYK(cfg=cfg, w='as b')
 # print(cyk.algoritm())
 # print(cyk.table)
+
 
 rede = Reader(cfg=cfg)
 rede.show_CFG_productions()

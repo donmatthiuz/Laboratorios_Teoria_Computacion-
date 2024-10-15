@@ -8,5 +8,8 @@ def validateNonTerminal (text):
 def set_nonterminal (lista):
   non_terminal.extend(lista)
 
+def get_nonTerminal():
+  return non_terminal
+
 def validateTerminal (text):
   return not validateNonTerminal(text) and text not in operadores and text not in productionOperator

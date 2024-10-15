@@ -1,4 +1,4 @@
-from Validators import validateNonTerminal, validateTerminal, set_nonterminal
+from Validators import validateNonTerminal, validateTerminal, set_nonterminal, get_nonTerminal
 import copy
 
 class Regex(object):  
@@ -51,6 +51,9 @@ class Regex(object):
     all_nonterminals = set()
     for productions in self.lines:
       all_nonterminals.add(productions[0])
+      for p in productions:
+        if validateNonTerminal(p) and p not in get_nonTerminal():
+          all_nonterminals.add(p)
     all_nonterminals = list(all_nonterminals)
     set_nonterminal(all_nonterminals)
     

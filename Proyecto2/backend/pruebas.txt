@@ -43,3 +43,7 @@ N → cat|dog
 N → beer|cake|juice|meat|soup
 N → fork|knife|oven|spoon
 Det → a|the
+
+E → E + T | T 
+T → T * F | F
+F → ( E ) | id
