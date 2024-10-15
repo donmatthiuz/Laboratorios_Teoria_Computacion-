@@ -1,7 +1,7 @@
 class CYK(object):
     def __init__(self, cfg, w):
         self.cfg = cfg
-        self.w = w
+        self.w = w.split(' ')
         self.table = []
         self.build_table()
 
@@ -12,11 +12,9 @@ class CYK(object):
     def algoritm(self):
         
         for i, x in enumerate(self.w):
-            self.table[0][i] = set(self.cfg.get_productions_terminal(x))
-        
+            self.table[0][i] = set(self.cfg.get_productions_terminal(x))        
         n = len(self.w)
 
-        
         for j in range(2, n + 1):
             for i in range(n - j + 1):
                 for k in range(1, j):

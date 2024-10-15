@@ -1,5 +1,18 @@
 PRUEBAS DE NORMALIZACION
 
+E → TX
+X → +TX|e
+T → FY
+Y → *FY|e
+F → (E)|id
+
+Quitando Recursividad
+E → TG
+G → +TG|ε
+T → FV
+V → *FV|ε
+F → (E)|id
+
 E → E+T|T*F|(E)|a|b|Ia|Ib|I0|I1
 T → T*F|(E)|a|b|Ia|Ib|I0|I1
 F → (E)|a|b|Ia|Ib|I0|I1

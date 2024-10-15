@@ -163,7 +163,7 @@ class CFG(object):
      i =0
      for t in self.T:
         if t != 'ε':
-          nonterminal_new = 'X'
+          nonterminal_new = 'α'
           i+=1 
           nonterminal_new += str(i)
           production = Production(nonterminal=nonterminal_new, terminal=t)
@@ -188,7 +188,7 @@ class CFG(object):
           separar = [separados.pop(), separados.pop()]
           separar.reverse()
           resultado = ''.join(separar)
-          nuevo = 'Y' + str(i)
+          nuevo = 'β' + str(i)
           i += 1
           producciones_donde_esta = self.get_productions_terminal(resultado)
           booleano =any(elemento in nuevos_simbolos for elemento in producciones_donde_esta)
@@ -234,7 +234,7 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-cyk = CYK(cfg=cfg, w='01')
+cyk = CYK(cfg=cfg, w='0 0')
 print(cyk.algoritm())
 print(cyk.table)
 
