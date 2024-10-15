@@ -131,23 +131,22 @@ class CFG(object):
     for produccion in self.P:
         if  validateNonTerminal(produccion.t_):
             pares.append([produccion.v_, produccion.t_])
-    nuevos_pares = []
     for par in pares:
         v1, v2 = par
         for produccion in pares:
             if produccion[0] == v2:
                 v3 = produccion[1]
-                if [v1, v3] not in pares and [v1, v3] not in nuevos_pares:
-                    nuevos_pares.append([v1, v3])  
-    pares_unarios  = pares + nuevos_pares
-    
+                if [v1, v3] not in pares:
+                    pares.append([v1, v3])  
+    pares_unarios  = pares
+    print(pares_unarios)
     # encontrar producciones de los pares
     for par in pares_unarios:
       producciones_t = self.get_productions(par[1])
-      producciones_t = producciones_t
+      print(f"({par[0]},{par[1]}): {producciones_t}")
       for produc in producciones_t:
-          separados_por_V = self.separar_por_V(produc.t_)
-          if len(separados_por_V) > 1 and not self.buscar_produccion(nonterminal=par[0] , terminal=produc.t_):
+          separados_por_V = produc.t_.split(' ')
+          if validateTerminal(' '.join(separados_por_V)) and not self.buscar_produccion(nonterminal=par[0] , terminal=produc.t_):
             generar_nueva_produccion = Production(nonterminal=par[0], terminal=produc.t_)
             self.P.append(generar_nueva_produccion)
       self.remove_production(nonterminal=par[0], terminal=par[1])
@@ -247,19 +246,7 @@ class CFG(object):
 
 
   
-  def separar_por_V(self, cadena):
-    partes = []
-    i = 0
-    while i < len(cadena):
-        for v in self.V:
-            if cadena[i:i+len(v)] == v:
-                partes.append(v)
-                i += len(v)
-                break
-        else:
-            partes.append(cadena[i])
-            i += 1
-    return partes
+  
   
   def convert_to_Chumsky(self):
     self.delete_recursividad()
