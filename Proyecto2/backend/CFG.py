@@ -247,12 +247,13 @@ class CFG(object):
   
   
   def convert_to_Chumsky(self):
-    self.delete_recursividad()
-    self.quit_epsilon()
-    self.eliminate_unari_productions()
-    self.delete_unseless_symbols()
-    self.convert_terminals()
-    self.separate_terminals()
+    pass
+    #self.delete_recursividad()
+    #self.quit_epsilon()
+    #self.eliminate_unari_productions()
+    #self.delete_unseless_symbols()
+    #self.convert_terminals()
+    #self.separate_terminals()
              
                  
 
@@ -261,9 +262,9 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-cyk = CYK(cfg=cfg, w='b a a b a')
-print(cyk.algoritm())
-print(cyk.table)
+# cyk = CYK(cfg=cfg, w='she eats a cake with a fork')
+# print(cyk.algoritm())
+# print(cyk.table)
 
 
 rede = Reader(cfg=cfg)
