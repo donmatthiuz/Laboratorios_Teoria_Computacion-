@@ -182,15 +182,17 @@ class CFG(object):
 
   def quit_unreachable_nonterminals(self):
     reachable_symbols = set([self.S])
+    #derivacion directa
     for v_ in self.V:
-      productions =  self.get_productions_terminal(v_)
-      if self.S in productions:
-         reachable_symbols.add(v_)
+        productions = self.get_productions_terminal(v_)
+        if self.S in productions:
+            reachable_symbols.add(v_)
+    
     for non_ter in self.V:
-       if non_ter not in reachable_symbols:
-          self.V.remove(non_ter)
-          self.remove_all_production(nonterminal=non_ter)
-          self.remove_production_por_terminal(terminal=non_ter)
+        if non_ter not in reachable_symbols:
+            self.V.remove(non_ter)
+            self.remove_all_production(nonterminal=non_ter)
+            self.remove_production_por_terminal(terminal=non_ter)
 
   def delete_unseless_symbols(self):
     self.quit_noproductions_symbols()
@@ -261,9 +263,10 @@ class CFG(object):
     return partes
   
   def convert_to_Chumsky(self):
-    self.delete_recursividad()
-    self.quit_epsilon()
-    self.eliminate_unari_productions()
+    pass
+    #self.delete_recursividad()
+    #self.quit_epsilon()
+    #self.eliminate_unari_productions()
     self.delete_unseless_symbols()
     # self.convert_terminals()
     # self.separate_terminals()
@@ -275,6 +278,7 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
+print(cfg.get_productions_terminal('B'))
 # cyk = CYK(cfg=cfg, w='as b')
 # print(cyk.algoritm())
 # print(cyk.table)

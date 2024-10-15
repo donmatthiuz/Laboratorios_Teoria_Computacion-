@@ -1,2 +1,3 @@
-S → A B | b
-A → a
+S → A | b
+A → b | B
+B → a
