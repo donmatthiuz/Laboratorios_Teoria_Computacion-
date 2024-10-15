@@ -213,7 +213,7 @@ class CFG(object):
           nuevas_producciones[t] = nonterminal_new
           nuevos_simbolos.append(nonterminal_new)
      for p in self.P:
-        separados = self.separar_por_V(p.t_)
+        separados = p.t_.split(' ')
         if any(elemento in self.V for elemento in separados) or len(separados) >1:
           for terminal in separados:
             if terminal in self.T and p.v_ not in nuevos_simbolos:
@@ -224,11 +224,11 @@ class CFG(object):
     nuevos_simbolos = []
     nuevas_producciones =  {}
     for p in self.P:
-        separados = self.separar_por_V(cadena=p.t_) 
+        separados = p.t_.split(' ')
         while len(separados) > 2: 
           separar = [separados.pop(), separados.pop()]
           separar.reverse()
-          resultado = ''.join(separar)
+          resultado = ' '.join(separar)
           nuevo = 'β' + str(i)
           i += 1
           producciones_donde_esta = self.get_productions_terminal(resultado)
@@ -239,11 +239,11 @@ class CFG(object):
             nuevos_simbolos.append(nuevo)          
             separados.append(nuevo)
             nuevas_producciones[resultado] = nuevo
-            p.t_ = ''.join(separados)
+            p.t_ = ' '.join(separados)
           else:
             
             separados.append(nuevas_producciones[resultado])
-            p.t_ = ''.join(separados)
+            p.t_ = ' '.join(separados)
 
 
   
@@ -267,7 +267,7 @@ class CFG(object):
     self.eliminate_unari_productions()
     self.delete_unseless_symbols()
     self.convert_terminals()
-    # self.separate_terminals()
+    self.separate_terminals()
              
                  
 
