@@ -28,7 +28,6 @@ class CFG(object):
               self.T.append(s)
 
   def delete_recursividad(self):
-     SI_HAY_RECURSIVIDAD = False
      for produccions in self.regex:
         simbolonoTerminal = produccions[0]
         producciones_separadas = separar_por_or(produccions)
@@ -51,7 +50,6 @@ class CFG(object):
           self.P.append(Production(nonterminal=new_simbolo, terminal='ε'))
           #lo agregamos a los self.V
           self.V.append(new_simbolo)
-          print(f"{simbolonoTerminal}: alpha {alpha} | beta: {beta}")
      
   
   def buscar_produccion(self, nonterminal, terminal):
