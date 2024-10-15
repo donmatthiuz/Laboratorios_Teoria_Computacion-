@@ -247,13 +247,12 @@ class CFG(object):
   
   
   def convert_to_Chumsky(self):
-    pass
-    #self.delete_recursividad()
-    #self.quit_epsilon()
-    #self.eliminate_unari_productions()
-    #self.delete_unseless_symbols()
-    #self.convert_terminals()
-    #self.separate_terminals()
+    self.delete_recursividad()
+    self.quit_epsilon()
+    self.eliminate_unari_productions()
+    self.delete_unseless_symbols()
+    self.convert_terminals()
+    self.separate_terminals()
              
                  
 
