@@ -58,13 +58,22 @@ class CFG(object):
                 return True  
   
   def generar_combinaciones(self, produccion, anulables):
+    # Convertir la producción en una lista de símbolos para manipularlos individualmente
+    simbolos = produccion.split()
     combinaciones = set()
-    combinaciones.add(produccion)
-    for simbolo in produccion:
+    
+    # Inicialmente agregar la producción original
+    combinaciones.add(' '.join(simbolos))
+    
+    # Generar combinaciones eliminando anulables
+    for i, simbolo in enumerate(simbolos):
         if simbolo in anulables:
-            nueva_produccion = produccion.replace(simbolo, '', 1)
-            combinaciones.add(nueva_produccion)
+            # Crear una nueva combinación sin el símbolo anulable
+            nueva_produccion = simbolos[:i] + simbolos[i+1:]
+            combinaciones.add(' '.join(nueva_produccion))
+    
     return list(combinaciones)
+
   
   def get_productions(self, nonterminal):
     productions = []
@@ -247,11 +256,12 @@ class CFG(object):
     return partes
   
   def convert_to_Chumsky(self):
+    self.delete_recursividad()
     self.quit_epsilon()
-    self.eliminate_unari_productions()
-    self.delete_unseless_symbols()
-    self.convert_terminals()
-    self.separate_terminals()
+    # self.eliminate_unari_productions()
+    # self.delete_unseless_symbols()
+    # self.convert_terminals()
+    # self.separate_terminals()
              
                  
 
@@ -259,9 +269,7 @@ regx = Regex()
 regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
-cfg.delete_recursividad()
-#print(cfg.get_productions_terminal('id'))
-#cfg.convert_to_Chumsky()
+cfg.convert_to_Chumsky()
 # cyk = CYK(cfg=cfg, w='as b')
 # print(cyk.algoritm())
 # print(cyk.table)
