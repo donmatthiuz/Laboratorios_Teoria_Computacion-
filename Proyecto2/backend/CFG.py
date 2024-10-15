@@ -182,21 +182,19 @@ class CFG(object):
 
   def quit_unreachable_nonterminals(self):
     reachable_symbols = set([self.S])
-    changed = True
-    while changed:
-        changed = False
-        for production in self.P:
-            if production.v_ in reachable_symbols:
-                for symbol in production.t_:
-                    if symbol in self.V and symbol not in reachable_symbols:
-                        reachable_symbols.add(symbol)
-                        changed = True
-    self.P = [prod for prod in self.P if prod.v_ in reachable_symbols]
-    self.V = [v for v in self.V if v in reachable_symbols]
+    for v_ in self.V:
+      productions =  self.get_productions_terminal(v_)
+      if self.S in productions:
+         reachable_symbols.add(v_)
+    for non_ter in self.V:
+       if non_ter not in reachable_symbols:
+          self.V.remove(non_ter)
+          self.remove_all_production(nonterminal=non_ter)
+          self.remove_production_por_terminal(terminal=non_ter)
 
   def delete_unseless_symbols(self):
     self.quit_noproductions_symbols()
-    #self.quit_unreachable_nonterminals()
+    self.quit_unreachable_nonterminals()
   
   def convert_terminals(self):
      nuevas_producciones =  {}
