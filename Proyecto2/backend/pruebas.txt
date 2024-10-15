@@ -24,10 +24,10 @@ A → C
 B → S | A
 C → S | ε
 
-S → AB|BC
-A → BA|as
-B → CC|b
-C → AB|a
+S → A B | B C
+A → B A | a
+B → C C | b
+C → A B | a
 
 
 S → NP|VP

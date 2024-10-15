@@ -9,9 +9,10 @@ def separar_por_or(lista_produccion):
     
     return producciones
 
-produccion = ['S', '→', 'As', 'B', '|', 'B', 'C', '|', 'D', '|','F']
-producciones_separadas = separar_por_or(produccion)
+# produccion = ['S', '→', 'As', 'B', '|', 'B', 'C', '|', 'D', '|','F']
+# producciones_separadas = separar_por_or(produccion)
 
-# Imprimimos las producciones separadas
-for i, prod in enumerate(producciones_separadas, 1):
-    print(f"Producción {i}: {prod}")
+# # Imprimimos las producciones separadas
+# print(producciones_separadas)
+# # for i, prod in enumerate(producciones_separadas, 1):
+# #     print(f"Producción {i}: {' '.join(prod)}")

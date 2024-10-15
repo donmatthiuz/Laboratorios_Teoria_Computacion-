@@ -5,6 +5,7 @@ from Reader import *
 from Production import *
 from CYK import *
 from Validators import *
+from Parser import *
 class CFG(object):
   def __init__(self, regx):
     self.regex = regx.gramatica
@@ -14,20 +15,44 @@ class CFG(object):
     self.S = regx.gramatica[0][0]
     self.build_CFG()
   
-  
-
   def build_CFG(self):
     for produccions in self.regex:
       simbolonoTerminal = produccions[0]
-      for production in produccions:
-        if production != simbolonoTerminal and production not in productionOperator and production not in operadores:
-          p = Production(nonterminal=simbolonoTerminal, terminal=production)
-          self.P.append(p)
-        separate_simbols = production.split(' ')
-        for simbol in separate_simbols:
-          if validateTerminal(simbol) and simbol not in self.T:
-            self.T.append(simbol)
-        
+      producciones_separadas = separar_por_or(produccions)
+      for separacion in producciones_separadas:
+        t_ = ' '.join(separacion)
+        p = Production(nonterminal=simbolonoTerminal, terminal=t_)
+        self.P.append(p)
+        for s in separacion:
+           if validateTerminal(s) and s not in self.T:
+              self.T.append(s)
+
+  def delete_recursividad(self):
+     SI_HAY_RECURSIVIDAD = False
+     for produccions in self.regex:
+        simbolonoTerminal = produccions[0]
+        producciones_separadas = separar_por_or(produccions)
+        if simbolonoTerminal == producciones_separadas[0][0]:
+          alpha = producciones_separadas[0][1:]
+          beta = producciones_separadas[1:]
+          #Eliminar todas las producciones en self.P
+          self.remove_all_production(nonterminal=simbolonoTerminal)
+          #creamos un nuevo simbolo
+          new_simbolo = f"{simbolonoTerminal}'"
+          #ahora creamos sus producciones
+          for p_b in beta:
+             union1 = ' '.join(p_b)
+             union = f'{union1} {new_simbolo}'
+             prod = Production(nonterminal=simbolonoTerminal, terminal=union)
+             self.P.append(prod)
+          #ahora agregamos alpha
+          alpha_new = f"{' '.join(alpha)} {new_simbolo}"
+          self.P.append(Production(nonterminal=new_simbolo, terminal=alpha_new))
+          self.P.append(Production(nonterminal=new_simbolo, terminal='ε'))
+          #lo agregamos a los self.V
+          self.V.append(new_simbolo)
+          print(f"{simbolonoTerminal}: alpha {alpha} | beta: {beta}")
+     
   
   def buscar_produccion(self, nonterminal, terminal):
         for produccion in self.P:
@@ -228,7 +253,7 @@ class CFG(object):
     self.eliminate_unari_productions()
     self.delete_unseless_symbols()
     self.convert_terminals()
-    #self.separate_terminals()
+    self.separate_terminals()
              
                  
 
@@ -236,10 +261,12 @@ regx = Regex()
 regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
-cfg.convert_to_Chumsky()
-cyk = CYK(cfg=cfg, w='as b')
-print(cyk.algoritm())
-print(cyk.table)
+cfg.delete_recursividad()
+#print(cfg.get_productions_terminal('id'))
+#cfg.convert_to_Chumsky()
+# cyk = CYK(cfg=cfg, w='as b')
+# print(cyk.algoritm())
+# print(cyk.table)
 
 rede = Reader(cfg=cfg)
 rede.show_CFG_productions()
