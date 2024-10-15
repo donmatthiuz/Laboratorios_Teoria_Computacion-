@@ -23,9 +23,11 @@ class CFG(object):
         if production != simbolonoTerminal and production not in productionOperator and production not in operadores:
           p = Production(nonterminal=simbolonoTerminal, terminal=production)
           self.P.append(p)
-        for simbol in production:
+        separate_simbols = production.split(' ')
+        for simbol in separate_simbols:
           if validateTerminal(simbol) and simbol not in self.T:
             self.T.append(simbol)
+        
   
   def buscar_produccion(self, nonterminal, terminal):
         for produccion in self.P:
@@ -173,6 +175,7 @@ class CFG(object):
           nuevos_simbolos.append(nonterminal_new)
      for p in self.P:
         separados = self.separar_por_V(p.t_)
+        print(f"{p.v_}: {separados}")
         if any(elemento in self.V for elemento in separados) or len(separados) >1:
           for terminal in separados:
             if terminal in self.T and p.v_ not in nuevos_simbolos:
@@ -225,7 +228,7 @@ class CFG(object):
     self.eliminate_unari_productions()
     self.delete_unseless_symbols()
     self.convert_terminals()
-    self.separate_terminals()
+    #self.separate_terminals()
              
                  
 
@@ -234,7 +237,7 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-cyk = CYK(cfg=cfg, w='0 0')
+cyk = CYK(cfg=cfg, w='as b')
 print(cyk.algoritm())
 print(cyk.table)
 

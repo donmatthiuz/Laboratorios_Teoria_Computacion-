@@ -25,7 +25,7 @@ B → S | A
 C → S | ε
 
 S → AB|BC
-A → BA|a
+A → BA|as
 B → CC|b
 C → AB|a
 

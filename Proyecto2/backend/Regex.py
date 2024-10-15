@@ -71,7 +71,7 @@ class Regex(object):
           stack = []
           for i, produccion in enumerate(productions):
               if produccion == '|':
-                if len(stack) ==1:
+                if len(stack) >0:
                   if i + 1 < len(productions) and productions[i + 1] != '':
                     stack.pop()
                   else:
