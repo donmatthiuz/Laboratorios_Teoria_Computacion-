@@ -139,11 +139,9 @@ class CFG(object):
                 if [v1, v3] not in pares:
                     pares.append([v1, v3])  
     pares_unarios  = pares
-    print(pares_unarios)
     # encontrar producciones de los pares
     for par in pares_unarios:
       producciones_t = self.get_productions(par[1])
-      print(f"({par[0]},{par[1]}): {producciones_t}")
       for produc in producciones_t:
           separados_por_V = produc.t_.split(' ')
           if validateTerminal(' '.join(separados_por_V)) and not self.buscar_produccion(nonterminal=par[0] , terminal=produc.t_):
@@ -263,9 +261,9 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
-# cyk = CYK(cfg=cfg, w='as b')
-# print(cyk.algoritm())
-# print(cyk.table)
+cyk = CYK(cfg=cfg, w='b a a b a')
+print(cyk.algoritm())
+print(cyk.table)
 
 
 rede = Reader(cfg=cfg)

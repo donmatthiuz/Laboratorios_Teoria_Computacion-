@@ -22,7 +22,7 @@ class CYK(object):
                     C_productions = self.table[j-k-1][i+k]
                     for B in B_productions:
                         for C in C_productions:
-                            conjuncion = B + C
+                            conjuncion = B + " " + C
                             A_productions = self.cfg.get_productions_terminal(conjuncion)
                             self.table[j-1][i].update(A_productions)
 
