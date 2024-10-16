@@ -6,6 +6,7 @@ from Production import *
 from CYK import *
 from Validators import *
 from Parser import *
+from Node import *
 class CFG(object):
   def __init__(self, regx):
     self.regex = regx.gramatica
@@ -295,5 +296,7 @@ rede = Reader(cfg=cfg)
 rede.show_CFG_productions()
 print("Gramatica:")
 print(rede.string_P)
-cyk = CYK(cfg=cfg, w='she eats a cake with a fork')
-print(cyk.algoritm())
+cyk = CYK(cfg=cfg, w='( id )')
+parse_tree_root = cyk.algoritm()
+print(parse_tree_root)
+draw_tree_graphviz(parse_tree_root)

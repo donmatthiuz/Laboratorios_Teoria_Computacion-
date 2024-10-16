@@ -1,0 +1,11 @@
+digraph {
+	9 [label=E]
+	9 -> 0
+	0 [label="α3"]
+	9 -> 6
+	6 [label="β0"]
+	6 -> 1
+	1 [label=E]
+	6 -> 5
+	5 [label="α4"]
+}

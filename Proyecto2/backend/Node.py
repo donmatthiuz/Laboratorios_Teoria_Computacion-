@@ -11,27 +11,31 @@ class Node:
         #cada valor es unico en la cadena
 
 #algoritmo de agregacion al arbol
-def build_tree(postfix):
-    stack = []
-    id_counter = 0 
-    for char in postfix:
-        if char.isalnum() or char == 'ε':  
-            node = Node(char, id_counter)  #solo agregamos el nodo
+def build_tree(derivations):
+    nodes = {}
+    id_counter = 0
+
+    for deriv in derivations:
+        left_data, right_data, parent_data = deriv
+        
+       
+        if parent_data not in nodes:
+            nodes[parent_data] = Node(parent_data, id_counter)
             id_counter += 1
-            stack.append(node)
-        elif char in ['*', '|', ' ']:  
-            if char == '*':
-                node = Node(char, id_counter)
-                node.left = stack.pop()
+        parent = nodes[parent_data]
+
+        if left_data not in nodes:
+            nodes[left_data] = Node(left_data, id_counter)
+            id_counter += 1
+        parent.left = nodes[left_data]
+
+        if right_data:
+            if right_data not in nodes:
+                nodes[right_data] = Node(right_data, id_counter)
                 id_counter += 1
-            elif char in ['|', ' ']:
-                node = Node(char, id_counter)
-                node.right = stack.pop() 
-                node.left = stack.pop()
-                id_counter += 1
-            stack.append(node)
-            #se hace esto porque * es de mayor presedencia que or. Y se aplicadirectamente a un valor unico
-    return stack[0]
+            parent.right = nodes[right_data]
+    return nodes[derivations[-1][2]]
+
 
 
 def draw_tree_graphviz(tree):
