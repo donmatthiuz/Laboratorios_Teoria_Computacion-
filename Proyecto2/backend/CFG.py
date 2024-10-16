@@ -129,8 +129,7 @@ class CFG(object):
     while cambios:
       cambios = False
       for produccion in self.P:
-          separate_by_spaces = produccion.t_.split(' ')
-          if any(elem in separate_by_spaces for elem in anulables) and produccion.v_ not in anulables:
+          if all(simbolo in anulables for simbolo in produccion.t_) and produccion.v_ not in anulables:
               anulables.add(produccion.v_)
               cambios = True
 
@@ -272,7 +271,7 @@ class CFG(object):
   def convert_to_Chumsky(self):
     self.delete_recursividad()
     self.quit_epsilon()
-    #self.eliminate_unari_productions()
+    self.eliminate_unari_productions()
     #self.delete_unseless_symbols()
     #self.convert_terminals()
     #self.separate_terminals()
