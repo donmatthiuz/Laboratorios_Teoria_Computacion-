@@ -1,29 +1,2 @@
 digraph {
-	33 [label=S]
-	33 -> 1
-	1 [label=B]
-	1 -> 0
-	0 [label=b]
-	33 -> 28
-	28 [label=C]
-	28 -> 4
-	4 [label=A]
-	4 -> 3
-	3 [label=a]
-	28 -> 26
-	26 [label=B]
-	26 -> 22
-	22 [label=C]
-	22 -> 8
-	8 [label=A]
-	8 -> 7
-	7 [label=a]
-	22 -> 12
-	12 [label=B]
-	12 -> 11
-	11 [label=b]
-	26 -> 16
-	16 [label=C]
-	16 -> 14
-	14 [label=a]
 }
