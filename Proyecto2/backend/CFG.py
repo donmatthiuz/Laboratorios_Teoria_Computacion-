@@ -74,7 +74,7 @@ class CFG(object):
           self.V.append(new_simbolo)
      
   def remove_production_por_terminal(self, terminal):
-    self.P = [prod for prod in self.P if terminal not in prod.t_]
+    self.P = [prod for prod in self.P if terminal not in prod.t_.split(' ')]
 
   def buscar_produccion(self, nonterminal, terminal):
         for produccion in self.P:
@@ -178,8 +178,8 @@ class CFG(object):
 
   def quit_noproductions_symbols(self):
     productive_symbols = set(self.T)
+    productive_symbols.add(self.S)
     changed = True
-
     while changed:
         changed = False
         for v_ in self.V:
@@ -194,8 +194,10 @@ class CFG(object):
        if non_ter not in productive_symbols:
           self.V.remove(non_ter)
           self.remove_all_production(nonterminal=non_ter)
+          print(f"Error en {non_ter} S generados: {[x.t_ for x in self.get_productions('S')]}")
           self.remove_production_por_terminal(terminal=non_ter)
-
+          print(f"Error en {non_ter} S generados: {[x.t_ for x in self.get_productions('S')]}")
+    print(f"S generados: {[x.t_ for x in self.get_productions('S')]}")
 
        
 
@@ -215,7 +217,7 @@ class CFG(object):
 
   def delete_unseless_symbols(self):
     self.quit_noproductions_symbols()
-    self.quit_unreachable_nonterminals()
+    #self.quit_unreachable_nonterminals()
   
   def convert_terminals(self):
      nuevas_producciones =  {}
@@ -272,7 +274,7 @@ class CFG(object):
     self.delete_recursividad()
     self.quit_epsilon()
     self.eliminate_unari_productions()
-    #self.delete_unseless_symbols()
+    self.delete_unseless_symbols()
     #self.convert_terminals()
     #self.separate_terminals()
              
