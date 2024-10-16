@@ -46,5 +46,5 @@ def draw_tree_graphviz(tree):
                 dot.edge(str(tree.id), str(tree.right.id)) 
                 add_edges_graphviz(tree.right)  
     add_edges_graphviz(tree) 
-    dot.render('binary_tree_image', view=False)  
+    dot.render('CYK_tree_image', view=False)  
 
