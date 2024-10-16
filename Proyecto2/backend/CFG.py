@@ -286,8 +286,8 @@ class CFG(object):
     self.quit_epsilon()
     self.eliminate_unari_productions()
     self.delete_unseless_symbols()
-    #self.convert_terminals()
-    #self.separate_terminals()
+    self.convert_terminals()
+    self.separate_terminals()
              
                  
 
@@ -298,7 +298,7 @@ cfg = CFG(regx)
 cfg.convert_to_Chumsky()
 rede = Reader(cfg=cfg)
 rede.show_CFG_productions()
-print("Gramatica Sin no productores:")
+print("Gramatica:")
 print(rede.string_P)
 # cyk = CYK(cfg=cfg, w='she eats a cake with a fork')
 # print(cyk.algoritm())
