@@ -1,3 +1,4 @@
-E → E + T | T 
-T → T * F | F
-F → ( E ) | id
+S → A B | B C
+A → B A | a
+B → C C | b
+C → A B | a
