@@ -27,7 +27,29 @@ class CFG(object):
            if validateTerminal(s) and s not in self.T:
               self.T.append(s)
 
+  def Reoptimized(self):
+     optimized = []
+     for v in self.V:
+        lista = []
+        lista.append(v)
+        lista.append('→')
+        i = 0
+        for p in self.P:
+           if p.v_ == v:
+              l = p.t_.split(' ')
+              if i == 0:
+                 lista = lista + l
+              else:
+                 lista.append('|')
+                 lista = lista + l
+              i += 1
+        optimized.append(lista)
+     self.regex = optimized
+           
+           
+
   def delete_recursividad(self):
+     self.Reoptimized()
      for produccions in self.regex:
         simbolonoTerminal = produccions[0]
         producciones_separadas = separar_por_or(produccions)
@@ -248,11 +270,11 @@ class CFG(object):
   
   def convert_to_Chumsky(self):
     self.delete_recursividad()
-    self.quit_epsilon()
-    self.eliminate_unari_productions()
-    self.delete_unseless_symbols()
-    self.convert_terminals()
-    self.separate_terminals()
+    #self.quit_epsilon()
+    #self.eliminate_unari_productions()
+    #self.delete_unseless_symbols()
+    #self.convert_terminals()
+    #self.separate_terminals()
              
                  
 
