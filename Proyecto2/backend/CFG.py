@@ -74,7 +74,10 @@ class CFG(object):
           self.V.append(new_simbolo)
      
   def remove_production_por_terminal(self, terminal):
-    self.P = [prod for prod in self.P if terminal not in prod.t_.split(' ')]
+    if validateNonTerminal(terminal): 
+      self.P = [prod for prod in self.P if terminal not in prod.t_.split(' ')]
+    else:
+      self.P = [prod for prod in self.P if terminal not in prod.t_]
 
   def buscar_produccion(self, nonterminal, terminal):
         for produccion in self.P:
@@ -109,9 +112,14 @@ class CFG(object):
   def get_productions_terminal(self, terminal):
     productions = []
     for production in self.P:
-        if terminal in production.t_:
+        if validateNonTerminal(terminal):
+          if terminal in production.t_.split(' '):
+            productions.append(production.v_) 
+        else:   
+          if terminal in production.t_:
             productions.append(production.v_)
     return productions
+  
   
   def remove_production(self, nonterminal, terminal):
     self.P = [prod for prod in self.P if not (prod.v_ == nonterminal and prod.t_ == terminal)]
@@ -185,39 +193,42 @@ class CFG(object):
         for v_ in self.V:
             productions = self.get_productions(v_)
             for prod in productions:
-                if any(symbol in productive_symbols or symbol in self.T for symbol in prod.t_):
+                if any(symbol in productive_symbols or symbol in self.T for symbol in prod.t_.split(' ')):
                     if v_ not in productive_symbols:
                         productive_symbols.add(v_)
                         changed = True
-    #si encuentra una que no produce la elimina
-    for non_ter in self.V:
+    non_terminales = copy.deepcopy(self.V)
+    for non_ter in non_terminales:
        if non_ter not in productive_symbols:
           self.V.remove(non_ter)
           self.remove_all_production(nonterminal=non_ter)
-          print(f"Error en {non_ter} S generados: {[x.t_ for x in self.get_productions('S')]}")
           self.remove_production_por_terminal(terminal=non_ter)
-          print(f"Error en {non_ter} S generados: {[x.t_ for x in self.get_productions('S')]}")
-    print(f"S generados: {[x.t_ for x in self.get_productions('S')]}")
 
        
 
   def quit_unreachable_nonterminals(self):
     reachable_symbols = set([self.S])
-    #derivacion directa
-    for v_ in self.V:
-        productions = self.get_productions_terminal(v_)
-        if self.S in productions:
-            reachable_symbols.add(v_)
-    
-    for non_ter in self.V:
+    changed = True
+    while changed:
+        changed = False
+        for v_ in self.V:
+            productions = self.get_productions_terminal(v_)
+            if any(elemento in reachable_symbols for elemento in productions):
+                if v_ not in reachable_symbols:
+                    reachable_symbols.add(v_)
+                    changed = True
+    print(f"Rechables {reachable_symbols}")
+    non_terminales = copy.deepcopy(self.V)
+    for non_ter in non_terminales:
         if non_ter not in reachable_symbols:
+            print(f"Eliminar :  {non_ter}")
             self.V.remove(non_ter)
             self.remove_all_production(nonterminal=non_ter)
             self.remove_production_por_terminal(terminal=non_ter)
 
   def delete_unseless_symbols(self):
     self.quit_noproductions_symbols()
-    #self.quit_unreachable_nonterminals()
+    self.quit_unreachable_nonterminals()
   
   def convert_terminals(self):
      nuevas_producciones =  {}
@@ -285,12 +296,10 @@ regx.load_filename('Proyecto2\\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
+rede = Reader(cfg=cfg)
+rede.show_CFG_productions()
+print("Gramatica Sin no productores:")
+print(rede.string_P)
 # cyk = CYK(cfg=cfg, w='she eats a cake with a fork')
 # print(cyk.algoritm())
 # print(cyk.table)
-
-
-rede = Reader(cfg=cfg)
-rede.show_CFG_productions()
-print("Gramatica Resultante:")
-print(rede.string_P)

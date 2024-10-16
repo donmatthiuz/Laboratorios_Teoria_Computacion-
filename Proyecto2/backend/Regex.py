@@ -48,13 +48,10 @@ class Regex(object):
                 i += 1
 
   def get_nonTerminals(self):
-    all_nonterminals = set()
+    all_nonterminals = []
     for productions in self.lines:
-      all_nonterminals.add(productions[0])
-      for p in productions:
-        if validateNonTerminal(p) and p not in get_nonTerminal():
-          all_nonterminals.add(p)
-    all_nonterminals = list(all_nonterminals)
+      if productions[0] not in all_nonterminals:
+        all_nonterminals.append(productions[0])
     set_nonterminal(all_nonterminals)
     
 
