@@ -1,10 +1,10 @@
 PRUEBAS DE NORMALIZACION
 
-E → TX
-X → +TX|e
-T → FY
-Y → *FY|e
-F → (E)|id
+E → T X
+X → + T X | e
+T → F Y
+Y → * F Y | e
+F → ( E ) | id
 
 Quitando Recursividad
 E → TG

@@ -217,11 +217,9 @@ class CFG(object):
                 if v_ not in reachable_symbols:
                     reachable_symbols.add(v_)
                     changed = True
-    print(f"Rechables {reachable_symbols}")
     non_terminales = copy.deepcopy(self.V)
     for non_ter in non_terminales:
         if non_ter not in reachable_symbols:
-            print(f"Eliminar :  {non_ter}")
             self.V.remove(non_ter)
             self.remove_all_production(nonterminal=non_ter)
             self.remove_production_por_terminal(terminal=non_ter)
@@ -278,9 +276,6 @@ class CFG(object):
             p.t_ = ' '.join(separados)
 
 
-  
-  
-  
   def convert_to_Chumsky(self):
     self.delete_recursividad()
     self.quit_epsilon()
