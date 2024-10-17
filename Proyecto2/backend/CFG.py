@@ -288,7 +288,7 @@ class CFG(object):
                  
 
 regx = Regex()
-regx.load_filename('Proyecto2\\backend\\file.txt')
+regx.load_filename('Proyecto2\backend\\file.txt')
 regx.validateChains()
 cfg = CFG(regx)
 cfg.convert_to_Chumsky()
