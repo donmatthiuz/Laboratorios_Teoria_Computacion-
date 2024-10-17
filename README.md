@@ -39,5 +39,9 @@ cd fronted
 ```
 
 ## Como usar el programa ?
-- Recuerda que debes de tener tu gramatica en Files\files.txt, luego de eso ingresa en el input la cadena w que quieres ver si pertenece al lenguaje
-<img src="Proyecto2\Imagenes\primera.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
+- Recuerda que debes de tener tu gramatica en Files\files.txt, luego de eso ingresa en el input la cadena w que quieres ver si pertenece al lenguaje y presiona el boton
+<img src="Proyecto2\Imagenes\primera.png"  style="object-fit: contain; width: 1000px height: 312px;"/>
+
+- Esto te generara la gramatica normalizada, el parse tree y por ultimo te indica si pertenece o no a la gramatica
+<img src="Proyecto2\Imagenes\segunda.png"  style="object-fit: contain; width: 1000px height: 312px;"/>
+<img src="Proyecto2\Imagenes\tercera.png"  style="object-fit: contain; width: 1000px height: 312px;"/>
