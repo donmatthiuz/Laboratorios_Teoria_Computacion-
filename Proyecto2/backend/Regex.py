@@ -1,4 +1,4 @@
-from Validators import validateNonTerminal, validateTerminal, set_nonterminal, get_nonTerminal
+from backend.Validators import validateNonTerminal, validateTerminal, set_nonterminal, get_nonTerminal
 import copy
 
 class Regex(object):  

@@ -1,12 +1,12 @@
-from Validators import *
+from backend.Validators import *
 import copy
-from Regex import Regex
-from Reader import *
-from Production import *
-from CYK import *
-from Validators import *
-from Parser import *
-from Node import *
+from backend.Regex import Regex
+from backend.Reader import *
+from backend.Production import *
+from backend.CYK import *
+from backend.Validators import *
+from backend.Parser import *
+from backend.Node import *
 class CFG(object):
   def __init__(self, regx):
     self.regex = regx.gramatica
@@ -287,16 +287,16 @@ class CFG(object):
              
                  
 
-regx = Regex()
-regx.load_filename('Proyecto2\backend\\file.txt')
-regx.validateChains()
-cfg = CFG(regx)
-cfg.convert_to_Chumsky()
-rede = Reader(cfg=cfg)
-rede.show_CFG_productions()
-print("Gramatica:")
-print(rede.string_P)
-cyk = CYK(cfg=cfg, w='she eats a cake with a fork')
-parse_tree_root = cyk.algoritm()
-print(parse_tree_root)
-draw_tree_graphviz(parse_tree_root)
+# regx = Regex()
+# regx.load_filename('Proyecto2\\backend\\file.txt')
+# regx.validateChains()
+# cfg = CFG(regx)
+# cfg.convert_to_Chumsky()
+# rede = Reader(cfg=cfg)
+# rede.show_CFG_productions()
+# print("Gramatica:")
+# print(rede.string_P)
+# cyk = CYK(cfg=cfg, w='she eats a cake with a fork')
+# parse_tree_root = cyk.algoritm()
+# print(parse_tree_root)
+# draw_tree_graphviz(parse_tree_root)

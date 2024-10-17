@@ -1,2 +1,41 @@
 digraph {
+	793 [label=S]
+	793 -> 1
+	1 [label=NP]
+	1 -> 0
+	0 [label=she]
+	793 -> 620
+	620 [label=VP]
+	620 -> 8
+	8 [label="α3"]
+	8 -> 5
+	5 [label=eats]
+	620 -> 409
+	409 [label="VP'"]
+	409 -> 16
+	16 [label=PP]
+	16 -> 9
+	9 [label=a]
+	409 -> 283
+	283 [label="VP'"]
+	283 -> 31
+	31 [label=PP]
+	31 -> 29
+	29 [label=cake]
+	283 -> 171
+	171 [label="VP'"]
+	171 -> 35
+	35 [label=PP]
+	35 -> 34
+	34 [label=with]
+	171 -> 97
+	97 [label="VP'"]
+	97 -> 46
+	46 [label=PP]
+	46 -> 38
+	38 [label=a]
+	97 -> 61
+	61 [label="VP'"]
+	61 -> 58
+	58 [label=fork]
 }

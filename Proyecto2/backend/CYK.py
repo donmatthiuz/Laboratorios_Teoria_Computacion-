@@ -1,4 +1,4 @@
-from Node import Node
+from backend.Node import Node
 class CYK(object):
     def __init__(self, cfg, w):
         self.cfg = cfg
