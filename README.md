@@ -40,3 +40,4 @@ cd fronted
 
 ## Como usar el programa ?
 - Recuerda que debes de tener tu gramatica en Files\files.txt, luego de eso ingresa en el input la cadena w que quieres ver si pertenece al lenguaje
+<img src="Proyecto2\Imagenes\primera.png"  style="object-fit: contain; width: 1000px; height: 312px;"/>
