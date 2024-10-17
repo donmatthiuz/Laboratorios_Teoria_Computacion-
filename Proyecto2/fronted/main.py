@@ -6,7 +6,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from backend.Regex import Regex
 from backend.CFG import CFG
 from backend.Reader import *
-
+from backend.CYK import *
+from backend.Node import *
 st.set_page_config(page_title="Proyecto 2", page_icon="🧠")
 st.title('Algoritmo CYK')
 
@@ -40,8 +41,18 @@ if st.button('Normalizar CFG y evaluar w'):
       st.write(f"<span style='font-size:20px; font-style:italic;'>{original}</span>", unsafe_allow_html=True)
       st.subheader('Gramatica Normalizada')
       st.write(f"<span style='font-size:20px; font-style:italic;'>{normalized}</span>", unsafe_allow_html=True)
+      
+      #ahora vamos a detectar la palabra 
+      cyk = CYK(cfg=cfg_, w=expression_input)
+      parse_tree_root = cyk.algoritm()
+      draw_tree_graphviz(parse_tree_root)
       st.subheader('Parse Tree')
+      st.image('.\CYK_tree_image.png')
       st.subheader('Pertenece o no ?')
+      if parse_tree_root is not None:
+          st.success('w pertenece a la gramatica 😃')
+      else:
+          st.error('w no pertenece a la gramatica 😞')
     except ValueError as e:
         st.error(f"Se produjo un error :  {e}")
 
