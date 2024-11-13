@@ -17,3 +17,17 @@ print(elementos_ordenados)
 lista = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 nueva_lista = list(map(lambda x: x ** 3, lista))
 print(nueva_lista)
+
+
+# EJERCICIO 3
+
+X = [
+    [1, 2, 3 , 1],
+    [4, 5, 6, 0],
+    [7, 8, 9, -1]
+]
+
+
+Y = [(lambda i: [row[i] for row in X])(i) for i in range(len(X[0]))]
+
+print(Y)
