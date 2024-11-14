@@ -2,19 +2,46 @@
 
 print("EJERCICIOS LABORATORIO 12")
 
-# EJERCICIO 1
-D = [
-    {'make': 'Nokia', 'model': 216, 'color': 'Black'},
-    {'make': 'Apple', 'model': 2, 'color': 'Silver'},
-    {'make': 'Huawei', 'model': 50, 'color': 'Gold'},
-    {'make': 'Samsung', 'model': 7, 'color': 'Blue'}
-]
 
-elementos_ordenados= sorted(D, key=lambda x: x['model'])
-print("\nEjercicio 1")
-print("Lista de diccionarios: ", D)
-print("")
-print("Lista de diccionarios ordenados por model",elementos_ordenados)
+variable = True
+
+while variable:
+  print("Seleccione un ejercicio  s para salir:")
+  print("1) Ordenar Diccionarios")
+  print("2) Calculo de la potencia n-esima de una lista")
+  print("3) Calculo Transpuesta de una matriz")
+  print("4) Eliminar elementos de una lista")
+  var = input("Seleccione un ejercicio: ")
+  if var == 's':
+    variable = False
+  elif var == '1':
+    D = [
+        {'make': 'Nokia', 'model': 216, 'color': 'Black'},
+        {'make': 'Apple', 'model': 2, 'color': 'Silver'},
+        {'make': 'Huawei', 'model': 50, 'color': 'Gold'},
+        {'make': 'Samsung', 'model': 7, 'color': 'Blue'}
+    ]
+    print("Lista de diccionarios: ", D)
+    key_var = input("\nIngrese el key del diccionario: ")
+    elementos_ordenados= sorted(D, key=lambda x: x[key_var])
+    print(f"Lista de diccionarios ordenados por {key_var}",elementos_ordenados)
+    print("\n")
+  elif var == '2':
+    lista = input("\nIngrese el listado de numeros separados por , no espacios : ")
+    lista_numers = lista.split(",")
+    lista_numers = [int(x) for x in lista_numers]
+    numero = int(input("\n Ingresa la potencia: "))
+    nueva_lista = list(map(lambda x: x ** numero, lista_numers))
+    print("Numeros: ", lista_numers)
+    print("Numeros elevados al cubo",nueva_lista)
+    print("\n")
+
+  
+
+
+  
+
+  
 
 
 # EJERCICIO 2
