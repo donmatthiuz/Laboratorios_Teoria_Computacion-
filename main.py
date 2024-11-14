@@ -2,9 +2,7 @@
 
 print("EJERCICIOS LABORATORIO 12")
 
-
 variable = True
-
 while variable:
   print("Seleccione un ejercicio  s para salir:")
   print("1) Ordenar Diccionarios")
@@ -35,44 +33,29 @@ while variable:
     print("Numeros: ", lista_numers)
     print("Numeros elevados al cubo",nueva_lista)
     print("\n")
+  elif var == '3':
+    filas = int(input("\nIngrese el número de filas de la matriz: "))
+    columnas = int(input("Ingrese el número de columnas de la matriz: "))
+    matriz = []
+    for i in range(filas):
+        fila = input(f"Ingrese los valores de la fila {i+1} separados por comas: ").split(',')
+        fila = [int(x) for x in fila]
+        if len(fila) != columnas:
+            print("Error: El número de elementos ingresados no coincide con el número de columnas.")
+            break
+        matriz.append(fila)
 
-  
-
-
-  
-
-  
-
-
-# EJERCICIO 2
-lista = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-nueva_lista = list(map(lambda x: x ** 3, lista))
-print("\nEjercicio 2")
-print("Numeros: ", lista)
-print("Numeros elevados al cubo",nueva_lista)
-
-
-# EJERCICIO 3
-
-X = [
-    [1, 2, 3 , 1],
-    [4, 5, 6, 0],
-    [7, 8, 9, -1]
-]
-
-
-Y = [(lambda i: [row[i] for row in X])(i) for i in range(len(X[0]))]
-print("\nEjercicio 3")
-print("Matriz: ", X)
-print("Matriz Transpuesta",Y)
-
-
-# EJERCICIO 4
-
-elementos = ['rojo', 'verde', 'azul', 'amarillo', 'gris', 'blanco', 'negro']
-elementos_eliminar = ['amarillo', 'café', 'blanco']
-lista_filtrada = list(filter(lambda x: x not in elementos_eliminar, elementos))
-print("\nEjercicio 4")
-print("Elementos: ",elementos )
-print("Elementos a eliminar: ",elementos_eliminar )
-print("Resultados: ", lista_filtrada)
+    print("Matriz original:")
+    for fila in matriz:
+        print(fila)
+    Y = [(lambda i: [row[i] for row in matriz])(i) for i in range(len(matriz[0]))]
+    print("Matriz Transpuesta",Y)
+  elif var == '4':
+    elementos_v = input("Ingrese los elementos de la lista separados por coma: ")
+    elementos_v = elementos_v.split(',')
+    elementos_eliminar = input("Ingrese los elementos a eliminar de la lista separados por coma: ")
+    elementos_eliminar = elementos_eliminar.split(',')
+    lista_filtrada = list(filter(lambda x: x not in elementos_eliminar, elementos_v))
+    print("Elementos: ",elementos_v )
+    print("Elementos a eliminar: ",elementos_eliminar )
+    print("Resultados: ", lista_filtrada)
