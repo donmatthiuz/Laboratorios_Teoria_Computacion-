@@ -1,0 +1,8 @@
+CONFIGURACIONES MAQUINA DE TURING
+Cadena: aaaccc
+Configuraciones:
+|- [q0, a]aacccBB
+|- a[q1, a]acccBB
+|- aa[q1, a]cccBB
+|- aaa[q1, c]ccBB
+|- [q1] - No tiene transición para [c], se detectó un bucle

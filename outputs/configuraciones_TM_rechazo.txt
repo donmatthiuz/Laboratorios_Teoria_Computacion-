@@ -1,0 +1,9 @@
+CONFIGURACIONES MAQUINA DE TURING
+Cadena: aabbc
+Configuraciones:
+|- [q0, a]abbcBBB
+|- a[q1, a]bbcBBB
+|- aa[q1, b]bcBBB
+|- aab[q2, b]cBBB
+|- aabb[q3, c]BBB
+|- aabbc[q5, B]BB
