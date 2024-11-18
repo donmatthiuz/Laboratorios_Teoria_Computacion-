@@ -30,15 +30,14 @@ class TM:
 
     def __init__(self,  lector):
         self.estados = lector.estados
-        self.alfabetoEntrada = lector.alfabetoEntrada
+        self.alfabetoEntrada = lector.alfabeto
         self.alfabetoCinta = lector.tape_alphabet
         self.q0 = lector.q0
         self.aceptacion = lector.aceptacion
-        self.rechazo = lector.rechazo
         self.transiciones = lector.transiciones
         self.size_cinta = 8
         self.cinta = []
-        self.posCabezal = lector.posCabezal
+        self.posCabezal = 0
         self.historial = []
 
     def isValidString(self, cadena):
@@ -153,16 +152,15 @@ class TM:
 
         for estado in self.estados:
             if estado == self.aceptacion:
-                dot.node(estado, shape='doublecircle', style='filled', color='lightgreen') 
-            elif estado == self.rechazo:
-                dot.node(estado, shape='doublecircle', style='filled', color='red') 
+                dot.node(estado, shape='doublecircle', style='filled', color='lightgreen')
             else:
                 dot.node(estado) 
 
         for estado in self.transiciones:
             for simbolo in self.transiciones[estado]:
-                siguiente_estado, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
-                label = f'{simbolo} / {simbolo_escrito}, {direccion}'
+                print(simbolo)
+                siguiente_estado, simbolo_escrito_en_cache, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
+                label = f'{simbolo[0] if simbolo[0] is not None else "B"} / {simbolo_escrito_en_cache if simbolo_escrito_en_cache is not None else "B"} ; {simbolo[1] if simbolo[1] is not None else "B"} / {simbolo_escrito if simbolo_escrito is not None else "B"}, {direccion}'
                 dot.edge(estado, siguiente_estado, label=label)
 
         if not os.path.exists('graphs'):

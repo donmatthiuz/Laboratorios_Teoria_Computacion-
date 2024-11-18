@@ -38,7 +38,7 @@ delta:
       tape_input: 'b'
     output:
       final_state: '1'
-      mem_cache_value: 'a'
+      mem_cache_value: 'b'
       tape_output: 
       tape_displacement: R
 simulation_strings:

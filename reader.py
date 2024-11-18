@@ -1,4 +1,4 @@
-class Reader(object):
+class Reader(object): 
     def __init__(self, content):
       self.tm_machine = content
       self.estados = []
@@ -6,7 +6,6 @@ class Reader(object):
       self.tape_alphabet = []
       self.q0 = None
       self.aceptacion = None
-      self.rechazo = None
       self.transiciones = {}
       self.cinta = []
       self.get_states_and_alphabets()
