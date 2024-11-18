@@ -16,3 +16,5 @@ valor, historial = tm.simulate(lector.cadenas[0])
 
 for p in historial:
     print(p)
+
+print(valor)

@@ -89,7 +89,7 @@ class TM:
         isBucle = False  # Flag para controlar el bucle
 
         # Usar la configuración de la cinta si se proporciona, de lo contrario, usa la cadena
-        self.cinta = cintaConfiguration if cintaConfiguration else list(cadena) + ['B'] * (self.size_cinta - len(cadena))
+        self.cinta = cintaConfiguration if cintaConfiguration else list(cadena) + [None] * (self.size_cinta - len(cadena))
 
         # Asignar la posición del cabezal dependiendo de si se pasó una configuración de la cinta
         self.posCabezal = positionCabezal if cintaConfiguration else 0
@@ -101,8 +101,8 @@ class TM:
             cinta_formateada = (
                 ''.join([str(item) if item is not None else 'B' for item in self.cinta[:self.posCabezal]]) +
                 f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
-                f"{simbolo_actual if simbolo_actual is not None else 'B'}"+                
-                ''.join(self.cinta[self.posCabezal + 1:])
+                f"{simbolo_actual if simbolo_actual is not None else 'B'}"+
+                ''.join([str(item) if item is not None else 'B' for item in self.cinta[self.posCabezal + 1:]])
             )
             self.historial.append(f"|- {cinta_formateada}")
         
@@ -129,7 +129,7 @@ class TM:
             if self.posCabezal < 0:
                 self.posCabezal = 0
             elif self.posCabezal >= len(self.cinta):
-                self.cinta.append('B')
+                self.cinta.append(None)
 
         # Determinar el resultado final si no es un bucle
         if estado_actual == self.aceptacion:
@@ -139,9 +139,10 @@ class TM:
         if result != "bucle":
             simbolo_actual = self.cinta[self.posCabezal]
             cinta_formateada = (
-                ''.join(self.cinta[:self.posCabezal]) +
-                f"[{estado_actual}, {simbolo_actual}]" +
-                ''.join(self.cinta[self.posCabezal + 1:])
+                ''.join([str(item) if item is not None else 'B' for item in self.cinta[:self.posCabezal]]) +
+                f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
+                f"{simbolo_actual if simbolo_actual is not None else 'B'}"+
+                ''.join([str(item) if item is not None else 'B' for item in self.cinta[self.posCabezal + 1:]])
             )
             self.historial.append(f"|- {cinta_formateada}")
 
