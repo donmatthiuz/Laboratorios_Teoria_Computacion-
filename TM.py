@@ -118,7 +118,12 @@ class TM:
             self.cinta[self.posCabezal] = simbolo_escrito
             cache_actual = cache_siguiente
             estado_actual = siguiente_estado
-            self.posCabezal += 1 if direccion == 'R' else -1
+            if direccion == 'R':
+                self.posCabezal += 1
+            elif direccion == 'L':
+                self.posCabezal -= 1
+            elif direccion == 'S':
+                self.posCabezal = self.posCabezal
 
             # Asegurar que el cabezal no se salga de la cinta
             if self.posCabezal < 0:

@@ -41,6 +41,7 @@ delta:
       mem_cache_value: 'b'
       tape_output: 
       tape_displacement: R
+  
 simulation_strings:
   - 'aab#aab'
   - 'ab#ab'
