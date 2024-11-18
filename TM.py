@@ -84,6 +84,7 @@ class TM:
         
         result = ""
         estado_actual = self.q0
+        cache_actual = None
         self.historial = []  # Reiniciar historial en cada simulación
         isBucle = False  # Flag para controlar el bucle
 
@@ -93,27 +94,29 @@ class TM:
         # Asignar la posición del cabezal dependiendo de si se pasó una configuración de la cinta
         self.posCabezal = positionCabezal if cintaConfiguration else 0
 
-        while not isBucle and (estado_actual != self.aceptacion and estado_actual != self.rechazo):
+        while not isBucle and (estado_actual != self.aceptacion):
             simbolo_actual = self.cinta[self.posCabezal]
 
             # Formatear la cinta con el estado y el símbolo en la posición del cabezal
             cinta_formateada = (
-                ''.join(self.cinta[:self.posCabezal]) +
-                f"[{estado_actual}, {simbolo_actual}]" +
+                ''.join([str(item) if item is not None else 'B' for item in self.cinta[:self.posCabezal]]) +
+                f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
+                f"{simbolo_actual}"+                
                 ''.join(self.cinta[self.posCabezal + 1:])
             )
             self.historial.append(f"|- {cinta_formateada}")
-
+        
             # Detectar bucle verificando si la transición no existe
-            if simbolo_actual not in self.transiciones.get(estado_actual, {}):
+            if (cache_actual,simbolo_actual) not in self.transiciones.get(estado_actual, {}):
                 result = "bucle"
                 self.historial.append(f"|- [{estado_actual}] - No tiene transición para [{simbolo_actual}], se detectó un bucle")
                 isBucle = True
                 continue
 
             # Obtener la transición y actualizar la cinta, estado y cabezal
-            siguiente_estado, simbolo_escrito, direccion = self.transiciones[estado_actual][simbolo_actual]
+            siguiente_estado, cache_siguiente, simbolo_escrito, direccion = self.transiciones[estado_actual][(cache_actual,simbolo_actual)]
             self.cinta[self.posCabezal] = simbolo_escrito
+            cache_actual = cache_siguiente
             estado_actual = siguiente_estado
             self.posCabezal += 1 if direccion == 'R' else -1
 
@@ -126,8 +129,6 @@ class TM:
         # Determinar el resultado final si no es un bucle
         if estado_actual == self.aceptacion:
             result = "aceptado"
-        elif estado_actual == self.rechazo:
-            result = "rechazo"
 
        
         if result != "bucle":
