@@ -153,6 +153,8 @@ class TM:
         for estado in self.estados:
             if estado == self.aceptacion:
                 dot.node(estado, shape='doublecircle', style='filled', color='lightgreen')
+            if estado == self.q0:
+                dot.node(estado, shape='doublecircle', style='filled', color='yellow')
             else:
                 dot.node(estado) 
 
