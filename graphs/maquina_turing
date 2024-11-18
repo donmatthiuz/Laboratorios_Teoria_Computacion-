@@ -1,11 +1,12 @@
 digraph {
-	0 [color=yellow shape=doublecircle style=filled]
+	0 [shape=doublecircle style=filled]
 	1
 	2
 	3
 	4
 	5 [color=lightgreen shape=doublecircle style=filled]
-	5
-	0 -> 1 [label="B / a ; a / B, R"]
-	0 -> 1 [label="B / b ; b / B, R"]
+	start [shape=point width=0]
+	start -> 0
+	0 -> 1 [label="B/a;a/B,R "]
+	0 -> 1 [label="B/b;b/B,R "]
 }

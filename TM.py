@@ -150,21 +150,27 @@ class TM:
         """Genera un diagrama visual de la máquina de Turing usando Graphviz."""
         dot = Digraph(format='png', engine='dot')
 
+        # Agregar los nodos de los estados
         for estado in self.estados:
             if estado == self.aceptacion:
                 dot.node(estado, shape='doublecircle', style='filled', color='lightgreen')
-            if estado == self.q0:
-                dot.node(estado, shape='doublecircle', style='filled', color='yellow')
+            elif estado == self.q0:
+                dot.node(estado, shape='doublecircle', style='filled')
             else:
-                dot.node(estado) 
+                dot.node(estado)
+
+
+        dot.node('start', shape='point', width='0')
+        dot.edge('start', self.q0)
+
 
         for estado in self.transiciones:
             for simbolo in self.transiciones[estado]:
-                print(simbolo)
                 siguiente_estado, simbolo_escrito_en_cache, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
-                label = f'{simbolo[0] if simbolo[0] is not None else "B"} / {simbolo_escrito_en_cache if simbolo_escrito_en_cache is not None else "B"} ; {simbolo[1] if simbolo[1] is not None else "B"} / {simbolo_escrito if simbolo_escrito is not None else "B"}, {direccion}'
+                label = f'{simbolo[0] if simbolo[0] is not None else "B"}/{simbolo_escrito_en_cache if simbolo_escrito_en_cache is not None else "B"};{simbolo[1] if simbolo[1] is not None else "B"}/{simbolo_escrito if simbolo_escrito is not None else "B"},{direccion} '
                 dot.edge(estado, siguiente_estado, label=label)
 
+        # Crear el directorio para guardar el gráfico si no existe
         if not os.path.exists('graphs'):
             os.makedirs('graphs')
 
