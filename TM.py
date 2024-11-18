@@ -101,7 +101,7 @@ class TM:
             cinta_formateada = (
                 ''.join([str(item) if item is not None else 'B' for item in self.cinta[:self.posCabezal]]) +
                 f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
-                f"{simbolo_actual}"+                
+                f"{simbolo_actual if simbolo_actual is not None else 'B'}"+                
                 ''.join(self.cinta[self.posCabezal + 1:])
             )
             self.historial.append(f"|- {cinta_formateada}")

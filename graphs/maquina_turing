@@ -15,4 +15,13 @@ digraph {
 	1 -> 1 [label="b/b;b/b,R "]
 	1 -> 2 [label="a/a;#/#,R "]
 	1 -> 2 [label="b/b;#/#,R "]
+	2 -> 2 [label="a/a;X/X,R "]
+	2 -> 2 [label="b/b;X/X,R "]
+	2 -> 3 [label="a/B;a/X,L "]
+	2 -> 3 [label="b/B;b/X,L "]
+	3 -> 3 [label="B/B;X/X,L "]
+	3 -> 3 [label="B/B;#/#,L "]
+	3 -> 3 [label="B/B;a/a,L "]
+	3 -> 3 [label="B/B;b/b,L "]
+	3 -> 0 [label="B/B;B/B,R "]
 }
