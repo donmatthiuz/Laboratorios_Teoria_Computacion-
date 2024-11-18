@@ -9,4 +9,10 @@ digraph {
 	start -> 0
 	0 -> 1 [label="B/a;a/B,R "]
 	0 -> 1 [label="B/b;b/B,R "]
+	1 -> 1 [label="a/a;a/a,R "]
+	1 -> 1 [label="b/b;a/a,R "]
+	1 -> 1 [label="a/a;b/b,R "]
+	1 -> 1 [label="b/b;b/b,R "]
+	1 -> 2 [label="a/a;#/#,R "]
+	1 -> 2 [label="b/b;#/#,R "]
 }

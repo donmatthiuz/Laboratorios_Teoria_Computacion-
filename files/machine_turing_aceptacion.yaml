@@ -26,31 +26,75 @@ delta:
   - params:
       initial_state: '0'
       mem_cache_value: 
-      tape_input: 'w'
+      tape_input: 'a'
     output:
       final_state: '1'
-      mem_cache_value: 'w'
+      mem_cache_value: 'a'
+      tape_output: 
+      tape_displacement: R
+  - params:
+      initial_state: '0'
+      mem_cache_value:
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'b'
       tape_output: 
       tape_displacement: R
   - params:
       initial_state: '1'
-      mem_cache_value: 'w'
+      mem_cache_value: 'a'
       tape_input: 'a'
     output:
       final_state: '1'
-      mem_cache_value: 'w'
+      mem_cache_value: 'a'
       tape_output: 'a'
       tape_displacement: R
   - params:
       initial_state: '1'
-      mem_cache_value: 'w'
+      mem_cache_value: 'b'
       tape_input: 'a'
     output:
       final_state: '1'
-      mem_cache_value: 'w'
+      mem_cache_value: 'b'
       tape_output: 'a'
       tape_displacement: R
-  
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'a'
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'a'
+      tape_output: 'b'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'b'
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'b'
+      tape_output: 'b'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'a'
+      tape_input: '#'
+    output:
+      final_state: '2'
+      mem_cache_value: 'a'
+      tape_output: '#'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'b'
+      tape_input: '#'
+    output:
+      final_state: '2'
+      mem_cache_value: 'b'
+      tape_output: '#'
+      tape_displacement: R
 simulation_strings:
   - 'aab#aab'
   - 'ab#ab'

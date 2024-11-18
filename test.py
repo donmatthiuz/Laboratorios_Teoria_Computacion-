@@ -1,7 +1,7 @@
 from reader import Reader
 import yaml
 from TM import TM
-with open("files\caso_Base.yaml", "r") as file:
+with open("files\machine_turing_aceptacion.yaml", "r") as file:
     data = yaml.safe_load(file)
 lector = Reader(content=data)
 print(lector)
