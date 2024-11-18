@@ -42,15 +42,15 @@ class TM:
 
     def isValidString(self, cadena):
         """Valida si la cadena pertenece al alfabeto de entrada de la máquina."""
-        return all(symbol in self.alfabetoEntrada for symbol in cadena)
+        return all(symbol in self.alfabetoCinta for symbol in cadena)
 
     def isValidTransitions(self):
         """Valida si las transiciones cumplen con el alfabeto de la cinta y estados definidos."""
         for estado, trans in self.transiciones.items():
             if estado not in self.estados:
                 return False
-            for simbolo, (siguiente_estado, simbolo_escrito, _) in trans.items():
-                if simbolo not in self.alfabetoCinta or simbolo_escrito not in self.alfabetoCinta or siguiente_estado not in self.estados:
+            for simbolo, (siguiente_estado,cache_escrita, simbolo_escrito, _) in trans.items():
+                if simbolo[0] not in self.alfabetoCinta or simbolo[1] not in self.alfabetoCinta or simbolo_escrito not in self.alfabetoCinta or siguiente_estado not in self.estados:
                     return False
         return True
     
@@ -128,7 +128,7 @@ class TM:
         elif estado_actual == self.rechazo:
             result = "rechazo"
 
-        # Agregar la configuración final al historial si no hay bucle
+       
         if result != "bucle":
             simbolo_actual = self.cinta[self.posCabezal]
             cinta_formateada = (
@@ -150,7 +150,7 @@ class TM:
         """Genera un diagrama visual de la máquina de Turing usando Graphviz."""
         dot = Digraph(format='png', engine='dot')
 
-        # Agregar los nodos de los estados
+       
         for estado in self.estados:
             if estado == self.aceptacion:
                 dot.node(estado, shape='doublecircle', style='filled', color='lightgreen')
@@ -170,11 +170,11 @@ class TM:
                 label = f'{simbolo[0] if simbolo[0] is not None else "B"}/{simbolo_escrito_en_cache if simbolo_escrito_en_cache is not None else "B"};{simbolo[1] if simbolo[1] is not None else "B"}/{simbolo_escrito if simbolo_escrito is not None else "B"},{direccion} '
                 dot.edge(estado, siguiente_estado, label=label)
 
-        # Crear el directorio para guardar el gráfico si no existe
+       
         if not os.path.exists('graphs'):
             os.makedirs('graphs')
 
-        # Guardar el archivo de imagen PNG
+       
         file_path = 'graphs/maquina_turing'
         dot.render(file_path, view=False)
 
