@@ -34,12 +34,21 @@ delta:
       tape_displacement: R
   - params:
       initial_state: '1'
-      mem_cache_value: 
-      tape_input: 'w'
+      mem_cache_value: 'w'
+      tape_input: 'a'
     output:
       final_state: '1'
       mem_cache_value: 'w'
-      tape_output: 
+      tape_output: 'a'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'w'
+      tape_input: 'a'
+    output:
+      final_state: '1'
+      mem_cache_value: 'w'
+      tape_output: 'a'
       tape_displacement: R
   
 simulation_strings:
