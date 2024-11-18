@@ -55,13 +55,14 @@ class TM:
         return True
     
     def imprimir_tabla_transiciones(self):
-        print(f"{'Estado':<10}{'Símbolo':<10}{'Siguiente Estado':<20}{'Símbolo Escrito':<20}{'Dirección'}")
-        print("-" * 70)
+        print(f"{'Estado':<10}{'Cache':<7}{'Símbolo':<10}{'Siguiente Estado':<20}{'Cache':<7}{'Símbolo Escrito':<20}{'Dirección'}")
+        print("-" * 80)
         
         for estado in self.transiciones:
             for simbolo in self.transiciones[estado]:
-                siguiente_estado, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
-                print(f"{estado:<10}{simbolo:<10}{siguiente_estado:<20}{simbolo_escrito:<20}{direccion}")
+                siguiente_estado, cache_escrita, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
+                print(f"{estado:<10}{simbolo[0] if simbolo[0] is not None else 'B':<7}{simbolo[1] if simbolo[1] is not None else 'B':<10}{siguiente_estado:<20}{cache_escrita:<7}{simbolo_escrito[1] if simbolo_escrito and simbolo_escrito[1] is not None else 'B':<20}{direccion}")
+
 
     def simulate(self, cadena, cintaConfiguration=[], positionCabezal=0):
         """
