@@ -42,6 +42,15 @@ delta:
       tape_output: 
       tape_displacement: R
   - params:
+      initial_state: '0'
+      mem_cache_value:
+      tape_input: '#'
+    output:
+      final_state: '4'
+      mem_cache_value: 
+      tape_output: '#'
+      tape_displacement: R
+  - params:
       initial_state: '1'
       mem_cache_value: 'a'
       tape_input: 'a'
@@ -182,6 +191,24 @@ delta:
       tape_input: 
     output:
       final_state: '0'
+      mem_cache_value: 
+      tape_output: 
+      tape_displacement: R
+  - params:
+      initial_state: '4'
+      mem_cache_value: 
+      tape_input: 'X'
+    output:
+      final_state: '4'
+      mem_cache_value: 
+      tape_output: 'X'
+      tape_displacement: R
+  - params:
+      initial_state: '4'
+      mem_cache_value: 
+      tape_input: 
+    output:
+      final_state: '5'
       mem_cache_value: 
       tape_output: 
       tape_displacement: R
