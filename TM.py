@@ -1,32 +1,6 @@
 import os
 from graphviz import Digraph
-from reader import Reader
 class TM:
-    """
-    Clase para simular una Máquina de Turing determinista.
-    
-    Parámetros:
-        estados (list): Lista de estados de la máquina.
-        alfabetoEntrada (list): Lista de símbolos del alfabeto de entrada.
-        alfabetoCinta (list): Lista de símbolos del alfabeto de la cinta.
-        q0 (str): Estado inicial.
-        aceptacion (str): Estado de aceptación.
-        rechazo (str): Estado de rechazo.
-        transiciones (dict): Diccionario de transiciones con formato {estado: {simbolo: [siguiente_estado, simbolo_escrito, direccion]}}.
-
-    Ejemplo de configuración:
-        estados = ['q0', 'q1', 'q2', 'q3', 'q4']
-        alfabetoEntrada = ['0', '1']
-        alfabetoCinta = ['0', '1', 'B']
-        q0 = 'q0'
-        aceptacion = 'q4'
-        rechazo = 'q3'
-        transiciones = {
-            'q0': {'0': ['q1', '0', 'R'], '1': ['q3', '1', 'R']},
-            'q1': {'0': ['q1', '0', 'R'], '1': ['q2', '1', 'R']},
-            'q2': {'0': ['q2', '0', 'R'], '1': ['q2', '1', 'R'], 'B': ['q4', 'B', 'R']}
-        }
-    """
 
     def __init__(self,  lector):
         self.estados = lector.estados
@@ -40,11 +14,11 @@ class TM:
         self.posCabezal = 0
         self.historial = []
 
-    def isValidString(self, cadena):
+    def validar_Cadena(self, cadena):
         """Valida si la cadena pertenece al alfabeto de entrada de la máquina."""
         return all(symbol in self.alfabetoCinta for symbol in cadena)
 
-    def isValidTransitions(self):
+    def Comprobar_Transiciones(self):
         """Valida si las transiciones cumplen con el alfabeto de la cinta y estados definidos."""
         for estado, trans in self.transiciones.items():
             if estado not in self.estados:
@@ -54,32 +28,11 @@ class TM:
                     return False
         return True
     
-    def imprimir_tabla_transiciones(self):
-        print(f"{'Estado':<10}{'Cache':<7}{'Símbolo':<10}{'Siguiente Estado':<20}{'Cache':<7}{'Símbolo Escrito':<20}{'Dirección'}")
-        print("-" * 80)
-        
-        for estado in self.transiciones:
-            for simbolo in self.transiciones[estado]:
-                siguiente_estado, cache_escrita, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
-                print(f"{estado:<10}{simbolo[0] if simbolo[0] is not None else 'B':<7}{simbolo[1] if simbolo[1] is not None else 'B':<10}{siguiente_estado:<20}{cache_escrita:<7}{simbolo_escrito[1] if simbolo_escrito and simbolo_escrito[1] is not None else 'B':<20}{direccion}")
-
 
     def simulate(self, cadena, cintaConfiguration=[], positionCabezal=0):
-        """
-        Ejecuta la simulación de la máquina de Turing con la cadena de entrada.
-        
-        Args:
-            cadena (str): La cadena de entrada a procesar.
-            cintaConfiguration (list): Configuración inicial de la cinta.
-            positionCabezal (int): Posición inicial del cabezal.
-        
-        Returns:
-            result (str): Resultado de la simulación ('aceptado', 'rechazo' o 'rechazo').
-            historial (list): Registro paso a paso de la simulación.
-        """
-        if not self.isValidString(cadena):
+        if not self.validar_Cadena(cadena):
             return "Error: Cadena contiene símbolos fuera del alfabeto de entrada.", []
-        if not self.isValidTransitions():
+        if not self.Comprobar_Transiciones():
             return "Error: Las transiciones son inválidas.", []
         
         result = ""

@@ -2,31 +2,6 @@ import os
 from graphviz import Digraph
 from reader import Reader
 class TM:
-    """
-    Clase para simular una Máquina de Turing determinista.
-    
-    Parámetros:
-        estados (list): Lista de estados de la máquina.
-        alfabetoEntrada (list): Lista de símbolos del alfabeto de entrada.
-        alfabetoCinta (list): Lista de símbolos del alfabeto de la cinta.
-        q0 (str): Estado inicial.
-        aceptacion (str): Estado de aceptación.
-        rechazo (str): Estado de rechazo.
-        transiciones (dict): Diccionario de transiciones con formato {estado: {simbolo: [siguiente_estado, simbolo_escrito, direccion]}}.
-
-    Ejemplo de configuración:
-        estados = ['q0', 'q1', 'q2', 'q3', 'q4']
-        alfabetoEntrada = ['0', '1']
-        alfabetoCinta = ['0', '1', 'B']
-        q0 = 'q0'
-        aceptacion = 'q4'
-        rechazo = 'q3'
-        transiciones = {
-            'q0': {'0': ['q1', '0', 'R'], '1': ['q3', '1', 'R']},
-            'q1': {'0': ['q1', '0', 'R'], '1': ['q2', '1', 'R']},
-            'q2': {'0': ['q2', '0', 'R'], '1': ['q2', '1', 'R'], 'B': ['q4', 'B', 'R']}
-        }
-    """
 
     def __init__(self,  lector):
         self.estados = lector.estados
@@ -65,18 +40,7 @@ class TM:
 
 
     def simulate(self, cadena, cintaConfiguration=[], positionCabezal=0):
-        """
-        Ejecuta la simulación de la máquina de Turing con la cadena de entrada.
-        
-        Args:
-            cadena (str): La cadena de entrada a procesar.
-            cintaConfiguration (list): Configuración inicial de la cinta.
-            positionCabezal (int): Posición inicial del cabezal.
-        
-        Returns:
-            result (str): Resultado de la simulación ('aceptado', 'rechazo' o 'bucle').
-            historial (list): Registro paso a paso de la simulación.
-        """
+
         if not self.isValidString(cadena):
             return "Error: Cadena contiene símbolos fuera del alfabeto de entrada.", []
         if not self.isValidTransitions():
