@@ -74,7 +74,7 @@ class TM:
             positionCabezal (int): Posición inicial del cabezal.
         
         Returns:
-            result (str): Resultado de la simulación ('aceptado', 'rechazo' o 'bucle').
+            result (str): Resultado de la simulación ('aceptado', 'rechazo' o 'rechazo').
             historial (list): Registro paso a paso de la simulación.
         """
         if not self.isValidString(cadena):
@@ -86,7 +86,7 @@ class TM:
         estado_actual = self.q0
         cache_actual = None
         self.historial = []  # Reiniciar historial en cada simulación
-        isBucle = False  # Flag para controlar el bucle
+        isReject = False  # Flag para controlar el rechazo
 
         # Usar la configuración de la cinta si se proporciona, de lo contrario, usa la cadena
         self.cinta = cintaConfiguration if cintaConfiguration else list(cadena) + [None] * (self.size_cinta - len(cadena))
@@ -94,7 +94,7 @@ class TM:
         # Asignar la posición del cabezal dependiendo de si se pasó una configuración de la cinta
         self.posCabezal = positionCabezal if cintaConfiguration else 0
 
-        while not isBucle and (estado_actual != self.aceptacion):
+        while not isReject and (estado_actual != self.aceptacion):
             simbolo_actual = self.cinta[self.posCabezal]
 
             # Formatear la cinta con el estado y el símbolo en la posición del cabezal
@@ -106,11 +106,11 @@ class TM:
             )
             self.historial.append(f"|- {cinta_formateada}")
         
-            # Detectar bucle verificando si la transición no existe
+            # Detectar rechazo verificando si la transición no existe
             if (cache_actual,simbolo_actual) not in self.transiciones.get(estado_actual, {}):
-                result = "bucle"
-                self.historial.append(f"|- [{estado_actual}] - No tiene transición para [{simbolo_actual}], se detectó un bucle")
-                isBucle = True
+                result = "rechazo"
+                self.historial.append(f"|- [{estado_actual}] - No tiene transición para [{simbolo_actual}], la cadena se rechaza")
+                isReject = True
                 continue
 
             # Obtener la transición y actualizar la cinta, estado y cabezal
@@ -131,12 +131,12 @@ class TM:
             elif self.posCabezal >= len(self.cinta):
                 self.cinta.append(None)
 
-        # Determinar el resultado final si no es un bucle
+        # Determinar el resultado final si no es un rechazo
         if estado_actual == self.aceptacion:
             result = "aceptado"
 
        
-        if result != "bucle":
+        if result != "rechazo":
             simbolo_actual = self.cinta[self.posCabezal]
             cinta_formateada = (
                 ''.join([str(item) if item is not None else 'B' for item in self.cinta[:self.posCabezal]]) +
@@ -219,7 +219,7 @@ transiciones = {
 # maquina = TM(lector=read)
 
 # # Ejecutar la simulación
-# result, historial = maquina.simulate(read.cadena) #11 rechazo, 01 aceptado, 00 bucle (con 00, si se borra transiciones de q1 -> bucle, si se borra trasicion de q1 leyendo 0 -> bucle)
+# result, historial = maquina.simulate(read.cadena) #11 rechazo, 01 aceptado, 00 rechazo (con 00, si se borra transiciones de q1 -> rechazo, si se borra trasicion de q1 leyendo 0 -> rechazo)
 # print(f"El resultado es \"{result}\".\nLos pasos de la MT son:")
 
 # # Imprimir el historial de pasos

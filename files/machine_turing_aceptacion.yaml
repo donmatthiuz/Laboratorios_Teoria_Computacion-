@@ -215,4 +215,4 @@ delta:
 simulation_strings:
   - 'aab#aab'
   - 'ab#ab'
-  - 'abbababa#aba'
+  - 'abb#aab'
