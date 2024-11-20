@@ -1,0 +1,226 @@
+# turing_machine_config_alternate.yaml
+
+# States
+q_states:
+  q_list:
+    - "q0"
+    - "q1"
+    - "q2"
+    - "q3"
+    - "q4"
+    - "q5"
+    - "q6"
+    - "q7"
+    - "q8"
+  initial: "q0"
+  final: "q5"
+
+# Alphabets
+alphabet:
+  - "0"
+  - "1"
+tape_alphabet:
+  - "#"
+  - "X"
+  - "0"
+  - "1"
+
+# Cache Configuration
+cache:
+  cache_enabled: true
+  cache_memory: []
+
+# Transition Function
+delta:
+  # Estado q0 - Cruzar 0 o 1 desde la izquierda
+  - params:
+      initial_state: "q0"
+      mem_cache_value:
+      tape_input: "0"
+    output:
+      final_state: "q2"
+      mem_cache_value: "0"
+      tape_output: "X"
+      tape_displacement: R
+  - params:
+      initial_state: "q0"
+      mem_cache_value:
+      tape_input: "1"
+    output:
+      final_state: "q1"
+      mem_cache_value: "1"
+      tape_output: "X"
+      tape_displacement: R
+  - params:
+      initial_state: "q0"
+      mem_cache_value:
+      tape_input: "#"
+    output:
+      final_state: "q5"
+      mem_cache_value:
+      tape_output: "#"
+      tape_displacement: R
+  - params:
+      initial_state: "q0"
+      mem_cache_value:
+      tape_input: "X"
+    output:
+      final_state: "q0"
+      mem_cache_value:
+      tape_output: "X"
+      tape_displacement: R
+
+  # Estado q1 - Buscar pareja de 1 a la derecha
+  - params:
+      initial_state: "q1"
+      mem_cache_value: "1"
+      tape_input: "1"
+    output:
+      final_state: "q1"
+      mem_cache_value: "1"
+      tape_output: "1"
+      tape_displacement: R
+  - params:
+      initial_state: "q1"
+      mem_cache_value: "1"
+      tape_input: "0"
+    output:
+      final_state: "q1"
+      mem_cache_value: "1"
+      tape_output: "0"
+      tape_displacement: R
+  - params:
+      initial_state: "q1"
+      mem_cache_value: "1"
+      tape_input: "#"
+    output:
+      final_state: "q3"
+      mem_cache_value: "#"
+      tape_output: "#"
+      tape_displacement: R
+
+  # Estado q2 - Buscar pareja de 0 a la derecha
+  - params:
+      initial_state: "q2"
+      mem_cache_value: "0"
+      tape_input: "1"
+    output:
+      final_state: "q2"
+      mem_cache_value: "0"
+      tape_output: "1"
+      tape_displacement: R
+  - params:
+      initial_state: "q2"
+      mem_cache_value: "0"
+      tape_input: "0"
+    output:
+      final_state: "q2"
+      mem_cache_value: "0"
+      tape_output: "0"
+      tape_displacement: R
+  - params:
+      initial_state: "q2"
+      mem_cache_value: "0"
+      tape_input: "#"
+    output:
+      final_state: "q4"
+      mem_cache_value: "#"
+      tape_output: "#"
+      tape_displacement: R
+
+  # Estado q3 - Cruzar 1 correspondiente a la derecha
+  - params:
+      initial_state: "q3"
+      mem_cache_value:
+      tape_input: "1"
+    output:
+      final_state: "q6"
+      mem_cache_value: "1"
+      tape_output: "X"
+      tape_displacement: L
+  - params:
+      initial_state: "q3"
+      mem_cache_value:
+      tape_input: "X"
+    output:
+      final_state: "q3"
+      mem_cache_value: "X"
+      tape_output: "X"
+      tape_displacement: R
+
+  # Estado q4 - Cruzar 0 correspondiente a la derecha
+  - params:
+      initial_state: "q4"
+      mem_cache_value:
+      tape_input: "0"
+    output:
+      final_state: "q6"
+      mem_cache_value: "0"
+      tape_output: "X"
+      tape_displacement: L
+  - params:
+      initial_state: "q4"
+      mem_cache_value:
+      tape_input: "X"
+    output:
+      final_state: "q4"
+      mem_cache_value: "X"
+      tape_output: "X"
+      tape_displacement: R
+
+  # Estado q6 - Rebobinar hasta encontrar '#'
+  - params:
+      initial_state: "q6"
+      mem_cache_value:
+      tape_input: "#"
+    output:
+      final_state: "q7"
+      mem_cache_value: "#"
+      tape_output: "#"
+      tape_displacement: L
+  - params:
+      initial_state: "q6"
+      mem_cache_value:
+      tape_input: "X"
+    output:
+      final_state: "q6"
+      mem_cache_value: "X"
+      tape_output: "X"
+      tape_displacement: L
+
+  # Estado q7 - Regresar al estado inicial
+  - params:
+      initial_state: "q7"
+      mem_cache_value:
+      tape_input: "#"
+    output:
+      final_state: "q0"
+      mem_cache_value: "#"
+      tape_output: "#"
+      tape_displacement: R
+
+  # Estado q8 - Verificar si todo fue cruzado y aceptar
+  - params:
+      initial_state: "q8"
+      mem_cache_value:
+      tape_input: "X"
+    output:
+      final_state: "q8"
+      mem_cache_value: "X"
+      tape_output: "X"
+      tape_displacement: R
+  - params:
+      initial_state: "q8"
+      mem_cache_value:
+      tape_input: "#"
+    output:
+      final_state: "q5"
+      mem_cache_value: "#"
+      tape_output: "#"
+      tape_displacement: R
+
+simulation_strings:
+  - "0011"
+  - "1100"
+  - "0101"
+  - "0110"
