@@ -44,7 +44,7 @@ digraph {
 	2 -> 3 [label="b/b;B/B,R "]
 	2 -> 3 [label="c/c;B/B,R "]
 	2 -> 2 [label="./.;B/B,R "]
-	2 -> 5 [label="./B;|/.,L "]
+	2 -> 5 [label="./B;|/.,S "]
 	3 -> 3 [label="a/a;B/B,R "]
 	3 -> 3 [label="b/b;B/B,R "]
 	3 -> 3 [label="c/c;B/B,R "]

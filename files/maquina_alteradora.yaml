@@ -407,7 +407,7 @@ delta:
       final_state: '5'
       mem_cache_value:  
       tape_output: '.'
-      tape_displacement: L
+      tape_displacement: S
 
   #transiciones q3
   - params:
