@@ -17,8 +17,8 @@ with st.container():
             content = yaml.safe_load(uploaded_file)
             lector = Reader(content=content)
             maquina = TM(lector=lector)
-            result, historial = maquina.simulate(lector.cadena)
-            re= f"De la cadena \"{lector.cadena}\" se llego al estado de: \"{result}\""
+            result, historial = maquina.simulate(lector.cadenas)
+            re= f"De la cadena \"{lector.cadenas}\" se llego al estado de: \"{result}\""
             st.subheader('Resultado cadena')
             if result == "rechazo":
                 st.error(re)
@@ -37,7 +37,7 @@ with st.container():
             maquina.graph()
             st.image('./graphs/maquina_turing.png')
 
-            txt_content = f"CONFIGURACIONES MAQUINA DE TURING\nCadena: {lector.cadena}\nConfiguraciones:\n" + pasos_show
+            txt_content = f"CONFIGURACIONES MAQUINA DE TURING\nCadena: {lector.cadenas}\nConfiguraciones:\n" + pasos_show
             st.download_button(
                 label="Descargar archivo de configuraciones",
                 data=txt_content,
