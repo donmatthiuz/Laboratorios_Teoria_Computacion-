@@ -1,30 +1,19 @@
 digraph {
-	0 [shape=doublecircle style=filled]
-	1
-	2
-	3
-	4
-	5 [color=lightgreen shape=doublecircle style=filled]
+	q0 [shape=doublecircle style=filled]
+	q1
+	q2
+	q3 [color=lightgreen shape=doublecircle style=filled]
 	start [shape=point width=0]
-	start -> 0
-	0 -> 1 [label="B/a;a/B,R "]
-	0 -> 1 [label="B/b;b/B,R "]
-	0 -> 4 [label="B/B;#/#,R "]
-	1 -> 1 [label="a/a;a/a,R "]
-	1 -> 1 [label="b/b;a/a,R "]
-	1 -> 1 [label="a/a;b/b,R "]
-	1 -> 1 [label="b/b;b/b,R "]
-	1 -> 2 [label="a/a;#/#,R "]
-	1 -> 2 [label="b/b;#/#,R "]
-	2 -> 2 [label="a/a;X/X,R "]
-	2 -> 2 [label="b/b;X/X,R "]
-	2 -> 3 [label="a/B;a/X,L "]
-	2 -> 3 [label="b/B;b/X,L "]
-	3 -> 3 [label="B/B;X/X,L "]
-	3 -> 3 [label="B/B;#/#,L "]
-	3 -> 3 [label="B/B;a/a,L "]
-	3 -> 3 [label="B/B;b/b,L "]
-	3 -> 0 [label="B/B;B/B,R "]
-	4 -> 4 [label="B/B;X/X,R "]
-	4 -> 5 [label="B/B;B/B,R "]
+	start -> q0
+	q0 -> q2 [label="B/0;0/X,R "]
+	q0 -> q1 [label="B/1;1/X,R "]
+	q0 -> q0 [label="B/B;X/X,R "]
+	q1 -> q1 [label="1/X;1/1,R "]
+	q1 -> q1 [label="1/1;0/0,R "]
+	q1 -> q3 [label="X/B;B/B,R "]
+	q1 -> q2 [label="X/0;0/X,R "]
+	q2 -> q2 [label="0/0;1/1,R "]
+	q2 -> q2 [label="0/X;0/0,R "]
+	q2 -> q1 [label="X/1;1/X,R "]
+	q2 -> q3 [label="X/B;B/B,R "]
 }

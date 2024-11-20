@@ -1,0 +1,188 @@
+# turing_machine_config.yaml
+
+# States
+q_states:
+  q_list:
+    - '0'
+    - '1'
+    - '2'
+
+  initial: '0'
+  final: '2'
+
+# Alphabets
+alphabet:
+  - 'a'
+  - 'b'
+  - 'c'
+tape_alphabet:
+  - X
+  - 
+
+# Transition Function
+delta:
+  - params:
+      initial_state: '0'
+      mem_cache_value: 
+      tape_input: 'a'
+    output:
+      final_state: '1'
+      mem_cache_value: 'a'
+      tape_output: 'a'
+      tape_displacement: R
+  - params:
+      initial_state: '0'
+      mem_cache_value: 
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'b'
+      tape_output: 'b'
+      tape_displacement: R
+  - params:
+      initial_state: '0'
+      mem_cache_value: 
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'b'
+      tape_output: 'b'
+      tape_displacement: R
+  - params:
+      initial_state: '0'
+      mem_cache_value: 
+      tape_input: 'c'
+    output:
+      final_state: '1'
+      mem_cache_value: 'c'
+      tape_output: 'c'
+      tape_displacement: R
+  - params:
+      initial_state: '0'
+      mem_cache_value: 
+      tape_input: 'c'
+    output:
+      final_state: '1'
+      mem_cache_value: 'c'
+      tape_output: 'c'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'a'
+      tape_input: 'a'
+    output:
+      final_state: '1'
+      mem_cache_value: 'a'
+      tape_output: X
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'b'
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'b'
+      tape_output: 
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'c'
+      tape_input: 'c'
+    output:
+      final_state: '1'
+      mem_cache_value: 'c'
+      tape_output: 
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'c'
+      tape_input: 'c'
+    output:
+      final_state: '1'
+      mem_cache_value: 'c'
+      tape_output: 
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'a'
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'b'
+      tape_output: 'b'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'a'
+      tape_input: 'c'
+    output:
+      final_state: '1'
+      mem_cache_value: 'c'
+      tape_output: 'c'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'b'
+      tape_input: 'a'
+    output:
+      final_state: '1'
+      mem_cache_value: 'a'
+      tape_output: 'a'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'b'
+      tape_input: 'c'
+    output:
+      final_state: '1'
+      mem_cache_value: 'c'
+      tape_output: 'c'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'c'
+      tape_input: 'a'
+    output:
+      final_state: '1'
+      mem_cache_value: 'a'
+      tape_output: 'a'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'c'
+      tape_input: 'b'
+    output:
+      final_state: '1'
+      mem_cache_value: 'b'
+      tape_output: 'b'
+      tape_displacement: R
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'a'
+      tape_input: 
+    output:
+      final_state: '2'
+      mem_cache_value: 
+      tape_output: 
+      tape_displacement: S
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'b'
+      tape_input: 
+    output:
+      final_state: '2'
+      mem_cache_value: 
+      tape_output: 
+      tape_displacement: S
+  - params:
+      initial_state: '1'
+      mem_cache_value: 'c'
+      tape_input: 
+    output:
+      final_state: '2'
+      mem_cache_value: 
+      tape_output: 
+      tape_displacement: S
+simulation_strings:
+  - 'bbbaacc'
+  
