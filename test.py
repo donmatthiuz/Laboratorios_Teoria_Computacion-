@@ -11,7 +11,7 @@ tm = TM(lector=lector)
 print(tm)
 print(tm.transiciones)
 tm.graph()
-valor, historial = tm.simulate(lector.cadenas[0])
+valor, historial = tm.simulate(lector.cadenas[3])
 
 
 for p in historial:

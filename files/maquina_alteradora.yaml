@@ -238,6 +238,24 @@ delta:
       tape_displacement: L
   - params:
       initial_state: '2'
+      mem_cache_value: 'a'
+      tape_input: '|'
+    output:
+      final_state: '4'
+      mem_cache_value: 'a'
+      tape_output: '|'
+      tape_displacement: R
+  - params:
+      initial_state: '2'
+      mem_cache_value: 'b'
+      tape_input: '|'
+    output:
+      final_state: '4'
+      mem_cache_value: 'b'
+      tape_output: '|'
+      tape_displacement: R
+  - params:
+      initial_state: '2'
       mem_cache_value: 
       tape_input: 'c'
     output:
@@ -319,6 +337,24 @@ delta:
       tape_displacement: R
   - params:
       initial_state: '2'
+      mem_cache_value: 'c'
+      tape_input: 'a'
+    output:
+      final_state: '3'
+      mem_cache_value: 'c' 
+      tape_output: 'a'
+      tape_displacement: R
+  - params:
+      initial_state: '2'
+      mem_cache_value: 'c'
+      tape_input: 'b'
+    output:
+      final_state: '3'
+      mem_cache_value: 'c' 
+      tape_output: 'b'
+      tape_displacement: R
+  - params:
+      initial_state: '2'
       mem_cache_value: 'a'
       tape_input: 'c'
     output:
@@ -344,6 +380,7 @@ delta:
       mem_cache_value: 'b' 
       tape_output: 
       tape_displacement: R
+
   - params:
       initial_state: '2'
       mem_cache_value: 'c'
@@ -370,7 +407,7 @@ delta:
       final_state: '5'
       mem_cache_value:  
       tape_output: '.'
-      tape_displacement: R
+      tape_displacement: L
 
   #transiciones q3
   - params:
@@ -563,7 +600,46 @@ delta:
       mem_cache_value: 
       tape_output: 'a'
       tape_displacement: L
+  - params:
+      initial_state: '4'
+      mem_cache_value: 'b'
+      tape_input: 'a'
+    output:
+      final_state: '4'
+      mem_cache_value: 'b'
+      tape_output: 'a'
+      tape_displacement: R
+  - params:
+      initial_state: '4'
+      mem_cache_value: 'a'
+      tape_input: 'c'
+    output:
+      final_state: '4'
+      mem_cache_value: 'a'
+      tape_output: 'c'
+      tape_displacement: R
+  - params:
+      initial_state: '4'
+      mem_cache_value: 'b'
+      tape_input: 'c'
+    output:
+      final_state: '4'
+      mem_cache_value: 'b'
+      tape_output: 'c'
+      tape_displacement: R
+  - params:
+      initial_state: '4'
+      mem_cache_value: 
+      tape_input: 'c'
+    output:
+      final_state: '4'
+      mem_cache_value: 
+      tape_output: 'c'
+      tape_displacement: L
   
 simulation_strings:
   - '.bbaacccc|'
+  - '.aaaaabbb|'
+  - '.abbbbccc|'
+  - '.caaaab|'
   
