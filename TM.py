@@ -4,114 +4,104 @@ class TM:
 
     def __init__(self,  lector):
         self.estados = lector.estados
-        self.alfabetoEntrada = lector.alfabeto
+        self.alfabeto = lector.alfabeto
         self.alfabetoCinta = lector.tape_alphabet
         self.q0 = lector.q0
         self.aceptacion = lector.aceptacion
         self.transiciones = lector.transiciones
-        self.size_cinta = 8
-        self.cinta = []
-        self.posCabezal = 0
-        self.historial = []
+        self.tamano_cinta = 8
+        self.tape = []
+        self.cabezal = 0
+        self.ids = []
 
     def validar_Cadena(self, cadena):
-        """Valida si la cadena pertenece al alfabeto de entrada de la máquina."""
         return all(symbol in self.alfabetoCinta for symbol in cadena)
 
     def Comprobar_Transiciones(self):
-        """Valida si las transiciones cumplen con el alfabeto de la cinta y estados definidos."""
         for estado, trans in self.transiciones.items():
             if estado not in self.estados:
                 return False
-            for simbolo, (siguiente_estado,cache_escrita, simbolo_escrito, _) in trans.items():
-                if simbolo[0] not in self.alfabetoCinta or simbolo[1] not in self.alfabetoCinta or simbolo_escrito not in self.alfabetoCinta or siguiente_estado not in self.estados:
+            for simbolo, (next_state,cache_escrita, simbolo_escrito, _) in trans.items():
+                if simbolo[0] not in self.alfabetoCinta or simbolo[1] not in self.alfabetoCinta or simbolo_escrito not in self.alfabetoCinta or next_state not in self.estados:
                     return False
         return True
     
 
-    def simulate(self, cadena, cintaConfiguration=[], positionCabezal=0):
+    def simular(self, cadena, cintaConfiguration=[], positionCabezal=0):
         if not self.validar_Cadena(cadena):
-            return "Error: Cadena contiene símbolos fuera del alfabeto de entrada.", []
+            return "Error: Cadena contiene símbolos que no son del alfabeto.", []
         if not self.Comprobar_Transiciones():
-            return "Error: Las transiciones son inválidas.", []
+            return "Error: Las transiciones no pertenecen al lenguaje", []
         
         result = ""
         estado_actual = self.q0
         cache_actual = None
-        self.historial = []  # Reiniciar historial en cada simulación
-        isReject = False  # Flag para controlar el rechazo
+        self.ids = []
+        isReject = False 
 
-        # Usar la configuración de la cinta si se proporciona, de lo contrario, usa la cadena
-        self.cinta = cintaConfiguration if cintaConfiguration else list(cadena) + [None] * (self.size_cinta - len(cadena))
 
-        # Asignar la posición del cabezal dependiendo de si se pasó una configuración de la cinta
-        self.posCabezal = positionCabezal if cintaConfiguration else 0
+        self.tape = cintaConfiguration if cintaConfiguration else list(cadena) + [None] * (self.tamano_cinta - len(cadena))
+
+
+        self.cabezal = positionCabezal if cintaConfiguration else 0
 
         while not isReject and (estado_actual != self.aceptacion):
-            simbolo_actual = self.cinta[self.posCabezal]
+            simbolo_actual = self.tape[self.cabezal]
 
-            # Formatear la cinta con el estado y el símbolo en la posición del cabezal
-            cinta_formateada = (
-                ''.join([str(item) if item is not None else 'B' for item in self.cinta[:self.posCabezal]]) +
+
+            id = (
+                ''.join([str(item) if item is not None else 'B' for item in self.tape[:self.cabezal]]) +
                 f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
                 f"{simbolo_actual if simbolo_actual is not None else 'B'}"+
-                ''.join([str(item) if item is not None else 'B' for item in self.cinta[self.posCabezal + 1:]])
+                ''.join([str(item) if item is not None else 'B' for item in self.tape[self.cabezal + 1:]])
             )
-            self.historial.append(f"|- {cinta_formateada}")
+            self.ids.append(f"- {id}")
         
-            # Detectar rechazo verificando si la transición no existe
+
             if (cache_actual,simbolo_actual) not in self.transiciones.get(estado_actual, {}):
                 result = "rechazo"
-                self.historial.append(f"|- [{estado_actual}] - No tiene transición para [{simbolo_actual}], la cadena se rechaza")
+                self.ids.append(f"- [{estado_actual}] - No tiene transición para [{simbolo_actual}], la cadena se rechaza")
                 isReject = True
                 continue
 
-            # Obtener la transición y actualizar la cinta, estado y cabezal
-            siguiente_estado, cache_siguiente, simbolo_escrito, direccion = self.transiciones[estado_actual][(cache_actual,simbolo_actual)]
-            self.cinta[self.posCabezal] = simbolo_escrito
+
+            next_state, cache_siguiente, simbolo_escrito, direccion = self.transiciones[estado_actual][(cache_actual,simbolo_actual)]
+            self.tape[self.cabezal] = simbolo_escrito
             cache_actual = cache_siguiente
-            estado_actual = siguiente_estado
+            estado_actual = next_state
             if direccion == 'R':
-                self.posCabezal += 1
+                self.cabezal += 1
             elif direccion == 'L':
-                self.posCabezal -= 1
+                self.cabezal -= 1
             elif direccion == 'S':
-                self.posCabezal = self.posCabezal
+                self.cabezal = self.cabezal
 
-            # Asegurar que el cabezal no se salga de la cinta
-            if self.posCabezal < 0:
-                self.posCabezal = 0
-            elif self.posCabezal >= len(self.cinta):
-                self.cinta.append(None)
 
-        # Determinar el resultado final si no es un rechazo
+            if self.cabezal < 0:
+                self.cabezal = 0
+            elif self.cabezal >= len(self.tape):
+                self.tape.append(None)
+
+
         if estado_actual == self.aceptacion:
             result = "aceptado"
 
        
         if result != "rechazo":
-            simbolo_actual = self.cinta[self.posCabezal]
-            cinta_formateada = (
-                ''.join([str(item) if item is not None else 'B' for item in self.cinta[:self.posCabezal]]) +
+            simbolo_actual = self.tape[self.cabezal]
+            id = (
+                ''.join([str(item) if item is not None else 'B' for item in self.tape[:self.cabezal]]) +
                 f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
                 f"{simbolo_actual if simbolo_actual is not None else 'B'}"+
-                ''.join([str(item) if item is not None else 'B' for item in self.cinta[self.posCabezal + 1:]])
+                ''.join([str(item) if item is not None else 'B' for item in self.tape[self.cabezal + 1:]])
             )
-            self.historial.append(f"|- {cinta_formateada}")
+            self.ids.append(f"- {id}")
 
-        return result, self.historial
+        return result, self.ids, self.tape
 
-    def writeInTXT(self):
-        """Escribe el historial de la simulación en un archivo de texto."""
-        with open('historial.txt', 'w') as f:
-            for paso in self.historial:
-                f.write(paso + '\n')
-
-    def graph(self):
-        """Genera un diagrama visual de la máquina de Turing usando Graphviz."""
+    def graficar(self):
         dot = Digraph(format='png', engine='dot')
 
-       
         for estado in self.estados:
             if estado == self.aceptacion:
                 dot.node(estado, shape='doublecircle', style='filled', color='lightgreen')
@@ -127,64 +117,16 @@ class TM:
 
         for estado in self.transiciones:
             for simbolo in self.transiciones[estado]:
-                siguiente_estado, simbolo_escrito_en_cache, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
+                next_state, simbolo_escrito_en_cache, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
                 label = f'{simbolo[0] if simbolo[0] is not None else "B"}/{simbolo_escrito_en_cache if simbolo_escrito_en_cache is not None else "B"};{simbolo[1] if simbolo[1] is not None else "B"}/{simbolo_escrito if simbolo_escrito is not None else "B"},{direccion} '
-                dot.edge(estado, siguiente_estado, label=label)
+                dot.edge(estado, next_state, label=label)
 
        
-        if not os.path.exists('graphs'):
-            os.makedirs('graphs')
+        if not os.path.exists('graficas'):
+            os.makedirs('graficas')
 
        
-        file_path = 'graphs/maquina_turing'
+        file_path = 'graficas/maquina_turing'
         dot.render(file_path, view=False)
 
-        print(f"Grafo de la máquina de Turing generado y guardado en {file_path}.png.")
-
-
-# EJEMPLO DE USO
-
-# Crear instancia de la clase TM con los parámetros
-estados = ['q0', 'q1', 'q2', 'q3', 'q4']
-alfabetoEntrada = ['0', '1']
-alfabetoCinta = ['0', '1', 'B']
-q0 = 'q0'
-aceptacion = 'q4'
-rechazo = 'q3'
-transiciones = {
-    'q0': {
-        '0': ['q1', '0', 'R'], 
-        '1': ['q3', '1', 'R']
-    },
-    'q1': {
-        '0': ['q1', '0', 'R'], 
-        '1': ['q2', '1', 'R']
-    },
-    'q2': {
-        '0': ['q2', '0', 'R'], 
-        '1': ['q2', '1', 'R'], 
-        'B': ['q4', 'B', 'R']
-    }
-}
-
-
-# read = Reader('Proyecto4\\files\\turing_machine.yaml')
-# maquina = TM(lector=read)
-
-# # Ejecutar la simulación
-# result, historial = maquina.simulate(read.cadena) #11 rechazo, 01 aceptado, 00 rechazo (con 00, si se borra transiciones de q1 -> rechazo, si se borra trasicion de q1 leyendo 0 -> rechazo)
-# print(f"El resultado es \"{result}\".\nLos pasos de la MT son:")
-
-# # Imprimir el historial de pasos
-# for paso in historial:
-#     print(paso)
-
-
-# # # Llamar al método para imprimir la tabla de transiciones
-# # maquina.imprimir_tabla_transiciones()
-
-# # Llamar al método para generar el grafo
-# maquina.graph()
-
-# # # Guardar el historial de pasos
-# maquina.writeInTXT()
+        
