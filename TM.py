@@ -21,7 +21,7 @@ class TuringMachine:
         for estado, reglas in self.transiciones.items():
             if estado not in self.estados:
                 return False
-            for entrada, (siguiente_estado, cache, escribir, direccion) in reglas.items():
+            for entrada, (siguiente_estado, cache, escribir, _) in reglas.items():
                 if (entrada[0] not in self.alfabetoCinta or entrada[1] not in self.alfabetoCinta or 
                     escribir not in self.alfabetoCinta or siguiente_estado not in self.estados):
                     return False

@@ -1,6 +1,15 @@
 # Proyecto 3 - Teoría de la computación
 Este Proyecto está orientado en la construcción de dos máquinas de Turing donde una es reconocedora y otra es alteradora
 
+## Video de demostración
+[Link al video](https://www.youtube.com/watch?v=YWQbu5Da_F4)
+
+### Integrantes:
+
+| Nombre            | Nombre                    |
+| ----------------- | --------------------------|
+| Mathew Cordero    | Christian Echeverría      |
+
 ## Dependencias 
 Para poder ejecutar este proyecto necesitarás las siguientes dependencias que se encuentran dentro de un archivo.txt 
 
@@ -22,7 +31,5 @@ Ahora que ya lograste ejecutar el programa puedes subir tus archivos .yaml en la
 ![App Screenshot](Screenshot.png)
 
 
-## Video de demostración
-https://www.youtube.com/watch?v=YWQbu5Da_F4
 
 
