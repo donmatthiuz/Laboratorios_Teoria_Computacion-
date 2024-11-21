@@ -97,7 +97,7 @@ class TM:
             )
             self.ids.append(f"- {id}")
 
-        return result, self.ids, self.tape
+        return result, self.ids, ''.join('B' if elemento is None else str(elemento) for elemento in self.tape)
 
     def graficar(self):
         dot = Digraph(format='png', engine='dot')

@@ -9,39 +9,49 @@ st.write("<p style='font-size:17px;'>Agregue el archivo de configuracion .yaml p
 
 
 with st.container():
-    # Cargar archivo
     uploaded_file = st.file_uploader("Subir archivo de configuración", type=["yaml"])
+    tipo_maquina = st.radio(
+                "Seleccionar el tipo de Máquina de Turing",
+                ("Reconocedora", "Alteradora")
+            )
     if uploaded_file is not None:
         st.write("Archivo cargado exitosamente:")
         try:
+            
             content = yaml.safe_load(uploaded_file)
             lector = Reader(content=content)
             maquina = TM(lector=lector)
-            result, historial = maquina.simulate(lector.cadenas)
-            re= f"De la cadena \"{lector.cadenas}\" se llego al estado de: \"{result}\""
-            st.subheader('Resultado cadena')
-            if result == "rechazo":
-                st.error(re)
-            elif result == "aceptado":
-                st.success(re)
-            pasos = ''
-            pasos_show = ''
-            for p in historial:
-                pasos += f'{p}<br>'
-                pasos_show += f'{p}\n'
-            st.subheader('Configuraciones de la cinta')
-            st.write(f"<span style='font-size:20px; font-style:italic;'>{pasos}</span>", unsafe_allow_html=True)
             st.subheader('Digrama de la Maquina de Turing')
             maquina.graficar()
             st.image('./graficas/maquina_turing.png')
-
-            txt_content = f"CONFIGURACIONES MAQUINA DE TURING\nCadena: {lector.cadenas}\nConfiguraciones:\n" + pasos_show
-            st.download_button(
-                label="Descargar archivo de configuraciones",
-                data=txt_content,
-                file_name="configuraciones_TM.txt",  # Nombre del archivo .txt
-                mime="text/plain"  # MIME para archivos de texto
-            )
+            for c in lector.cadenas:
+                result, historial, cinta = maquina.simular(c)
+                if tipo_maquina == "Reconocedora":
+                    re= f"De la cadena \"{c}\" se llego al estado de: \"{result}\""
+                    st.subheader('Resultado cadena')
+                    if result == "rechazo":
+                        st.error(re)
+                    elif result == "aceptado":
+                        st.success(re)
+                elif tipo_maquina == "Alteradora":
+                    re= f"De la cadena \"{c}\" se altero para: \"{cinta}\""
+                    st.subheader('Resultado cadena')
+                    if result == "aceptado":
+                        st.success(re)
+                pasos = ''
+                pasos_show = ''
+                for p in historial:
+                    pasos += f'{p}<br>'
+                    pasos_show += f'{p}\n'
+                txt_content = f"CONFIGURACIONES MAQUINA DE TURING\nCadena: {c}\n\nEstado: {result}\nCinta: {cinta}\nConfiguraciones:\n" + pasos_show
+                st.download_button(
+                    label="Descargar archivo de configuraciones para esta cadena",
+                    data=txt_content,
+                    file_name=f"configuraciones_TM cadena:{c} .txt",  # Nombre del archivo .txt
+                    mime="text/plain"  # MIME para archivos de texto
+                )
+                st.subheader('Configuraciones de la cinta')
+                st.write(f"<span style='font-size:11px; font-style:italic;'>{pasos}</span>", unsafe_allow_html=True)
         
         except yaml.YAMLError as e:
             st.error(f"Error al leer el archivo YAML: {e}")
