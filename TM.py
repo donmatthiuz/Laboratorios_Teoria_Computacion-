@@ -101,8 +101,8 @@ class TuringMachine:
         grafo.edge('inicio', self.estado_inicial)
 
         for estado, reglas in self.transiciones.items():
-            for simbolo, (siguiente_estado, _, escribir, direccion) in reglas.items():
-                etiqueta = f"{simbolo[0] or 'B'}/{simbolo[1] or 'B'} -> {escribir or 'B'}, {direccion}"
+            for simbolo, (siguiente_estado, cache_escribir, escribir, direccion) in reglas.items():
+                etiqueta = f'{simbolo[0] if simbolo[0] is not None else "B"}/{cache_escribir if cache_escribir is not None else "B"};{simbolo[1] if simbolo[1] is not None else "B"}/{escribir if escribir is not None else "B"},{direccion} '
                 grafo.edge(estado, siguiente_estado, label=etiqueta)
 
         if not os.path.exists('graficas'):
