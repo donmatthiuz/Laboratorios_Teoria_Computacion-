@@ -9,7 +9,7 @@ class TM:
         self.q0 = lector.q0
         self.aceptacion = lector.aceptacion
         self.transiciones = lector.transiciones
-        self.tamano_cinta = 8
+        self.tamano_cinta = 11
         self.tape = []
         self.cabezal = 0
         self.ids = []
