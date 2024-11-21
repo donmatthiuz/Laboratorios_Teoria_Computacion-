@@ -1,7 +1,7 @@
 import streamlit as st
 import yaml
 from reader import Reader
-from TM import TM
+from TM import TuringMachine
 st.set_page_config(page_title="Simulador Maquina de Turing", page_icon="🧠")
 st.title('Simulador de Maquina de Turing')
 st.subheader('Instrucciones')
@@ -20,23 +20,23 @@ with st.container():
             
             content = yaml.safe_load(uploaded_file)
             lector = Reader(content=content)
-            maquina = TM(lector=lector)
+            maquina = TuringMachine(lector=lector)
             st.subheader('Digrama de la Maquina de Turing')
-            maquina.graficar()
+            maquina.generar_grafico()
             st.image('./graficas/maquina_turing.png')
             for c in lector.cadenas:
-                result, historial, cinta = maquina.simular(c)
+                result, historial, cinta = maquina.procesar(c)
                 if tipo_maquina == "Reconocedora":
                     re= f"De la cadena \"{c}\" se llego al estado de: \"{result}\""
                     st.subheader('Resultado cadena')
-                    if result == "rechazo":
+                    if result == "rechazada":
                         st.error(re)
-                    elif result == "aceptado":
+                    elif result == "aceptada":
                         st.success(re)
                 elif tipo_maquina == "Alteradora":
                     re= f"De la cadena \"{c}\" se altero para: \"{cinta}\""
                     st.subheader('Resultado cadena')
-                    if result == "aceptado":
+                    if result == "aceptada":
                         st.success(re)
                 pasos = ''
                 pasos_show = ''

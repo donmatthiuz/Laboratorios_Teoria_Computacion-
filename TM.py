@@ -1,132 +1,112 @@
 import os
 from graphviz import Digraph
-class TM:
 
-    def __init__(self,  lector):
+class TuringMachine:
+    def __init__(self, lector):
         self.estados = lector.estados
         self.alfabeto = lector.alfabeto
         self.alfabetoCinta = lector.tape_alphabet
-        self.q0 = lector.q0
-        self.aceptacion = lector.aceptacion
+        self.estado_inicial = lector.q0
+        self.estado_aceptacion = lector.aceptacion
         self.transiciones = lector.transiciones
-        self.tamano_cinta = 11
-        self.tape = []
-        self.cabezal = 0
-        self.ids = []
+        self.longitud_cinta = 11
+        self.cinta = []
+        self.posicion_cabezal = 0
+        self.historial = []
 
-    def validar_Cadena(self, cadena):
-        return all(symbol in self.alfabetoCinta for symbol in cadena)
+    def es_cadena_valida(self, cadena):
+        return all(caracter in self.alfabetoCinta for caracter in cadena)
 
-    def Comprobar_Transiciones(self):
-        for estado, trans in self.transiciones.items():
+    def validar_transiciones(self):
+        for estado, reglas in self.transiciones.items():
             if estado not in self.estados:
                 return False
-            for simbolo, (next_state,cache_escrita, simbolo_escrito, _) in trans.items():
-                if simbolo[0] not in self.alfabetoCinta or simbolo[1] not in self.alfabetoCinta or simbolo_escrito not in self.alfabetoCinta or next_state not in self.estados:
+            for entrada, (siguiente_estado, cache, escribir, direccion) in reglas.items():
+                if (entrada[0] not in self.alfabetoCinta or entrada[1] not in self.alfabetoCinta or 
+                    escribir not in self.alfabetoCinta or siguiente_estado not in self.estados):
                     return False
         return True
-    
 
-    def simular(self, cadena, cintaConfiguration=[], positionCabezal=0):
-        if not self.validar_Cadena(cadena):
-            return "Error: Cadena contiene símbolos que no son del alfabeto.", []
-        if not self.Comprobar_Transiciones():
-            return "Error: Las transiciones no pertenecen al lenguaje", []
-        
-        result = ""
-        estado_actual = self.q0
-        cache_actual = None
-        self.ids = []
-        isReject = False 
+    def procesar(self, entrada, configuracion_inicial=[], posicion_inicial=0):
+        if not self.es_cadena_valida(entrada):
+            return "Error: La cadena contiene caracteres no válidos.", []
+        if not self.validar_transiciones():
+            return "Error: Las transiciones no son válidas.", []
 
+        estado_actual = self.estado_inicial
+        cache = None
+        self.historial = []
+        es_rechazada = False
 
-        self.tape = cintaConfiguration if cintaConfiguration else list(cadena) + [None] * (self.tamano_cinta - len(cadena))
+        self.cinta = configuracion_inicial if configuracion_inicial else list(entrada) + [None] * (self.longitud_cinta - len(entrada))
+        self.posicion_cabezal = posicion_inicial if configuracion_inicial else 0
 
+        while not es_rechazada and estado_actual != self.estado_aceptacion:
+            simbolo_actual = self.cinta[self.posicion_cabezal]
 
-        self.cabezal = positionCabezal if cintaConfiguration else 0
-
-        while not isReject and (estado_actual != self.aceptacion):
-            simbolo_actual = self.tape[self.cabezal]
-
-
-            id = (
-                ''.join([str(item) if item is not None else 'B' for item in self.tape[:self.cabezal]]) +
-                f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
-                f"{simbolo_actual if simbolo_actual is not None else 'B'}"+
-                ''.join([str(item) if item is not None else 'B' for item in self.tape[self.cabezal + 1:]])
+            paso = (
+                ''.join(str(x) if x is not None else 'B' for x in self.cinta[:self.posicion_cabezal]) +
+                f"[{estado_actual}, {cache if cache is not None else 'B'}]" +
+                f"{simbolo_actual if simbolo_actual is not None else 'B'}" +
+                ''.join(str(x) if x is not None else 'B' for x in self.cinta[self.posicion_cabezal + 1:])
             )
-            self.ids.append(f"- {id}")
-        
+            self.historial.append(f"- {paso}")
 
-            if (cache_actual,simbolo_actual) not in self.transiciones.get(estado_actual, {}):
-                result = "rechazo"
-                self.ids.append(f"- [{estado_actual}] - No tiene transición para [{simbolo_actual}], la cadena se rechaza")
-                isReject = True
+            if (cache, simbolo_actual) not in self.transiciones.get(estado_actual, {}):
+                self.historial.append(f"- [{estado_actual}] - No se encontró transición para [{simbolo_actual}], la cadena es rechazada")
+                es_rechazada = True
                 continue
 
+            siguiente_estado, nuevo_cache, escribir, direccion = self.transiciones[estado_actual][(cache, simbolo_actual)]
+            self.cinta[self.posicion_cabezal] = escribir
+            cache = nuevo_cache
+            estado_actual = siguiente_estado
 
-            next_state, cache_siguiente, simbolo_escrito, direccion = self.transiciones[estado_actual][(cache_actual,simbolo_actual)]
-            self.tape[self.cabezal] = simbolo_escrito
-            cache_actual = cache_siguiente
-            estado_actual = next_state
             if direccion == 'R':
-                self.cabezal += 1
+                self.posicion_cabezal += 1
             elif direccion == 'L':
-                self.cabezal -= 1
-            elif direccion == 'S':
-                self.cabezal = self.cabezal
+                self.posicion_cabezal -= 1
 
+            if self.posicion_cabezal < 0:
+                self.posicion_cabezal = 0
+            elif self.posicion_cabezal >= len(self.cinta):
+                self.cinta.append(None)
 
-            if self.cabezal < 0:
-                self.cabezal = 0
-            elif self.cabezal >= len(self.tape):
-                self.tape.append(None)
+        resultado = "rechazada" if es_rechazada else "aceptada"
 
-
-        if estado_actual == self.aceptacion:
-            result = "aceptado"
-
-       
-        if result != "rechazo":
-            simbolo_actual = self.tape[self.cabezal]
-            id = (
-                ''.join([str(item) if item is not None else 'B' for item in self.tape[:self.cabezal]]) +
-                f"[{estado_actual}, {cache_actual if cache_actual is not None else "B"}]"+
-                f"{simbolo_actual if simbolo_actual is not None else 'B'}"+
-                ''.join([str(item) if item is not None else 'B' for item in self.tape[self.cabezal + 1:]])
+        if resultado == "aceptada":
+            simbolo_actual = self.cinta[self.posicion_cabezal]
+            paso = (
+                ''.join(str(x) if x is not None else 'B' for x in self.cinta[:self.posicion_cabezal]) +
+                f"[{estado_actual}, {cache if cache is not None else 'B'}]" +
+                f"{simbolo_actual if simbolo_actual is not None else 'B'}" +
+                ''.join(str(x) if x is not None else 'B' for x in self.cinta[self.posicion_cabezal + 1:])
             )
-            self.ids.append(f"- {id}")
+            self.historial.append(f"- {paso}")
 
-        return result, self.ids, ''.join('B' if elemento is None else str(elemento) for elemento in self.tape)
+        return resultado, self.historial, ''.join('B' if x is None else str(x) for x in self.cinta)
 
-    def graficar(self):
-        dot = Digraph(format='png', engine='dot')
+    def generar_grafico(self):
+        grafo = Digraph(format='png', engine='dot')
 
         for estado in self.estados:
-            if estado == self.aceptacion:
-                dot.node(estado, shape='doublecircle', style='filled', color='lightgreen')
-            elif estado == self.q0:
-                dot.node(estado, shape='doublecircle', style='filled')
+            if estado == self.estado_aceptacion:
+                grafo.node(estado, shape='doublecircle', style='filled', color='lightgreen')
+            elif estado == self.estado_inicial:
+                grafo.node(estado, shape='doublecircle', style='filled')
             else:
-                dot.node(estado)
+                grafo.node(estado)
 
+        grafo.node('inicio', shape='point', width='0')
+        grafo.edge('inicio', self.estado_inicial)
 
-        dot.node('start', shape='point', width='0')
-        dot.edge('start', self.q0)
+        for estado, reglas in self.transiciones.items():
+            for simbolo, (siguiente_estado, _, escribir, direccion) in reglas.items():
+                etiqueta = f"{simbolo[0] or 'B'}/{simbolo[1] or 'B'} -> {escribir or 'B'}, {direccion}"
+                grafo.edge(estado, siguiente_estado, label=etiqueta)
 
-
-        for estado in self.transiciones:
-            for simbolo in self.transiciones[estado]:
-                next_state, simbolo_escrito_en_cache, simbolo_escrito, direccion = self.transiciones[estado][simbolo]
-                label = f'{simbolo[0] if simbolo[0] is not None else "B"}/{simbolo_escrito_en_cache if simbolo_escrito_en_cache is not None else "B"};{simbolo[1] if simbolo[1] is not None else "B"}/{simbolo_escrito if simbolo_escrito is not None else "B"},{direccion} '
-                dot.edge(estado, next_state, label=label)
-
-       
         if not os.path.exists('graficas'):
             os.makedirs('graficas')
 
-       
-        file_path = 'graficas/maquina_turing'
-        dot.render(file_path, view=False)
-
-        
+        ruta = 'graficas/maquina_turing'
+        grafo.render(ruta, view=False)
